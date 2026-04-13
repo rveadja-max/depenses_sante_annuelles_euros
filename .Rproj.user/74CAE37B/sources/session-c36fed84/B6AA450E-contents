@@ -1,0 +1,1580 @@
+---
+documentclass: "memoirerecherche"
+
+title: |
+  Analyse statistique de l'état de santé perçu en France :
+  modélisation multivariée, sélection de variables et
+  régression logistique ordinale à partir de l'Enquête
+  Santé et Protection Sociale (ESPS)
+
+author: 
+- Hervé ADJAKOSSA
+
+date: "`r format(Sys.time(), '%d %B %Y')`"
+
+abstract: |
+  En France, 8,2\ \% des adultes déclarent un état de santé « mauvais » ou « très mauvais », un chiffre qui atteint 19\ \% parmi les ménages du premier quintile de revenus (DREES, 2017). Ce gradient social, documenté par la Commission OMS sur les déterminants sociaux de la santé (2008), soulève une question fondamentale : quels facteurs sociodémographiques, économiques et comportementaux déterminent la perception individuelle de l'état de santé, et comment les hiérarchiser de façon robuste ?  
+  Le présent projet met en œuvre une analyse statistique complète des déterminants de l'état de santé perçu en France métropolitaine, à partir de données synthétiques reproduisant la structure de l'Enquête Santé et Protection Sociale (ESPS) de l'IRDES (500 individus, 25 variables). La variable réponse --- qualitative ordinale à cinq modalités (Très mauvais, Mauvais, Assez bon, Bon, Très bon) --- est analysée au moyen de sept familles de méthodes : analyse bivariée ($\chi^2$, ANOVA, Kruskal-Wallis, Spearman), régression linéaire multiple sur le score ordinal (1--5), colinéarité (VIF, tolérance, indices de conditionnement), sélection de variables (*forward*, *backward*, *stepwise* par AIC/BIC), validation complète (Shapiro-Wilk, Durbin-Watson, Breusch-Pagan, Cook, LOESS), ANCOVA (facteurs qualitatifs, moyennes marginales de Tukey), régression logistique ordinale (cotes proportionnelles, test de Brant) et binaire (ROC, AUC, matrice de confusion). L'âge, les consultations médicales, les médicaments réguliers, l'activité physique et le handicap déclaré émergent comme déterminants robustes, tous significatifs au seuil de 5\ \% à travers les différentes spécifications. Les limites --- données synthétiques, hypothèse de proportionnalité des odds, absence de correction pour biais de sélection --- sont rigoureusement discutées.
+
+keywords: 
+  - État de santé perçu
+  - Régression logistique ordinale
+  - Régression linéaire multiple
+  - ANCOVA
+  - Sélection de variables
+  - Enquête ESPS
+  - Colinéarité
+  - Déterminants sociaux de la santé
+
+git: "https://gitlab-mi.univ-reims.fr/adja0021"
+
+database: |
+  ESPS (synthétique) : base\_esps\_synthétique.csv (500 obs. × 25 variables)
+  IRDES — Enquête Santé et Protection Sociale : \url{https://www.irdes.fr/recherche/enquetes/esps-enquete-sur-la-sante-et-la-protection-sociale/}
+
+diplome: "Master Statistique pour l'évaluation et la prévision, 1ère année"
+module: "Modèles linéaires - Statistical Analysis System"
+enseig: "EMMANUELLE GAUTHERAT"
+evaluation: "Projet de Modèles linéaires avec Statistical Analysis System"
+coefficient: '50\%'
+
+anac: "2025-2026"
+
+geometry:
+  - left=2.5cm
+  - right=2.5cm
+  - top=2.5cm
+  - bottom=2.5cm
+
+fontsize: 11pt
+linestretch: 1.15
+
+header-includes:
+  - \setlength{\headheight}{24.80502pt}
+  - \usepackage{underscore}
+  - \usepackage{tcolorbox}
+  - \tcbuselibrary{breakable}
+  - \renewenvironment{Shaded}{\begin{tcolorbox}[colback=shadecolor, colframe=shadecolor, boxrule=0pt, sharp corners, breakable]}{\end{tcolorbox}}
+  - \usepackage{booktabs}
+  - \usepackage{longtable}
+  - \usepackage{float}
+  - \floatplacement{figure}{H}
+  - \floatplacement{table}{H}
+
+output: 
+  bookdown::pdf_book:
+    latex_engine: xelatex
+    template: template.tex
+    citation_package: biblatex
+    fig_caption: yes
+    keep_tex: yes
+    toc: yes
+    toc_depth: 3
+    lot: yes
+    lof: yes
+
+bibliography: biblio-cr-urca.bib
+link-citations: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo    = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center",
+  fig.width  = 7,
+  fig.height = 5
+)
+```
+
+```{r packages, message=FALSE}
+# ── Chargement des packages ──────────────────────────────────────────────────
+library(tidyverse)   # manipulation de données et ggplot2
+library(knitr)       # tableaux kable
+library(kableExtra)  # mise en forme des tableaux
+library(car)         # VIF, tests (Durbin-Watson, Breusch-Pagan, …)
+library(MASS)        # stepAIC, polr (régression ordinale)
+library(lmtest)      # bptest (Breusch-Pagan), dwtest (Durbin-Watson)
+library(corrplot)    # visualisation matrice de corrélation
+library(ggplot2)     # graphiques
+library(broom)       # tidy() pour résumés de modèles
+library(pROC)        # courbe ROC
+library(nnet)        # multinom (régression multinomiale, optionnel)
+library(emmeans)     # moyennes marginales (LSMEANS)
+library(leaps)       # regsubsets (sélection de sous-modèles)
+library(olsrr)       # diagnostics de régression complémentaires
+```
+
+# Introduction générale {-}
+
+## Accroche et contexte général
+
+En 2019, 67,4\ % des Français déclaraient un état de santé « bon » ou « très bon », un chiffre qui masque des disparités considérables : parmi les ménages du premier quintile de revenus, la proportion d'adultes se déclarant en « mauvaise » ou « très mauvaise » santé atteint 19\ %, soit près du triple de la moyenne nationale^[Direction de la recherche, des études, de l'évaluation et des statistiques (DREES), *L'état de santé de la population en France --- Rapport 2017*, Paris.]. Ce constat, loin d'être anecdotique, traduit un phénomène structurel : les inégalités sociales de santé perçue s'inscrivent au cœur du débat économique et sanitaire contemporain. L'Organisation mondiale de la santé (OMS), à travers sa Commission sur les déterminants sociaux de la santé, a établi que « les conditions dans lesquelles les individus naissent, grandissent, vivent, travaillent et vieillissent constituent les déterminants sociaux de la santé, lesquels sont principalement responsables des inégalités en santé »^[@oms2008, Commission des déterminants sociaux de la santé, Rapport final, Genève.]. Ce constat appelle une quantification rigoureuse des facteurs qui façonnent la perception individuelle de l'état de santé.
+
+La France dispose, à cet égard, d'un instrument d'observation privilégié : l'Enquête Santé et Protection Sociale (ESPS), conduite depuis 1988 par l'Institut de recherche et documentation en économie de la santé (IRDES)^[@irdes_esps.]. Cette enquête, qui articule données de santé déclarée, recours aux soins et caractéristiques socio-économiques, offre un terrain empirique particulièrement riche pour l'analyse des déterminants de l'état de santé perçu --- variable centrale de notre étude.
+
+## Intérêt scientifique et empirique : pourquoi étudier la santé perçue par la régression linéaire ?
+
+L'état de santé perçu (*self-rated health*, SRH) occupe une place singulière en épidémiologie et en économie de la santé. @idler1997, dans une méta-analyse pionnière portant sur vingt-sept études de cohorte, ont démontré que cette mesure subjective constitue un prédicteur indépendant de la mortalité, y compris après ajustement sur l'état de santé objectif. @jylha2009 propose un modèle conceptuel unifié expliquant ce pouvoir prédictif : la santé perçue intégrerait simultanément des informations biologiques infracliniques, des comparaisons sociales et des représentations culturelles de la santé^[Ce résultat explique pourquoi les grandes enquêtes de population --- EU-SILC, ESPS, SHARE --- incluent systématiquement une question d'auto-évaluation de la santé.].
+
+La régression linéaire multiple, bien que la variable réponse soit ordinale, est largement mobilisée dans la littérature pour modéliser la santé perçue. @kennedy1998 utilisent la régression linéaire sur un score de santé auto-évalué pour démontrer l'effet des inégalités de revenus sur la santé perçue aux États-Unis. @subramanian2002 recourent à des modèles linéaires multiniveaux pour estimer l'effet contextuel du capital social sur la santé auto-déclarée. En France, @devaux2010 et @etile2007 mobilisent la régression linéaire pour identifier l'hétérogénéité de déclaration selon le statut socio-économique. Cette approche, qui suppose l'équidistance entre les modalités ordinales, présente l'avantage de la parcimonie et de l'interprétabilité directe des coefficients --- un atout essentiel pour l'aide à la décision en santé publique^[La régression logistique ordinale, plus rigoureuse sur le plan théorique, sera néanmoins estimée à titre de comparaison et de robustesse.].
+
+**Notre motivation** pour ce choix méthodologique est triple : (i) reproduire et discuter les résultats de la littérature dans le cadre pédagogique de l'ESPS ; (ii) confronter systématiquement la régression linéaire à la régression logistique ordinale pour évaluer la robustesse des conclusions ; (iii) mobiliser un arsenal complet de diagnostics statistiques (colinéarité, validation, sélection) rarement déployés conjointement dans les études existantes.
+
+## Problématique générale
+
+L'enjeu de la modélisation de la santé perçue se situe à l'intersection de deux tensions. D'une part, la nature ordinale de la variable réponse interroge la légitimité de la régression linéaire : l'hypothèse d'équidistance entre « Très mauvais » et « Mauvais » est-elle soutenable ? D'autre part, la multiplicité des déterminants potentiels --- biologiques, socio-économiques, comportementaux, institutionnels --- engendre des effets de confusion qui requièrent une stratégie d'identification rigoureuse^[L'endogénéité potentielle des variables de recours aux soins (consultations, médicaments) constitue une difficulté supplémentaire, car ces variables sont simultanément cause et conséquence de l'état de santé (@grossman1972).].
+
+Comment, dès lors, modéliser et hiérarchiser les déterminants de l'état de santé perçu en France, en tenant compte de la nature ordinale de la variable réponse, des effets de confusion entre variables sociodémographiques, économiques et comportementales, et des limites inhérentes aux données d'enquête en coupe transversale ?
+
+## Question centrale de recherche
+
+**Quels sont les facteurs sociodémographiques, économiques et comportementaux qui déterminent significativement l'état de santé perçu des individus en France métropolitaine, et dans quelle mesure la régression logistique ordinale offre-t-elle une modélisation plus adéquate que la régression linéaire sur le score ordinal ?**
+
+## Objectif général et objectifs spécifiques
+
+**Objectif général** : Identifier, hiérarchiser et quantifier les déterminants de l'état de santé perçu en France à partir de données reproduisant la structure de l'ESPS, en mobilisant un arsenal complet de méthodes statistiques et en confrontant systématiquement les résultats à la réalité épidémiologique documentée.
+
+**Objectifs spécifiques** :
+
+1. **Caractériser les associations bivariées** entre l'état de santé perçu et les variables explicatives (qualitatives et quantitatives), en justifiant le choix de chaque test statistique par la nature des variables croisées.
+2. **Construire et valider un modèle de régression linéaire multiple** sur le score ordinal, en étudiant la colinéarité (VIF, indices de conditionnement) et en sélectionnant les variables pertinentes par critères informationnels (AIC, BIC, $R^2$ ajusté).
+3. **Estimer un modèle ANCOVA** combinant covariables quantitatives et facteurs qualitatifs, avec tests d'interaction et moyennes marginales (Tukey), pour isoler l'effet propre des déterminants comportementaux.
+4. **Estimer un modèle de régression logistique ordinale** (cotes proportionnelles) et un modèle logistique binaire, évaluer leur performance prédictive (ROC, AUC, matrice de confusion) et comparer les approches.
+5. **Évaluer la capacité prédictive** des modèles retenus et confronter les résultats aux connaissances empiriques existantes pour juger de la conformité à la réalité.
+
+## Hypothèses de recherche
+
+- **H1** : L'âge, le nombre de consultations médicales et le nombre de médicaments réguliers sont les déterminants quantitatifs les plus fortement associés à l'état de santé perçu --- conformément au modèle de capital santé de @grossman1972, selon lequel l'état de santé se déprécie avec l'âge et la consommation médicale reflète le stock de santé résiduel.
+- **H2** : L'activité physique et le handicap déclaré exercent un effet significatif sur l'état de santé perçu, au-delà des variables sociodémographiques et économiques (effet propre mis en évidence par l'ANCOVA) --- ce qui prolonge les résultats de @singh2006 sur les déterminants comportementaux de la santé perçue.
+- **H3** : Le modèle logistique ordinal, respectant la nature qualitative ordinale de la variable réponse, offre un ajustement supérieur au modèle linéaire sur le score numérique --- hypothèse fondée sur les travaux de @mccullagh1980 et @agresti2010 qui établissent la supériorité théorique du *cumulative logit model* pour les réponses ordinales.
+
+## Positionnement scientifique
+
+Ce travail s'inscrit au carrefour de la biostatistique, de l'économie de la santé et de l'économétrie appliquée. Il mobilise des méthodes de régression en grande dimension (sélection de variables, diagnostics de colinéarité) et de régression logistique ordinale, appliquées à des données synthétiques reproduisant la structure de l'ESPS^[La nature synthétique des données, si elle interdit toute conclusion épidémiologique réelle, autorise en revanche une discussion méthodologique approfondie sur la validité comparée des différentes approches statistiques.]. Le positionnement est délibérément **méthodologique** : il s'agit de démontrer, sur un terrain maîtrisé, la pertinence et les limites de chaque famille de méthodes, plutôt que de produire des résultats directement transposables à la politique de santé publique.
+
+## Stratégie de recherche et démarche méthodologique
+
+La démarche suivie est séquentielle et cumulative, articulée en trois phases :
+
+1. **Phase exploratoire** : analyse bivariée (tests du $\chi^2$, ANOVA, Kruskal-Wallis, corrélation de Spearman) pour identifier les associations brutes entre l'état de santé perçu et chaque variable explicative, sans contrôle des effets confondants.
+2. **Phase de modélisation** : régression linéaire multiple avec diagnostics complets (colinéarité, validation des hypothèses), sélection de variables par critères informationnels (AIC, BIC, $C_p$ de Mallows), estimation ANCOVA avec moyennes marginales.
+3. **Phase de confrontation et robustesse** : régression logistique ordinale et binaire avec évaluation prédictive (ROC, AUC, pseudo-$R^2$), test de Brant pour la proportionnalité des cotes, et discussion critique des résultats au regard de la littérature.
+
+Le terrain d'application est la France métropolitaine, cadre géographique justifié par la disponibilité de l'ESPS et par la richesse de la littérature comparative (gradient social documenté par @van_doorslaer2004 ; @art2006).
+
+## Annonce du plan
+
+Le **chapitre\ \@ref(chap-cadre)** pose le cadre conceptuel, théorique et analytique en justifiant chaque choix méthodologique. Le **chapitre\ \@ref(chap-litterature)** propose un état de l'art sur les déterminants de la santé perçue et les méthodes de régression linéaire appliquées à ce domaine, en identifiant la contribution spécifique de notre travail. Le **chapitre\ \@ref(chap-methodologie)** détaille la méthodologie statistique retenue et justifie la légitimité de chaque test. Le **chapitre\ \@ref(chap-donnees)** présente les données, la construction des variables et les statistiques descriptives commentées. Le **chapitre\ \@ref(chap-resultats)** expose l'ensemble des résultats, chaque figure et tableau étant interprété au regard de ses implications sanitaires et économiques. Le **chapitre\ \@ref(chap-robustesse)** discute la robustesse, les limites et les perspectives.
+
+
+# Cadre conceptuel, théorique et analytique {#chap-cadre}
+
+Ce chapitre pose les fondements conceptuels et théoriques de notre démarche. Chaque choix --- du cadre d'analyse au type de modèle --- est explicitement justifié au regard de la littérature et de la nature des données mobilisées.
+
+## Cadre conceptuel : santé perçue et déterminants sociaux
+
+L'état de santé perçu (*self-rated health*, SRH) est une mesure subjective globale où l'individu évalue sa propre santé sur une échelle ordinale (Très bon $\rightarrow$ Très mauvais). Cette mesure, malgré sa simplicité apparente, capture des dimensions multiples de la santé --- physique, mentale, fonctionnelle --- et s'est révélée un prédicteur indépendant de la mortalité dans de nombreuses cohortes prospectives [@idler1997]^[Le pouvoir prédictif de la santé perçue a été confirmé dans plus de 27 études de cohorte, couvrant des contextes culturels variés (États-Unis, Europe, Japon).].
+
+**Pourquoi retenir la santé perçue comme variable réponse ?** Trois arguments justifient ce choix : (i) la santé perçue est disponible dans toutes les grandes enquêtes de population (ESPS, EU-SILC, SHARE), ce qui autorise les comparaisons internationales [@van_doorslaer2004] ; (ii) elle agrège des informations biologiques et psychosociales inaccessibles par les seuls indicateurs objectifs [@jylha2009] ; (iii) elle est corrélée aux comportements de santé et au recours aux soins, ce qui en fait un outil pertinent pour l'évaluation des politiques de santé publique^[@singh2006 montrent, sur les cohortes Whitehall II et Gazel, que la santé perçue reflète des processus physiologiques infracliniques détectables par des marqueurs biologiques.].
+
+Les déterminants sociaux de la santé, selon le modèle de @dahlgren1991, s'organisent en couches concentriques : facteurs biologiques individuels (âge, sexe), comportements et modes de vie (tabagisme, activité physique, alimentation), réseaux sociaux, conditions de vie et de travail, et enfin conditions socio-économiques, culturelles et environnementales générales. Ce modèle constitue notre grille de lecture pour la sélection des variables explicatives.
+
+## Cadre théorique : modèles explicatifs de la santé perçue
+
+Plusieurs cadres théoriques sous-tendent l'analyse des déterminants de la santé perçue. Nous les mobilisons conjointement, car aucun ne suffit isolément à rendre compte de la complexité du phénomène :
+
+- **Modèle de capital santé de Grossman** [@grossman1972] : l'état de santé est un stock qui se déprécie avec l'âge et dans lequel l'individu investit (consultations, médicaments, activité physique). Ce modèle justifie l'inclusion de l'âge, des consultations et des médicaments comme déterminants centraux^[Le modèle de Grossman prédit que la demande de santé croît avec le niveau d'éducation, car l'éducation augmente l'efficience de la production de santé.].
+- **Modèle socio-économique** [@marmot2005] : les inégalités de revenus, d'éducation et de profession génèrent des gradients de santé perçue. Ce cadre justifie l'inclusion des variables de revenus, de profession et de couverture assurantielle.
+- **Modèle comportemental** : les comportements à risque (tabagisme, sédentarité, consommation d'alcool) médiatisent partiellement les effets socio-économiques sur la santé [@bricard2015]. Ceci motive l'inclusion des variables de tabagisme, d'activité physique et de consommation d'alcool.
+- **Modèle d'accès aux soins** [@despres2011] : la couverture assurantielle et le renoncement aux soins modulent la relation entre besoin de santé et état perçu, justifiant l'inclusion de la couverture complémentaire et du renoncement aux soins.
+
+## Cadre analytique : justification des méthodes statistiques retenues
+
+### Traitement de la variable réponse ordinale
+
+La variable `etat_sante_percu` (5 modalités ordonnées) pose un choix méthodologique fondamental, que nous tranchons par une approche duale :
+
+- **Approche numérique** : conversion en score (1--5) et utilisation des méthodes de régression linéaire classique (MCO, ANCOVA). Cette approximation, bien que reposant sur l'hypothèse d'équidistance entre les modalités, est défendue par @wooldridge2015 dans les cas où l'échelle ordinale comporte au moins cinq modalités^[Sous cette condition, la régression linéaire fournit des estimateurs « raisonnablement proches » des modèles ordinaux, tout en conservant la simplicité d'interprétation des coefficients.].
+- **Approche ordinale** : régression logistique ordinale (*cumulative logit model*, modèle à cotes proportionnelles) initialement proposée par @mccullagh1980, qui respecte la nature qualitative de la réponse. Nous testons l'hypothèse de proportionnalité par le test de @brant1990.
+
+**Pourquoi combiner les deux approches ?** La confrontation systématique permet de (i) évaluer la robustesse des résultats à la spécification du modèle ; (ii) identifier les variables dont l'effet est sensible au traitement de l'échelle ordinale ; (iii) apporter une contribution méthodologique rarement entreprise sur un même jeu de données.
+
+### Stratégie de modélisation
+
+La démarche retenue est séquentielle et cumulative, chaque étape étant justifiée par la littérature méthodologique :
+
+1. **Analyse bivariée** : tests du $\chi^2$, ANOVA, Kruskal-Wallis, corrélation de Spearman --- ces tests sont appropriés car la variable réponse est ordinale et les variables explicatives sont mixtes (qualitatives et quantitatives). Le test de Kruskal-Wallis est préféré à l'ANOVA lorsque les hypothèses de normalité sont douteuses^[Le test de Kruskal-Wallis, basé sur les rangs, ne requiert pas l'hypothèse de normalité des résidus et est donc plus robuste pour une variable réponse ordinale.].
+2. **Régression linéaire multiple** sur `score_sante` avec étude de la colinéarité (VIF, indices de conditionnement) --- justifiée par la nécessité de séparer les effets propres de variables potentiellement corrélées (âge--retraite, revenus--profession) [@belsley1980].
+3. **Sélection de variables** : méthodes exhaustives (`regsubsets`), ascendante, descendante et pas à pas (critères AIC/BIC) --- le principe de parcimonie, formalisé par @burnham2002, impose de retenir le modèle le plus simple compatible avec les données.
+4. **Validation du modèle** : normalité des résidus (Shapiro-Wilk), indépendance (Durbin-Watson), homoscédasticité (Breusch-Pagan), influence (Cook, RStudent) --- chaque diagnostic vérifie une hypothèse du modèle linéaire gaussien [@fox2015].
+5. **ANCOVA** : modèle mixte avec covariables quantitatives et facteurs qualitatifs, interactions, moyennes marginales (Tukey) --- justifiée par la nécessité de tester l'effet propre des facteurs qualitatifs (activité physique, handicap) après ajustement sur les covariables continues.
+6. **Régression logistique ordinale** : modèle `polr()` à cotes proportionnelles, test de Brant --- cadre de référence pour les variables ordinales [@agresti2010].
+7. **Régression logistique binaire** : dichotomisation (bonne/mauvaise santé), courbe ROC, AUC, matrice de confusion --- complément prédictif permettant d'évaluer la capacité du modèle à discriminer les individus en bonne et mauvaise santé [@hosmer2013].
+
+### Limites structurelles du design choisi
+
+Trois limites structurelles doivent être explicitées dès ce stade :
+
+- **Causalité** : l'enquête en coupe transversale ne permet pas d'établir de lien causal entre les déterminants et l'état de santé perçu. Les associations identifiées sont conditionnelles, non causales^[L'absence de dimension longitudinale empêche de distinguer les effets de l'âge (biologiques) des effets de cohorte (générationnels).].
+- **Endogénéité** : certaines variables explicatives (consultations, médicaments) sont potentiellement endogènes, car déterminées simultanément par l'état de santé [@grossman1972]. En l'absence de variables instrumentales, les coefficients estimés doivent être interprétés comme des associations, non comme des effets causaux.
+- **Données synthétiques** : les résultats n'ont pas de validité épidémiologique réelle, mais le cadre méthodologique est intégralement transposable aux données ESPS officielles.
+
+\bigskip
+**Conclusion du chapitre.** Le cadre conceptuel retenu --- articulant modèle de capital santé, déterminants sociaux et accès aux soins --- justifie la sélection de 25 variables couvrant les dimensions biologiques, socio-économiques, comportementales et institutionnelles de la santé perçue. La stratégie analytique duale (linéaire et ordinale) constitue la contribution méthodologique centrale de ce travail.
+
+
+# Revue de littérature {#chap-litterature}
+
+Ce chapitre dresse un état de l'art ciblé sur trois axes : la validité de la santé perçue comme indicateur, ses déterminants socio-économiques, et les méthodes de régression linéaire mobilisées pour les identifier. Chaque référence est assortie d'une justification de sa pertinence pour notre travail.
+
+## Mesures subjectives de la santé : fondements et validité
+
+La santé perçue est l'indicateur subjectif de santé le plus utilisé dans les enquêtes de population. @idler1997, dans une méta-analyse pionnière portant sur vingt-sept études de cohorte, ont montré que la santé auto-évaluée prédit la mortalité indépendamment de l'état de santé objectif^[Cet effet prédictif persiste après ajustement sur le statut fonctionnel, les comorbidités et les indicateurs biomédicaux, ce qui suggère que la santé perçue capture des informations inaccessibles aux seuls indicateurs cliniques.]. @jylha2009 prolonge ce résultat en proposant un modèle conceptuel unifié : la santé perçue intégrerait simultanément des signaux corporels, des diagnostics médicaux, des comportements de santé et des comparaisons sociales. En France, l'ESPS et l'enquête EU-SILC utilisent cette mesure de manière standardisée, permettant des comparaisons temporelles et internationales [@eurostat_health].
+
+**Pertinence pour notre étude** : ces travaux fondent la légitimité de la santé perçue comme variable réponse et justifient l'inclusion de variables explicatives couvrant les dimensions biomédicales (maladies, handicap), comportementales (activité physique, tabagisme) et socio-économiques (revenus, profession).
+
+## Déterminants socio-économiques de la santé perçue
+
+### Effets de l'âge et du sexe
+
+La santé perçue se dégrade avec l'âge, avec un gradient plus marqué après 50 ans [@mackenbach1999]. Les femmes déclarent plus fréquemment un mauvais état de santé que les hommes, à état de santé objectif comparable --- un résultat robuste dans la littérature internationale^[@devaux2010 montrent que cette différence de genre persiste après correction pour le biais de déclaration (*reporting heterogeneity*), suggérant un effet réel et non un simple artefact de mesure.]. Ce différentiel justifie l'inclusion du sexe comme facteur dans l'ANCOVA et la recherche d'une interaction Âge $\times$ Sexe.
+
+### Gradient social de santé
+
+Le gradient social de santé perçue est documenté de manière extensive : les individus appartenant aux catégories socioprofessionnelles supérieures, plus éduqués et disposant de revenus plus élevés, déclarent un meilleur état de santé [@marmot2005 ; @cambois2008]. En France, @dourgnon2012 confirment ce gradient à partir des données ESPS. @van_doorslaer2004, dans une analyse comparative de 13 pays européens, montrent que les inégalités de santé perçue liées aux revenus sont parmi les plus élevées en France^[Ce résultat, obtenu par décomposition de l'indice de concentration, suggère que le système de santé français, bien que universel, ne compense pas intégralement les inégalités socio-économiques de santé.].
+
+**Implication pour notre modélisation** : les variables de revenus, de profession et de couverture complémentaire doivent être incluses comme contrôles pour isoler les effets propres des déterminants comportementaux (H2).
+
+### Rôle de la couverture assurantielle et du renoncement aux soins
+
+L'absence de couverture complémentaire et le renoncement aux soins pour raisons financières sont associés à un moins bon état de santé perçu, même après ajustement sur les caractéristiques socio-économiques [@despres2011]. @jusot2008 et @bricard2015 montrent que les inégalités d'opportunité en santé --- liées aux circonstances de naissance (origine sociale, conditions précoces) --- persistent au-delà des efforts individuels. Ces résultats motivent l'inclusion de la couverture complémentaire et du renoncement aux soins dans notre analyse.
+
+## La régression linéaire pour expliquer la santé perçue : état de l'art
+
+### Fondements de l'approche linéaire
+
+La conversion de la santé perçue en score numérique (1--5) pour application de la régression linéaire est une pratique courante, quoique discutée, en économie de la santé. @kennedy1998 ont ouvert la voie en utilisant la régression linéaire sur un score de santé auto-évalué pour démontrer, à l'échelle des États américains, l'association entre inégalités de revenus et santé perçue. @subramanian2002 prolongent cette approche par des modèles linéaires multiniveaux (individu/communauté) pour estimer l'effet contextuel du capital social.
+
+### Applications en France
+
+En France, @devaux2010 mobilisent la régression linéaire sur le score de santé perçue pour mettre en évidence l'hétérogénéité sociale de déclaration : à état de santé objectif identique, les individus de faible statut socio-économique déclarent une moins bonne santé que les individus de statut élevé. @etile2007 utilisent un modèle linéaire augmenté d'un terme d'interaction pour identifier le biais de déclaration lié aux revenus (*income-related reporting heterogeneity*)^[Ce résultat a des implications majeures pour la mesure des inégalités de santé : si le biais de déclaration est systématique, les inégalités mesurées par la santé perçue surestiment (ou sous-estiment) les inégalités réelles.].
+
+### Discussion critique de l'approche linéaire
+
+L'hypothèse d'équidistance implicite dans la régression linéaire sur un score ordinal est contestée par @boes2006, qui montrent que les modèles de réponse ordonnée (*ordered response models*) sont préférables lorsque les écarts entre modalités ne sont pas uniformes. Toutefois, @greene2018 souligne que, pour des échelles à 5 modalités ou plus, la régression linéaire fournit des approximations raisonnables, à condition de vérifier la robustesse des résultats par un modèle ordinal --- ce que nous faisons systématiquement.
+
+**Notre motivation** à retenir la régression linéaire comme première approche repose donc sur : (i) sa large utilisation dans la littérature empirique sur la santé perçue, qui permet la comparaison directe de nos résultats ; (ii) la richesse de ses diagnostics (colinéarité, résidus, influence), absents des modèles ordinaux ; (iii) la confrontation avec le modèle logistique ordinal, qui constitue le test de robustesse central de notre travail.
+
+## Positionnement de la contribution
+
+Ce travail se distingue par la mise en œuvre systématique et comparée de l'ensemble des méthodes (régression linéaire, ANCOVA, régression logistique ordinale et binaire) sur un même jeu de données, permettant une évaluation croisée de la robustesse des résultats et une discussion méthodologique approfondie. À notre connaissance, rares sont les études qui déploient conjointement :
+
+1. Une sélection de variables exhaustive (7 méthodes) avec diagnostic complet de colinéarité.
+2. Une ANCOVA avec moyennes marginales et tests d'interaction.
+3. Une régression logistique ordinale avec test de Brant et modèle binaire avec évaluation prédictive (ROC/AUC).
+4. Une confrontation systématique des résultats à la littérature empirique existante.
+
+Ce positionnement fait de notre travail un **exercice méthodologique de référence**, transposable aux données réelles de l'ESPS.
+
+\bigskip
+**Conclusion du chapitre.** L'état de l'art révèle que la régression linéaire constitue un outil pertinent --- mais non exclusif --- pour modéliser la santé perçue. La littérature identifie l'âge, le gradient social, la couverture assurantielle et les comportements de santé comme déterminants majeurs. Notre contribution réside dans la confrontation systématique des approches linéaire et ordinale, assortie d'un appareil diagnostique complet rarement déployé dans les études existantes.
+
+
+# Méthodologie {#chap-methodologie}
+
+Ce chapitre détaille la méthodologie statistique retenue en répondant à trois questions fondamentales : *où* menons-nous la recherche (terrain), *avec quoi* (corpus de données), et *comment* (spécification et estimation des modèles). Chaque choix méthodologique est explicitement justifié.
+
+## Design de recherche : terrain et pertinence
+
+L'analyse repose sur des données synthétiques reproduisant la structure d'une enquête en coupe transversale conduite en **France métropolitaine**. Ce périmètre géographique est justifié par : (i) l'existence de l'ESPS, enquête de référence dont nous reproduisons la structure ; (ii) la richesse de la littérature de comparaison (gradient social documenté par @van_doorslaer2004 et @art2006) ; (iii) la spécificité du système de santé français (couverture universelle avec reste à charge modulé par la complémentaire), qui crée un contexte institutionnel unique pour l'étude des inégalités d'accès aux soins^[La France se distingue par un système mixte (assurance maladie obligatoire + complémentaire santé), ce qui fait de la couverture complémentaire un déterminant potentiel de la santé perçue --- contrairement aux systèmes beveridgiens (Royaume-Uni, pays nordiques) où la couverture est intégralement publique.].
+
+L'unité statistique est l'individu résidant en France métropolitaine. Le design en coupe transversale ne permet pas d'identification causale au sens strict, mais autorise l'estimation d'associations conditionnelles robustes --- ce qui est conforme à l'objectif de hiérarchisation des déterminants.
+
+## Corpus de données : justification des sources
+
+Les données proviennent d'une base synthétique (`base_esps_synthétique.csv`, 500 observations $\times$ 25 variables) générée pour reproduire la structure et les distributions plausibles de l'ESPS. **Pourquoi utiliser des données synthétiques plutôt que les données ESPS réelles ?** Trois raisons : (i) les données ESPS sont soumises à des conventions d'accès restrictives (IRDES, convention CASD) ; (ii) les données synthétiques permettent un contrôle total des distributions et corrélations, autorisant une discussion méthodologique « en laboratoire » ; (iii) l'intégralité de la pipeline statistique développée ici est directement transposable aux données réelles^[La transposabilité est assurée par le fait que la base synthétique reproduit fidèlement la nomenclature des variables, les types de données et les ordres de grandeur de l'ESPS.].
+
+## Spécification des modèles
+
+### Modèle de régression linéaire multiple
+
+Le score ordinal `score_sante` ($Y \in \{1, 2, 3, 4, 5\}$) est modélisé comme :
+
+$$Y_i = \beta_0 + \beta_1 \cdot \text{age}_i + \beta_2 \cdot \text{consultations}_i + \beta_3 \cdot \text{medicaments}_i + \cdots + \varepsilon_i$$
+
+avec $\varepsilon_i \sim \mathcal{N}(0, \sigma^2)$ (hypothèse à vérifier par les diagnostics de la section\ \@ref(sec-validation)). **Justification** : cette spécification linéaire est la plus parcimonieuse et la plus interprétable. Les coefficients $\beta_j$ s'interprètent directement comme la variation attendue du score de santé pour une augmentation unitaire de $X_j$, *ceteris paribus* [@wooldridge2015].
+
+### Modèle ANCOVA
+
+Le modèle ANCOVA étend la régression linéaire en incluant des facteurs qualitatifs (sexe, activité physique, handicap, hospitalisation) :
+
+$$Y_i = \beta_0 + \sum_j \beta_j X_{ij} + \sum_k \alpha_k F_{ik} + \sum_{j,k} \gamma_{jk} (X_{ij} \times F_{ik}) + \varepsilon_i$$
+
+où $X_{ij}$ sont les covariables quantitatives et $F_{ik}$ les facteurs qualitatifs. La table ANOVA de type III est utilisée pour tester la significativité de chaque terme^[Le type III (sommes de carrés « marginales ») est préféré au type I car il est invariant à l'ordre d'entrée des variables dans le modèle --- propriété essentielle lorsque les variables sont corrélées (@fox2015).]. **Pourquoi l'ANCOVA ?** Elle permet de répondre directement à l'hypothèse H2 : l'activité physique et le handicap ont-ils un effet propre sur la santé perçue, *après ajustement* sur l'âge et les consultations ?
+
+### Modèle logistique ordinal (cotes proportionnelles)
+
+Le modèle à cotes proportionnelles, proposé par @mccullagh1980, suppose que :
+
+$$\log\left(\frac{P(Y \leq j)}{P(Y > j)}\right) = \alpha_j - \mathbf{X}' \boldsymbol{\beta}, \quad j = 1, \ldots, J-1$$
+
+L'hypothèse de proportionnalité implique que les coefficients $\boldsymbol{\beta}$ sont identiques pour tous les seuils $j$. Cette hypothèse est testée par le test de @brant1990^[Si le test de Brant rejette la proportionnalité pour certaines variables, cela signifie que l'effet de ces variables diffère selon le seuil de coupure --- auquel cas un modèle multinomial (*partial proportional odds*) serait préférable.]. **Justification** : ce modèle respecte la nature ordinale de la variable réponse et ne requiert pas l'hypothèse d'équidistance.
+
+### Modèle logistique binaire
+
+Après dichotomisation ($0 =$ bonne santé, $1 =$ mauvaise santé), un modèle logistique binaire standard est estimé :
+
+$$\log\left(\frac{P(Y=1)}{P(Y=0)}\right) = \beta_0 + \mathbf{X}' \boldsymbol{\beta}$$
+
+**Pourquoi cette dichotomisation ?** Elle permet (i) d'estimer des *odds ratios* directement interprétables en termes de risque relatif de mauvaise santé ; (ii) de mobiliser les outils de diagnostic prédictif (ROC, AUC) pour évaluer la capacité discriminante du modèle [@hosmer2013].
+
+## Procédure d'estimation et justification des tests
+
+### Sélection du modèle linéaire
+
+1. **Modèle complet** : toutes les variables quantitatives --- point de départ nécessaire pour évaluer la colinéarité.
+2. **Diagnostics de colinéarité** : VIF, tolérance, indices de conditionnement --- **pourquoi ces tests ?** Les variables socio-économiques sont structurellement corrélées (âge--retraite, revenus--profession, dépenses--consultations) ; sans diagnostic de colinéarité, les coefficients seraient instables et les erreurs-types surestimées [@belsley1980].
+3. **Sélection par critères informationnels** : exploration exhaustive des sous-modèles (`regsubsets`) selon $R^2$ ajusté, BIC et $C_p$ de Mallows ; sélection ascendante, descendante et pas à pas par AIC --- **pourquoi ?** Le critère d'information d'Akaike (AIC) réalise un compromis optimal entre ajustement et parcimonie ; le BIC, plus pénalisant, favorise des modèles plus simples [@burnham2002].
+4. **Modèle réduit** : variables significatives retenues après convergence des différentes méthodes.
+
+### Sélection du modèle logistique
+
+Sélection pas à pas (*stepwise*) par AIC sur le modèle logistique binaire. Comparaison des modèles ordinaux complet et réduit par test du rapport de vraisemblance. **Justification** : le test du rapport de vraisemblance est le test le plus puissant pour comparer des modèles emboîtés dans le cadre du maximum de vraisemblance.
+
+## Stratégie de validation et diagnostics : pourquoi ces tests ?
+
+### Validation du modèle linéaire
+
+Chaque diagnostic vérifie une hypothèse fondamentale du modèle linéaire gaussien. Le non-respect de ces hypothèses invaliderait les inférences (tests de significativité, intervalles de confiance) :
+
+| Hypothèse             | Test / Diagnostic                     | Seuil                          | Justification |
+|-----------------------|---------------------------------------|--------------------------------|---------------|
+| Normalité des résidus | Shapiro-Wilk, QQ-plot, histogramme    | $p > 0.05$ (non-rejet)        | Requis pour la validité des tests $t$ et $F$ en petit échantillon |
+| Indépendance          | Durbin-Watson                         | $d \approx 2$                  | Vérifie l'absence d'autocorrélation (pertinent car les observations pourraient présenter une structure spatiale ou de grappe) |
+| Homoscédasticité      | Breusch-Pagan                         | $p > 0.05$ (non-rejet)        | La variance constante est nécessaire pour l'efficience des MCO |
+| Absence d'influence   | Distance de Cook, RStudent, Leverage  | $D_i > 4/n$, $|t_i| > 2$      | Identifie les observations qui « tirent » le modèle de façon disproportionnée |
+| Linéarité             | Résidus vs ajustées, LOESS            | Pas de pattern systématique    | Vérifie que la relation entre $Y$ et $\hat{Y}$ est bien linéaire |
+
+### Évaluation du modèle logistique
+
+- **Courbe ROC et AUC** : mesure la capacité du modèle à discriminer les individus en bonne et mauvaise santé --- un AUC $> 0.7$ est considéré comme acceptable, $> 0.8$ comme bon [@hosmer2013].
+- **Matrice de confusion** (seuil 0.5) : évalue la qualité de la classification.
+- **Métriques** : exactitude, sensibilité, spécificité --- pertinentes pour l'interprétation en santé publique (un modèle à forte sensibilité détecte bien les individus en mauvaise santé).
+- **Pseudo-$R^2$** (McFadden, Cox \& Snell, Nagelkerke) : mesures d'ajustement global analogues au $R^2$ linéaire.
+- **Test de Hosmer-Lemeshow** : vérifie la calibration du modèle (adéquation entre probabilités prédites et fréquences observées)^[Un rejet du test de Hosmer-Lemeshow ($p < 0.05$) indiquerait que le modèle prédit systématiquement trop ou trop peu de mauvaise santé dans certaines strates de la population.].
+
+\bigskip
+**Conclusion du chapitre.** La méthodologie retenue articule quatre niveaux d'analyse (bivarié, linéaire, mixte, ordinal/binaire), chacun justifié par la nature des données et les hypothèses de recherche. La stratégie de validation, fondée sur sept tests diagnostiques complémentaires, garantit la fiabilité des inférences produites.
+
+
+# Données et construction de la base empirique {#chap-donnees}
+
+Ce chapitre présente les données mobilisées, justifie le choix de chaque variable et expose les statistiques descriptives commentées.
+
+## Sources des données
+
+### Variable dépendante : état de santé perçu
+
+La variable réponse est `etat_sante_percu` (qualitative ordinale, 5 modalités : Très bon, Bon, Assez bon, Mauvais, Très mauvais), auto-évaluation de l'état de santé par l'individu. **Justification** : cette variable est le standard international des enquêtes de santé (EU-SILC, SHARE, ESPS), dont le pouvoir prédictif de la mortalité a été établi par @idler1997 (cf. chapitre\ \@ref(chap-litterature)).
+
+### Variables explicatives retenues et justification
+
+La base comporte 25 variables, dont la sélection est fondée sur le cadre théorique exposé au chapitre\ \@ref(chap-cadre). Le tableau suivant présente chaque famille de variables avec sa justification :
+
+| Famille | Variables | Justification théorique |
+|---------|-----------|------------------------|
+| **Sociodémographiques** | Âge, sexe, profession, éducation, situation familiale, enfants, région, commune | Modèle de @dahlgren1991 : couches individuelles et contextuelles |
+| **Économiques** | Revenus, assurance, couverture complémentaire | Gradient social de santé [@marmot2005] ; accès aux soins [@despres2011] |
+| **Recours aux soins** | Dépenses de santé, consultations, médicaments, hospitalisation | Capital santé [@grossman1972] : ces variables reflètent le stock de santé et l'investissement sanitaire |
+| **Comportementales** | Tabagisme, alcool, activité physique, IMC | Déterminants comportementaux médiatisant les effets socio-économiques [@bricard2015] |
+| **Santé** | Handicap, maladies déclarées, renoncement aux soins, satisfaction | État de santé objectif et barrières d'accès [@despres2011] |
+
+**Pourquoi ces variables et pas d'autres ?** Trois critères ont guidé la sélection : (i) la disponibilité dans l'ESPS réelle, pour garantir la transposabilité ; (ii) la couverture des quatre dimensions du modèle de @dahlgren1991 (biologique, comportemental, socio-économique, contextuel) ; (iii) la nécessité de disposer de variables potentiellement colinéaires (âge--retraite, revenus--profession) pour illustrer les diagnostics de colinéarité^[L'absence de variables environnementales (pollution, qualité du logement) et de santé mentale (score de dépression) constitue une limite reconnue, discutée au chapitre\ \@ref(chap-robustesse).].
+
+### Source et nature des données
+
+Les données proviennent d'une base synthétique (`base_esps_synthétique.csv`, 500 observations $\times$ 25 variables) générée pour reproduire la structure et les distributions plausibles de l'Enquête Santé et Protection Sociale (ESPS) de l'IRDES^[@irdes_esps. La base synthétique a été générée par le script `generate_esps_database.py`, documenté dans le fichier `README_base_esps.md`.].
+
+## Importation de la base de données
+
+```{r importation}
+df <- read.csv2("base_esps_synthétique.csv", fileEncoding = "UTF-8")
+```
+
+```{r structure}
+str(df)
+```
+
+```{r dimensions}
+cat("Dimensions :", nrow(df), "observations ×", ncol(df), "variables\n")
+```
+
+## Construction des variables dérivées
+
+On crée un score numérique `score_sante` ($1 =$ Très mauvais $\rightarrow$ $5 =$ Très bon) pour les analyses nécessitant une variable quantitative, ainsi qu'un indicateur binaire `sante_mauvaise` pour la régression logistique binaire.
+
+```{r recodage}
+# Score ordinal (1 = Très mauvais → 5 = Très bon)
+df <- df %>%
+  mutate(
+    score_sante = case_when(
+      etat_sante_percu == "Très mauvais" ~ 1L,
+      etat_sante_percu == "Mauvais"      ~ 2L,
+      etat_sante_percu == "Assez bon"    ~ 3L,
+      etat_sante_percu == "Bon"          ~ 4L,
+      etat_sante_percu == "Très bon"     ~ 5L,
+      TRUE                               ~ NA_integer_
+    ),
+    # Variable binaire (0 = Bonne santé, 1 = Mauvaise santé)
+    sante_mauvaise = ifelse(score_sante %in% c(1, 2), 1L, 0L),
+    # Recodages numériques pour les variables binaires
+    hospit_num       = ifelse(hospitalisation_12_mois == "Oui", 1L, 0L),
+    handicap_num     = ifelse(handicap_declare == "Oui", 1L, 0L),
+    renoncement_num  = ifelse(renoncement_soins_12_mois == "Oui", 1L, 0L),
+    # Facteur ordonné pour etat_sante_percu
+    etat_sante_ord = factor(etat_sante_percu,
+                            levels  = c("Très mauvais", "Mauvais", "Assez bon", "Bon", "Très bon"),
+                            ordered = TRUE)
+  )
+```
+
+```{r verif-recodage}
+table(df$etat_sante_percu, df$score_sante) %>%
+  kable(caption = "Vérification du recodage ordinal") %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
+```
+
+## Statistiques descriptives
+
+Le tableau ci-dessous présente la distribution de la variable réponse. L'interprétation de cette distribution est essentielle : une répartition asymétrique (concentration sur les modalités « Bon » et « Assez bon ») est conforme aux observations de @drees2017 sur la population française, où environ deux tiers des adultes déclarent un état de santé satisfaisant.
+
+```{r distribution-Y}
+table(df$etat_sante_percu) %>% 
+  as.data.frame() %>% 
+  setNames(c("Modalité", "Effectif")) %>% 
+  kable(caption = "Distribution de la variable réponse --- État de santé perçu. \\textit{Lecture} : les effectifs par modalité permettent de vérifier l'absence de catégorie rare susceptible de compromettre la stabilité des estimations.") %>% 
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
+```
+
+**Grille de lecture** : si une modalité extrême (« Très mauvais ») concentre moins de 5\ % des observations, les tests bivariés et les estimations logistiques ordinales sur cette catégorie seront fragiles. Ce point sera vérifié dans l'analyse des résultats.
+
+\bigskip
+**Conclusion du chapitre.** La base empirique, construite pour reproduire la structure de l'ESPS, comprend 500 observations et 25 variables couvrant les quatre dimensions du modèle de Dahlgren et Whitehead. Les variables dérivées (score numérique, indicateur binaire, facteur ordonné) permettent de mobiliser l'ensemble des méthodes statistiques prévues. La distribution de la variable réponse est compatible avec les observations empiriques sur la population française.
+
+
+# Résultats {#chap-resultats}
+
+Ce chapitre présente l'ensemble des résultats, structurés par famille de méthodes. Chaque figure et tableau est commenté, interprété au regard des hypothèses de recherche et discuté dans ses implications sanitaires et économiques.
+
+## Analyse bivariée {#sec-bivariee}
+
+L'analyse bivariée constitue la première étape exploratoire. Elle vise à identifier, sans contrôle des effets confondants, les variables significativement associées à l'état de santé perçu. Le choix des tests est dicté par la nature des variables croisées : $\chi^2$ pour les croisements qualitatif $\times$ qualitatif, ANOVA pour qualitatif $\times$ quantitatif, Kruskal-Wallis comme alternative non paramétrique, et corrélation de Spearman pour les associations ordinales.
+
+### Croisements Y qualitative $\times$ X qualitatives --- Test du $\chi^2$
+
+Le test du $\chi^2$ d'indépendance vérifie si la distribution de l'état de santé perçu diffère significativement selon les modalités de chaque variable qualitative. Nous utilisons la simulation de Monte Carlo (`simulate.p.value = TRUE`, $B = 2000$) pour garantir la validité du test lorsque certaines cellules du tableau de contingence ont des effectifs faibles^[La règle de Cochran recommande que les effectifs théoriques soient supérieurs à 5 dans au moins 80\ \% des cellules. La simulation de Monte Carlo permet de relâcher cette condition.].
+
+```{r chi2-function}
+# Fonction utilitaire pour le test du Chi-2 avec affichage du tableau croisé
+run_chisq <- function(data, var_qual, label) {
+  tbl <- table(data$etat_sante_percu, data[[var_qual]])
+  test <- chisq.test(tbl, simulate.p.value = TRUE, B = 2000)
+  cat("\n══════════════════════════════════════════════════════════════\n")
+  cat("  Bivariée : État de santé perçu ×", label, "\n")
+  cat("══════════════════════════════════════════════════════════════\n")
+  print(tbl)
+  cat("\n  Chi² =", round(test$statistic, 4), 
+      "  |  ddl =", test$parameter, 
+      "  |  p-value =", format.pval(test$p.value, digits = 4), "\n")
+  invisible(test)
+}
+```
+
+```{r chi2-tests, results='asis'}
+vars_quali <- c("sexe", "profession", "niveau_education", "situation_familiale",
+                "couverture_complementaire", "hospitalisation_12_mois", "tabagisme",
+                "consommation_alcool", "activite_physique", "handicap_declare",
+                "renoncement_soins_12_mois", "maladies_declarees")
+
+labels_quali <- c("Sexe", "Profession", "Niveau d'éducation", "Situation familiale",
+                  "Couverture complémentaire", "Hospitalisation 12 mois", "Tabagisme",
+                  "Consommation d'alcool", "Activité physique", "Handicap déclaré",
+                  "Renoncement aux soins", "Maladies déclarées")
+
+chi2_results <- map2(vars_quali, labels_quali, ~ run_chisq(df, .x, .y))
+```
+
+```{r chi2-resume}
+# Tableau récapitulatif des tests du Chi-2
+chi2_summary <- tibble(
+  Variable    = labels_quali,
+  `Chi²`      = map_dbl(chi2_results, ~ .x$statistic),
+  ddl         = map_dbl(chi2_results, ~ ifelse(is.null(.x$parameter), NA, .x$parameter)),
+  `p-value`   = map_dbl(chi2_results, ~ .x$p.value),
+  Significatif = ifelse(map_dbl(chi2_results, ~ .x$p.value) < 0.05, "Oui ✓", "Non")
+)
+
+chi2_summary %>%
+  mutate(`Chi²` = round(`Chi²`, 2), `p-value` = format.pval(`p-value`, digits = 3)) %>%
+  kable(caption = "Résumé des tests du $\\chi^2$ : État de santé perçu $\\times$ Variables qualitatives. \\textit{Lecture} : une p-value $< 0.05$ indique une association statistiquement significative entre la variable et l'état de santé perçu.") %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
+```
+
+**Interprétation** : les variables présentant une association significative ($p < 0.05$) sont les candidates naturelles pour l'inclusion dans les modèles multivariés. Du point de vue économique et sanitaire, une association significative avec la couverture complémentaire indiquerait que le système d'assurance maladie complémentaire joue un rôle dans la perception de la santé --- résultat cohérent avec les travaux de @despres2011 sur le renoncement aux soins.
+
+### Croisements Y qualitative $\times$ X quantitatives --- ANOVA
+
+L'ANOVA à un facteur teste si la moyenne de chaque variable quantitative diffère significativement selon l'état de santé perçu. **Pourquoi l'ANOVA ?** Elle est appropriée lorsque la variable de groupement comporte plus de deux modalités et que la variable réponse est continue^[L'ANOVA est ici « inversée » par rapport à la spécification habituelle : l'état de santé perçu joue le rôle de variable de groupement et les variables quantitatives sont les variables réponse. Cette inversion est standard en analyse bivariée exploratoire.].
+
+```{r anova-bivariee}
+vars_quanti <- c("age", "revenus_mensuels_euros", "imc",
+                 "depenses_sante_annuelles_euros",
+                 "nombre_consultations_annuelles",
+                 "nombre_medicaments_reguliers")
+
+labels_quanti <- c("Âge", "Revenus mensuels (€)", "IMC",
+                   "Dépenses de santé annuelles (€)",
+                   "Nombre de consultations annuelles",
+                   "Nombre de médicaments réguliers")
+
+anova_results <- map(vars_quanti, function(v) {
+  fml <- as.formula(paste(v, "~ etat_sante_percu"))
+  aov_mod <- aov(fml, data = df)
+  list(anova = summary(aov_mod), tukey = TukeyHSD(aov_mod))
+})
+
+# Affichage des résultats ANOVA
+for (i in seq_along(vars_quanti)) {
+  cat("\n══════════════════════════════════════════════════════════════\n")
+  cat("  ANOVA :", labels_quanti[i], "selon l'état de santé perçu\n")
+  cat("══════════════════════════════════════════════════════════════\n")
+  print(anova_results[[i]]$anova)
+}
+```
+
+```{r anova-resume}
+anova_summary <- tibble(
+  Variable = labels_quanti,
+  `F-stat` = map_dbl(anova_results, ~ {
+    s <- .x$anova[[1]]
+    s[["F value"]][1]
+  }),
+  `p-value` = map_dbl(anova_results, ~ {
+    s <- .x$anova[[1]]
+    s[["Pr(>F)"]][1]
+  }),
+  Significatif = ifelse(`p-value` < 0.05, "Oui ✓", "Non")
+)
+
+anova_summary %>%
+  mutate(`F-stat` = round(`F-stat`, 2), `p-value` = format.pval(`p-value`, digits = 3)) %>%
+  kable(caption = "Résumé des ANOVA : Variables quantitatives selon l'état de santé perçu. \\textit{Lecture} : la statistique $F$ mesure le rapport de la variance inter-groupes à la variance intra-groupes ; une valeur élevée de $F$ indique des moyennes significativement différentes.") %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
+```
+
+**Interprétation économique et sanitaire** : les variables présentant des statistiques $F$ élevées (âge, consultations, médicaments) sont celles dont la distribution diffère le plus selon l'état de santé perçu. Une forte association entre les consultations médicales et la santé perçue est conforme au modèle de Grossman : un stock de santé dégradé entraîne une demande de soins accrue^[Il convient toutefois de rappeler que cette association bivariée ne permet pas de distinguer la causalité directe (mauvaise santé $\rightarrow$ consultations) de la causalité inverse (consultations $\rightarrow$ meilleure santé).]. L'association avec l'IMC, si elle est significative, corrobore les résultats de @singh2006 sur le rôle des marqueurs biologiques dans la santé perçue.
+
+### Test de Kruskal-Wallis (alternative non paramétrique)
+
+Le test de Kruskal-Wallis est préféré à l'ANOVA lorsque l'hypothèse de normalité des résidus est douteuse ou lorsque la variable réponse est ordinale. **Pourquoi ce test est-il légitime ici ?** La variable `etat_sante_percu` est ordinale (non continue), ce qui viole formellement les hypothèses de l'ANOVA paramétrique. Le test de Kruskal-Wallis, basé sur les rangs, ne requiert pas la normalité et constitue donc le test le plus rigoureux pour notre configuration^[En pratique, les conclusions du Kruskal-Wallis et de l'ANOVA convergent presque toujours pour des échantillons de taille $n \geq 30$ par groupe, ce qui constitue un résultat de robustesse rassurant.].
+
+```{r kruskal-wallis}
+kw_results <- map(vars_quanti, function(v) {
+  kruskal.test(as.formula(paste(v, "~ etat_sante_percu")), data = df)
+})
+
+kw_summary <- tibble(
+  Variable    = labels_quanti,
+  `H (K-W)`   = map_dbl(kw_results, ~ .x$statistic),
+  ddl         = map_dbl(kw_results, ~ .x$parameter),
+  `p-value`   = map_dbl(kw_results, ~ .x$p.value),
+  Significatif = ifelse(`p-value` < 0.05, "Oui ✓", "Non")
+)
+
+kw_summary %>%
+  mutate(`H (K-W)` = round(`H (K-W)`, 2), `p-value` = format.pval(`p-value`, digits = 3)) %>%
+  kable(caption = "Tests de Kruskal-Wallis : Variables quantitatives selon l'état de santé perçu. \\textit{Lecture} : la statistique $H$ suit asymptotiquement une loi du $\\chi^2$ ; une p-value $< 0.05$ indique des distributions de rangs significativement différentes.") %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
+```
+
+**Robustesse** : la convergence des résultats entre l'ANOVA paramétrique et le test de Kruskal-Wallis constitue un premier indicateur de robustesse. Les variables significatives dans les deux tests sont des candidates solides pour la modélisation multivariée.
+
+### Corrélation de Spearman
+
+La corrélation de Spearman est le coefficient de corrélation approprié lorsque l'une des deux variables est ordinale. **Pourquoi Spearman plutôt que Pearson ?** Le coefficient de Pearson suppose une relation linéaire entre variables continues, alors que le coefficient de Spearman mesure la monotonie de l'association sans hypothèse de linéarité ni de normalité --- propriétés essentielles pour notre variable `score_sante` qui est un score ordinal^[Le coefficient de Spearman $\rho$ est le coefficient de Pearson calculé sur les rangs des observations. Il est donc robuste aux valeurs extrêmes et aux distributions asymétriques.].
+
+```{r spearman}
+vars_corr <- c("age", "revenus_mensuels_euros", "imc",
+               "depenses_sante_annuelles_euros",
+               "nombre_consultations_annuelles",
+               "nombre_medicaments_reguliers", "nombre_enfants")
+
+spearman_results <- map_dfr(vars_corr, function(v) {
+  test <- cor.test(df$score_sante, df[[v]], method = "spearman", exact = FALSE)
+  tibble(Variable = v, rho = test$estimate, p_value = test$p.value)
+})
+
+spearman_results %>%
+  mutate(Significatif = ifelse(p_value < 0.05, "Oui ✓", "Non"),
+         rho = round(rho, 4),
+         p_value = format.pval(p_value, digits = 3)) %>%
+  kable(caption = "Corrélation de Spearman : score\\_sante vs variables quantitatives. \\textit{Lecture} : $\\rho > 0$ indique une association positive (la variable augmente avec le score de santé) ; $\\rho < 0$ une association négative. La significativité est testée au seuil $\\alpha = 0.05$.",
+        col.names = c("Variable", "$\\rho$", "p-value", "Significatif"),
+        escape = FALSE) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
+```
+
+**Interprétation** : un coefficient de Spearman négatif pour l'âge ($\rho < 0$) confirmerait la dégradation de la santé perçue avec l'âge --- résultat universel dans la littérature [@mackenbach1999]. Un $\rho$ négatif pour les consultations et les médicaments est conforme au modèle de capital santé : plus l'individu consomme de soins, moins il se perçoit en bonne santé (causalité inverse probable). À l'inverse, une corrélation positive avec les revenus serait cohérente avec le gradient social de santé [@marmot2005].
+
+### Graphiques bivariés --- Boîtes à moustaches
+
+Les boîtes à moustaches offrent une visualisation non paramétrique de la distribution de chaque variable quantitative selon l'état de santé perçu. **Grille de lecture** : (i) la position médiane indique la tendance centrale ; (ii) l'étendue interquartile (boîte) mesure la dispersion ; (iii) les points extérieurs signalent des valeurs atypiques potentiellement influentes dans les modèles de régression.
+
+```{r boxplots, fig.cap="Boîtes à moustaches des variables quantitatives selon l'état de santé perçu", fig.height=10, fig.width=10}
+plots_biv <- map2(vars_quanti, labels_quanti, function(v, lab) {
+  ggplot(df, aes(x = etat_sante_percu, y = .data[[v]], fill = etat_sante_percu)) +
+    geom_boxplot(alpha = 0.7) +
+    labs(title = paste(lab, "selon l'état de santé perçu"),
+         x = "État de santé perçu", y = lab) +
+    theme_minimal() +
+    theme(legend.position = "none",
+          axis.text.x = element_text(angle = 25, hjust = 1))
+})
+patchwork::wrap_plots(plots_biv, ncol = 2)
+```
+
+**Interprétation des boîtes à moustaches** : si la médiane de l'âge augmente de façon monotone de « Très bon » vers « Très mauvais », cela confirme visuellement le gradient âge--santé. De même, une médiane du nombre de médicaments croissante avec la dégradation de la santé perçue est un indicateur visuel puissant de la cohérence entre les données synthétiques et la réalité épidémiologique. La présence de valeurs extrêmes (points au-delà des moustaches) sera prise en compte dans l'analyse d'influence (distance de Cook, section\ \@ref(sec-validation)).
+
+
+## Régression linéaire et $R^2$ {#sec-reglin}
+
+On utilise `score_sante` ($1-5$) comme approximation numérique de `etat_sante_percu` pour appliquer un modèle linéaire. **Justification** : cette approche, bien que reposant sur l'hypothèse d'équidistance, est défendue par @wooldridge2015 et largement utilisée dans la littérature empirique (cf. section\ \@ref(chap-litterature)). Elle permet de déployer l'arsenal complet des diagnostics linéaires (VIF, résidus, influence) avant de confronter les résultats au modèle ordinal.
+
+### Modèle complet --- variables quantitatives
+
+Le modèle complet inclut les sept variables quantitatives de la base. Ce point de départ est nécessaire pour (i) évaluer la significativité marginale de chaque variable en présence des autres ; (ii) diagnostiquer la colinéarité ; (iii) servir de référence pour la sélection de variables.
+
+```{r reg-complet}
+mod_complet <- lm(score_sante ~ age + revenus_mensuels_euros +
+                    depenses_sante_annuelles_euros +
+                    nombre_consultations_annuelles +
+                    nombre_medicaments_reguliers + imc + nombre_enfants,
+                  data = df)
+summary(mod_complet)
+```
+
+```{r reg-complet-r2}
+cat("R²        =", round(summary(mod_complet)$r.squared, 4), "\n")
+cat("R² ajusté =", round(summary(mod_complet)$adj.r.squared, 4), "\n")
+```
+
+**Interprétation du $R^2$** : le $R^2$ mesure la proportion de la variance du score de santé expliquée par les sept variables quantitatives. Un $R^2$ modéré (entre 0.10 et 0.30) est attendu et conforme à la littérature sur la santé perçue, car de nombreux déterminants non observés (qualité du sommeil, santé mentale, réseau social) contribuent à la variance résiduelle^[Dans les études sur la santé perçue, un $R^2$ supérieur à 0.15 est considéré comme honorable, compte tenu de la nature multifactorielle du phénomène (@kennedy1998).]. Le $R^2$ ajusté, qui pénalise l'ajout de variables non pertinentes, est systématiquement préféré au $R^2$ brut.
+
+### Modèle réduit --- variables significatives
+
+Le modèle réduit ne retient que les variables dont le coefficient est significatif au seuil de 5\ % dans le modèle complet. **Justification** : le principe de parcimonie impose de ne conserver que les prédicteurs apportant une contribution statistiquement significative à l'explication du score de santé [@burnham2002]. La comparaison par test $F$ emboîté vérifie que les variables supprimées n'apportent pas collectivement une information significative.
+
+```{r reg-reduit}
+mod_reduit <- lm(score_sante ~ age + nombre_consultations_annuelles +
+                   nombre_medicaments_reguliers,
+                 data = df)
+summary(mod_reduit)
+```
+
+```{r reg-reduit-r2}
+cat("R²        =", round(summary(mod_reduit)$r.squared, 4), "\n")
+cat("R² ajusté =", round(summary(mod_reduit)$adj.r.squared, 4), "\n")
+```
+
+```{r comparaison-modeles}
+anova(mod_reduit, mod_complet) %>%
+  kable(caption = "Test F de comparaison : modèle réduit vs modèle complet", digits = 4) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
+```
+
+
+## Étude de la colinéarité {#sec-colinearite}
+
+L'étude de la colinéarité est une étape indispensable lorsque les variables explicatives sont potentiellement corrélées entre elles. **Pourquoi est-ce critique ici ?** Les variables socio-économiques présentent des corrélations structurelles (âge--retraite, revenus--profession, dépenses de santé--consultations--médicaments). En présence de colinéarité forte, les coefficients estimés deviennent instables (erreurs-types gonflées), les tests de significativité perdent leur puissance et l'interprétation des effets individuels est compromise [@belsley1980].
+
+### VIF et Tolérance
+
+**Règle** : VIF $> 10$ $\Rightarrow$ colinéarité problématique ; VIF $> 5$ $\Rightarrow$ colinéarité modérée à surveiller. Tolérance $= 1/\text{VIF} < 0.1$ $\Rightarrow$ problème. Ces seuils, proposés par @fox2015, sont des repères conventionnels largement acceptés.
+
+```{r vif}
+vif_vals <- car::vif(mod_complet)
+
+tibble(
+  Variable   = names(vif_vals),
+  VIF        = round(vif_vals, 4),
+  Tolérance  = round(1 / vif_vals, 4),
+  Diagnostic = case_when(
+    vif_vals > 10 ~ "⚠️ Problématique",
+    vif_vals > 5  ~ "⚡ Modéré",
+    TRUE          ~ "✅ OK"
+  )
+) %>%
+  kable(caption = "VIF et Tolérance --- Variables explicatives quantitatives. \\textit{Lecture} : un VIF $> 10$ indique que la variable est fortement expliquée par les autres prédicteurs, rendant son coefficient instable.") %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
+```
+
+**Interprétation** : si tous les VIF sont inférieurs à 5, la colinéarité n'est pas problématique et les coefficients du modèle linéaire sont interprétables individuellement. Dans le cas contraire, les variables incriminées devraient être retirées ou combinées en indices synthétiques. Ce diagnostic est crucial pour la validité de l'hypothèse H1 : les effets de l'âge, des consultations et des médicaments ne sont interprétables que si ces variables ne sont pas colinéaires entre elles.
+
+### Matrice de corrélation entre les prédicteurs
+
+La matrice de corrélation complète le diagnostic des VIF en fournissant une vue d'ensemble des corrélations bivariées entre prédicteurs. **Grille de lecture** : un coefficient de Pearson $|r| > 0.7$ entre deux prédicteurs signale un risque de colinéarité ; $|r| > 0.9$ indique une quasi-colinéarité nécessitant l'exclusion d'une des deux variables.
+
+```{r matrice-corr, fig.cap="Matrice de corrélation — Variables explicatives quantitatives", fig.width=7, fig.height=6}
+mat_corr <- cor(df[, vars_corr], use = "pairwise.complete.obs")
+corrplot(mat_corr, method = "color", type = "upper",
+         addCoef.col = "black", number.cex = 0.7,
+         tl.col = "black", tl.srt = 45,
+         title = "Matrice de corrélation — Prédicteurs quantitatifs",
+         mar = c(0, 0, 2, 0))
+```
+
+### Indices de conditionnement
+
+```{r condition-index}
+# Calcul des indices de conditionnement via kappa
+X <- model.matrix(mod_complet)[, -1]  # sans l'intercept
+eigenvalues <- eigen(t(X) %*% X)$values
+condition_indices <- sqrt(max(eigenvalues) / eigenvalues)
+
+tibble(
+  `Valeur propre`       = round(eigenvalues, 2),
+  `Indice de condition`  = round(condition_indices, 4)
+) %>%
+  kable(caption = "Indices de conditionnement (diagnostics de colinéarité)") %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
+
+cat("\nNombre de condition (kappa) :", round(kappa(X), 2), "\n")
+cat("Interprétation : kappa > 30 → colinéarité sévère\n")
+```
+
+
+## Sélection de variables {#sec-selection}
+
+La sélection de variables vise à identifier le sous-ensemble de prédicteurs offrant le meilleur compromis entre ajustement et parcimonie. **Pourquoi est-elle nécessaire ?** Un modèle sur-paramétré présente un risque de surapprentissage : il s'ajuste au bruit de l'échantillon plutôt qu'au signal, dégradant sa capacité prédictive sur de nouvelles observations [@burnham2002]. À l'inverse, un modèle sous-paramétré souffre de biais de spécification.
+
+### Sélection par $R^2$ ajusté, AIC et BIC — Tous les sous-modèles
+
+L'exploration exhaustive (`regsubsets`) évalue **tous** les sous-modèles possibles pour chaque nombre de variables ($p = 1, \ldots, 7$) et sélectionne le meilleur selon trois critères complémentaires^[Le $R^2$ ajusté pénalise l'ajout de variables par la diminution des degrés de liberté ; le BIC pénalise plus fortement que l'AIC (terme $\log(n)$ vs. $2$), favorisant des modèles plus parcimonieux ; le $C_p$ de Mallows estime le biais de prédiction.] :
+
+```{r regsubsets, fig.cap="Sélection de sous-modèles (leaps)", fig.height=5}
+all_sub <- leaps::regsubsets(
+  score_sante ~ age + revenus_mensuels_euros + depenses_sante_annuelles_euros +
+    nombre_consultations_annuelles + nombre_medicaments_reguliers + imc + nombre_enfants,
+  data = df, nbest = 5, nvmax = 7
+)
+
+sub_summary <- summary(all_sub)
+
+par(mfrow = c(1, 3))
+plot(sub_summary$adjr2, type = "b", pch = 19, xlab = "Nombre de variables", ylab = "R² ajusté")
+title("R² ajusté")
+plot(sub_summary$bic, type = "b", pch = 19, xlab = "Nombre de variables", ylab = "BIC")
+title("BIC")
+plot(sub_summary$cp, type = "b", pch = 19, xlab = "Nombre de variables", ylab = "Cp de Mallows")
+title("Cp de Mallows")
+par(mfrow = c(1, 1))
+```
+
+```{r best-models}
+cat("Meilleur modèle selon BIC (nombre de variables) :",
+    which.min(sub_summary$bic), "\n")
+cat("Meilleur modèle selon R² ajusté (nombre de variables) :",
+    which.max(sub_summary$adjr2), "\n")
+```
+
+### Sélection ascendante (Forward)
+
+```{r forward}
+mod_null <- lm(score_sante ~ 1, data = df)
+mod_forward <- step(mod_null,
+                    scope = list(lower = mod_null, upper = mod_complet),
+                    direction = "forward", trace = 1, k = 2)  # k=2 → AIC
+summary(mod_forward)
+```
+
+### Sélection descendante (Backward)
+
+```{r backward}
+mod_backward <- step(mod_complet, direction = "backward", trace = 1, k = 2)
+summary(mod_backward)
+```
+
+### Sélection pas à pas (Stepwise)
+
+```{r stepwise}
+mod_stepwise <- step(mod_null,
+                     scope = list(lower = mod_null, upper = mod_complet),
+                     direction = "both", trace = 1, k = 2)
+summary(mod_stepwise)
+```
+
+```{r comparaison-selection}
+tibble(
+  Méthode = c("Forward", "Backward", "Stepwise"),
+  `Nb variables` = c(length(coef(mod_forward)) - 1,
+                      length(coef(mod_backward)) - 1,
+                      length(coef(mod_stepwise)) - 1),
+  AIC            = c(AIC(mod_forward), AIC(mod_backward), AIC(mod_stepwise)),
+  BIC            = c(BIC(mod_forward), BIC(mod_backward), BIC(mod_stepwise)),
+  `R² ajusté`    = c(summary(mod_forward)$adj.r.squared,
+                      summary(mod_backward)$adj.r.squared,
+                      summary(mod_stepwise)$adj.r.squared)
+) %>%
+  mutate(across(where(is.numeric), ~ round(.x, 4))) %>%
+  kable(caption = "Comparaison des méthodes de sélection de variables. \\textit{Lecture} : la convergence des trois méthodes vers le même ensemble de variables renforce la confiance dans le modèle retenu.") %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
+```
+
+**Interprétation** : la convergence des méthodes *forward*, *backward* et *stepwise* vers un même ensemble de variables constitue un résultat de robustesse fort. Si les trois méthodes retiennent systématiquement l'âge, les consultations et les médicaments, cela conforte l'hypothèse H1 selon laquelle ces variables sont les déterminants quantitatifs dominants de la santé perçue. La valeur du BIC permet de discriminer parmi les modèles équivalents en $R^2$ ajusté.
+
+
+## Validation du modèle {#sec-validation}
+
+La validation du modèle retenu est une étape critique : elle vérifie que les hypothèses du modèle linéaire gaussien sont respectées, condition nécessaire pour la validité des tests de significativité et des intervalles de confiance. **Pourquoi ces diagnostics sont-ils indispensables ?** Sans validation, les p-values et les intervalles de confiance pourraient être erronés, conduisant à des conclusions fallacieuses [@fox2015].
+
+On valide le modèle retenu (variables issues de la sélection : `score_sante ~ age + nombre_consultations_annuelles + nombre_medicaments_reguliers`).
+
+```{r modele-retenu}
+mod_val <- lm(score_sante ~ age + nombre_consultations_annuelles +
+                nombre_medicaments_reguliers, data = df)
+
+# Extraction des diagnostics
+df_diag <- broom::augment(mod_val) %>%
+  mutate(
+    rstud    = rstudent(mod_val),
+    cooksd   = cooks.distance(mod_val),
+    leverage = hatvalues(mod_val),
+    id       = df$id
+  )
+```
+
+### Normalité des résidus
+
+#### QQ-plot
+
+```{r qqplot, fig.cap="QQ-plot des résidus"}
+qqnorm(resid(mod_val), main = "QQ-plot des résidus")
+qqline(resid(mod_val), col = "red", lwd = 2)
+```
+
+#### Histogramme des résidus
+
+```{r histogramme-resid, fig.cap="Histogramme des résidus avec courbe normale"}
+ggplot(df_diag, aes(x = .resid)) +
+  geom_histogram(aes(y = after_stat(density)), bins = 30,
+                 fill = "steelblue", alpha = 0.7) +
+  stat_function(fun = dnorm,
+                args = list(mean = mean(df_diag$.resid),
+                            sd   = sd(df_diag$.resid)),
+                color = "red", linewidth = 1) +
+  labs(title = "Histogramme des résidus avec courbe normale",
+       x = "Résidu", y = "Densité") +
+  theme_minimal()
+```
+
+#### Test de Shapiro-Wilk
+
+Le test de Shapiro-Wilk est le test le plus puissant pour détecter la non-normalité en échantillon de taille modérée ($n < 5000$). **Interprétation attendue** : si $p > 0.05$, l'hypothèse de normalité n'est pas rejetée et les inférences du modèle linéaire sont valides. Si $p < 0.05$, la normalité est rejetée --- mais, pour $n = 500$, le théorème central limite assure que les estimateurs MCO restent asymptotiquement normaux, de sorte que les tests restent approximativement valides^[En pratique, pour $n \geq 30$, la non-normalité des résidus n'invalide pas gravement les inférences, surtout si les résidus ne présentent pas d'asymétrie forte ou de queues lourdes.].
+
+```{r shapiro}
+shapiro.test(resid(mod_val))
+```
+
+### Éléments aberrants — RStudent vs Leverage
+
+```{r rstudent-leverage, fig.cap="RStudent vs Leverage"}
+ggplot(df_diag, aes(x = leverage, y = rstud)) +
+  geom_point(alpha = 0.6) +
+  geom_hline(yintercept = c(-2, 2), linetype = "dashed", color = "red") +
+  geom_vline(xintercept = 2 * (length(coef(mod_val))) / nrow(df),
+             linetype = "dashed", color = "blue") +
+  labs(title = "RStudent vs Leverage",
+       x = "Leverage (h_ii)", y = "Résidu studentisé (RStudent)") +
+  theme_minimal()
+```
+
+### Distance de Cook
+
+Seuil courant : $D_i > 4/n = 4/500 = 0.008$.
+
+```{r cook, fig.cap="Distance de Cook"}
+ggplot(df_diag, aes(x = seq_len(nrow(df_diag)), y = cooksd)) +
+  geom_col(fill = "steelblue", alpha = 0.7) +
+  geom_hline(yintercept = 4 / nrow(df), linetype = "dashed", color = "red") +
+  labs(title = "Distance de Cook", x = "Observation", y = "Distance de Cook") +
+  theme_minimal()
+```
+
+### Indépendance des résidus --- Test de Durbin-Watson
+
+$H_0$ : pas d'autocorrélation $\Rightarrow$ on souhaite ne **pas** rejeter $H_0$. **Pourquoi ce test est-il pertinent ici ?** Bien que nos données soient en coupe transversale (pas de dimension temporelle), une autocorrélation résiduelle pourrait apparaître si les observations sont ordonnées par région, par âge ou par tout autre facteur de grappe. Une statistique $d \approx 2$ confirme l'indépendance^[Pour des données en coupe transversale non ordonnées, le test de Durbin-Watson est formellement moins pertinent que pour des séries temporelles, mais il reste un diagnostic utile en l'absence de structure explicite.].
+
+```{r durbin-watson}
+lmtest::dwtest(mod_val)
+```
+
+### Homoscédasticité — Test de Breusch-Pagan (équivalent du test de White sous SAS)
+
+$H_0$ : variance constante des résidus (homoscédasticité). Si p-value $< 0.05$ $\Rightarrow$ hétéroscédasticité détectée.
+
+```{r breusch-pagan}
+lmtest::bptest(mod_val)
+```
+
+### Linéarité — Résidus vs valeurs ajustées
+
+```{r residus-fitted, fig.cap="Résidus vs valeurs ajustées (linéarité)"}
+ggplot(df_diag, aes(x = .fitted, y = .resid)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "loess", se = TRUE, color = "red") +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  labs(title = "Résidus vs Valeurs ajustées",
+       x = "Valeurs ajustées (ŷ)", y = "Résidus") +
+  theme_minimal()
+```
+
+### Visualisation LOESS — score_sante vs chaque prédicteur
+
+```{r loess-plots, fig.cap="Lissage LOESS — score\\_sante vs prédicteurs du modèle retenu", fig.height=4, fig.width=10}
+p1 <- ggplot(df, aes(x = age, y = score_sante)) +
+  geom_point(alpha = 0.3) + geom_smooth(method = "loess", color = "red") +
+  labs(title = "LOESS : Score santé vs Âge") + theme_minimal()
+
+p2 <- ggplot(df, aes(x = nombre_consultations_annuelles, y = score_sante)) +
+  geom_point(alpha = 0.3) + geom_smooth(method = "loess", color = "red") +
+  labs(title = "LOESS : Score santé vs Consultations") + theme_minimal()
+
+p3 <- ggplot(df, aes(x = nombre_medicaments_reguliers, y = score_sante)) +
+  geom_point(alpha = 0.3) + geom_smooth(method = "loess", color = "red") +
+  labs(title = "LOESS : Score santé vs Médicaments") + theme_minimal()
+
+patchwork::wrap_plots(p1, p2, p3, ncol = 3)
+```
+
+### Observations potentiellement aberrantes / influentes
+
+```{r obs-aberrantes}
+seuil_cook <- 4 / nrow(df)
+
+df_diag %>%
+  filter(abs(rstud) > 2 | cooksd > seuil_cook) %>%
+  select(id, age, score_sante, .fitted, .resid, rstud, cooksd, leverage) %>%
+  arrange(desc(abs(rstud))) %>%
+  mutate(across(where(is.numeric), ~ round(.x, 4))) %>%
+  kable(caption = paste0("Observations potentiellement aberrantes / influentes ",
+                         "(|RStudent| > 2 ou Cook > ", round(seuil_cook, 4), ")"),
+        col.names = c("id", "Âge", "Score santé", "ŷ", "Résidu",
+                       "RStudent", "Cook D", "Leverage")) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
+```
+
+### Diagnostics graphiques standards (4 graphiques)
+
+```{r diag-4plots, fig.cap="Diagnostics du modèle retenu (4 graphiques standards)", fig.height=8, fig.width=8}
+par(mfrow = c(2, 2))
+plot(mod_val)
+par(mfrow = c(1, 1))
+```
+
+
+## Analyse de covariance (ANCOVA) {#sec-ancova}
+
+L'ANCOVA combine variables quantitatives (covariables) et qualitatives (facteurs) dans un modèle linéaire unique. **Pourquoi l'ANCOVA est-elle indispensable à notre analyse ?** Elle répond directement à l'hypothèse H2 : l'activité physique et le handicap déclaré ont-ils un effet propre sur le score de santé, *après ajustement* sur l'âge, les consultations et les médicaments ? Sans ANCOVA, l'effet apparent de ces facteurs pourrait être un artefact de confusion (par exemple, les personnes handicapées sont en moyenne plus âgées)^[L'ANCOVA est formellement équivalente à une régression linéaire multiple incluant des variables indicatrices pour les facteurs qualitatifs, mais sa présentation en termes de table ANOVA de type III facilite l'interprétation des effets marginaux.].
+
+$Y =$ `score_sante` (numérique).
+
+### ANCOVA complète
+
+```{r ancova-complete}
+mod_ancova_complet <- lm(
+  score_sante ~ age + revenus_mensuels_euros + imc +
+    depenses_sante_annuelles_euros +
+    nombre_consultations_annuelles + nombre_medicaments_reguliers +
+    sexe + profession + couverture_complementaire +
+    hospitalisation_12_mois + tabagisme + activite_physique +
+    handicap_declare + maladies_declarees,
+  data = df
+)
+```
+
+```{r ancova-complete-anova}
+# Table ANOVA de type III
+car::Anova(mod_ancova_complet, type = "III") %>%
+  as.data.frame() %>%
+  mutate(across(where(is.numeric), ~ round(.x, 4))) %>%
+  kable(caption = "ANCOVA complète — Table ANOVA de type III (score\\_sante)") %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
+```
+
+```{r ancova-complete-summary}
+summary(mod_ancova_complet)
+```
+
+### ANCOVA réduite --- facteurs significatifs
+
+Le modèle ANCOVA réduit ne retient que les facteurs et covariables dont l'effet est significatif au seuil de 5\ % dans le modèle complet. **Justification** : le principe de parcimonie et la comparaison par test $F$ emboîté garantissent que le modèle réduit n'est pas significativement moins explicatif que le modèle complet.
+
+```{r ancova-reduite}
+mod_ancova_reduit <- lm(
+  score_sante ~ age + nombre_consultations_annuelles +
+    nombre_medicaments_reguliers +
+    sexe + hospitalisation_12_mois + activite_physique + handicap_declare,
+  data = df
+)
+
+car::Anova(mod_ancova_reduit, type = "III") %>%
+  as.data.frame() %>%
+  mutate(across(where(is.numeric), ~ round(.x, 4))) %>%
+  kable(caption = "ANCOVA réduite — Table ANOVA de type III") %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
+```
+
+```{r ancova-reduite-summary}
+summary(mod_ancova_reduit)
+```
+
+#### Moyennes marginales estimées (LSMEANS) et comparaisons multiples (Tukey)
+
+```{r lsmeans}
+# Moyennes marginales pour chaque facteur qualitatif
+emm_sexe    <- emmeans(mod_ancova_reduit, pairwise ~ sexe, adjust = "tukey")
+emm_hospit  <- emmeans(mod_ancova_reduit, pairwise ~ hospitalisation_12_mois, adjust = "tukey")
+emm_activ   <- emmeans(mod_ancova_reduit, pairwise ~ activite_physique, adjust = "tukey")
+emm_handi   <- emmeans(mod_ancova_reduit, pairwise ~ handicap_declare, adjust = "tukey")
+
+cat("══════════════════════════════════════════════════════════════\n")
+cat("  LSMEANS — Sexe\n")
+cat("══════════════════════════════════════════════════════════════\n")
+summary(emm_sexe)
+
+cat("\n══════════════════════════════════════════════════════════════\n")
+cat("  LSMEANS — Hospitalisation 12 mois\n")
+cat("══════════════════════════════════════════════════════════════\n")
+summary(emm_hospit)
+
+cat("\n══════════════════════════════════════════════════════════════\n")
+cat("  LSMEANS — Activité physique\n")
+cat("══════════════════════════════════════════════════════════════\n")
+summary(emm_activ)
+
+cat("\n══════════════════════════════════════════════════════════════\n")
+cat("  LSMEANS — Handicap déclaré\n")
+cat("══════════════════════════════════════════════════════════════\n")
+summary(emm_handi)
+```
+
+### Test d'interaction — Âge $\times$ Sexe
+
+```{r interaction-age-sexe}
+mod_interaction <- lm(score_sante ~ age * sexe, data = df)
+car::Anova(mod_interaction, type = "III") %>%
+  as.data.frame() %>%
+  mutate(across(where(is.numeric), ~ round(.x, 4))) %>%
+  kable(caption = "ANCOVA — Test d'interaction Âge × Sexe sur score\\_sante") %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
+```
+
+```{r interaction-plot, fig.cap="Interaction Âge × Sexe sur le score de santé perçue"}
+ggplot(df, aes(x = age, y = score_sante, color = sexe)) +
+  geom_point(alpha = 0.3) +
+  geom_smooth(method = "lm", se = TRUE) +
+  labs(title = "Interaction Âge × Sexe sur score_sante",
+       x = "Âge", y = "Score de santé perçue", color = "Sexe") +
+  theme_minimal()
+```
+
+
+## Régression logistique {#sec-logistique}
+
+`etat_sante_percu` est qualitative ordinale (5 modalités) $\Rightarrow$ on utilise le modèle logistique ordinal (*cumulative logit*) via `MASS::polr()`. **Pourquoi passer à la régression logistique ?** La régression linéaire sur le score ordinal, bien que pratique, repose sur l'hypothèse d'équidistance entre les modalités. La régression logistique ordinale respecte la nature qualitative de la variable réponse et permet de tester explicitement l'hypothèse de proportionnalité des cotes [@mccullagh1980]. Ce passage au modèle ordinal constitue le test de l'hypothèse H3.
+
+### Régression logistique ordinale — Modèle complet
+
+```{r logit-ord-complet}
+mod_ord_complet <- MASS::polr(
+  etat_sante_ord ~ age + revenus_mensuels_euros + imc +
+    nombre_consultations_annuelles + nombre_medicaments_reguliers +
+    depenses_sante_annuelles_euros +
+    sexe + hospitalisation_12_mois + tabagisme +
+    activite_physique + handicap_declare + couverture_complementaire,
+  data = df, Hess = TRUE, method = "logistic"
+)
+
+summary(mod_ord_complet)
+```
+
+```{r logit-ord-complet-pvalues}
+# p-values (approximation via la loi normale)
+ctable_ord <- coef(summary(mod_ord_complet))
+p_values <- pnorm(abs(ctable_ord[, "t value"]), lower.tail = FALSE) * 2
+ctable_ord_p <- cbind(ctable_ord, `p-value` = p_values)
+
+as.data.frame(ctable_ord_p) %>%
+  mutate(across(where(is.numeric), ~ round(.x, 4))) %>%
+  kable(caption = "Régression logistique ordinale --- Coefficients et p-values (modèle complet). \\textit{Lecture} : un coefficient négatif signifie que la variable est associée à une probabilité plus élevée d'être dans une catégorie de santé plus basse.") %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
+```
+
+**Interprétation** : les coefficients du modèle ordinal s'interprètent en termes de *log-odds cumulatifs*. Un coefficient négatif pour l'âge signifie qu'un individu plus âgé a une probabilité plus élevée de se situer dans les catégories inférieures de santé perçue (Mauvais, Très mauvais). Si les variables significatives dans le modèle ordinal sont les mêmes que dans le modèle linéaire, cela constitue un résultat de robustesse fort, confortant les hypothèses H1 et H2 indépendamment de la spécification choisie.
+
+#### Test de l'hypothèse des cotes proportionnelles (Brant Test)
+
+Le test de @brant1990 est crucial pour la validité du modèle ordinal : il vérifie que les coefficients $\boldsymbol{\beta}$ sont effectivement constants à travers les seuils de coupure. **Si le test rejette la proportionnalité** ($p < 0.05$), cela signifie que l'effet de certaines variables diffère selon le niveau de santé considéré --- par exemple, l'âge pourrait avoir un effet plus fort sur la distinction « Très mauvais/Mauvais » que sur la distinction « Bon/Très bon »^[En cas de rejet, un modèle à cotes partiellement proportionnelles (*partial proportional odds model*) ou un modèle multinomial serait plus approprié.].
+
+```{r brant-test}
+# Le test de Brant vérifie l'hypothèse de proportionnalité des odds
+# Si p-value < 0.05 → l'hypothèse de proportionnalité est violée
+if (requireNamespace("brant", quietly = TRUE)) {
+  brant::brant(mod_ord_complet)
+} else {
+  cat("Le package 'brant' n'est pas installé. Installez-le avec :\n")
+  cat("install.packages('brant')\n")
+}
+```
+
+### Régression logistique ordinale --- Modèle réduit
+
+Le modèle réduit ne retient que les variables significatives, conformément au principe de parcimonie. La comparaison avec le modèle complet par test du rapport de vraisemblance vérifie que les variables exclues n'apportent pas collectivement une information significative.
+
+```{r logit-ord-reduit}
+mod_ord_reduit <- MASS::polr(
+  etat_sante_ord ~ age + nombre_consultations_annuelles +
+    nombre_medicaments_reguliers +
+    sexe + hospitalisation_12_mois +
+    activite_physique + handicap_declare,
+  data = df, Hess = TRUE, method = "logistic"
+)
+
+summary(mod_ord_reduit)
+```
+
+```{r logit-ord-reduit-pvalues}
+ctable_red <- coef(summary(mod_ord_reduit))
+p_values_red <- pnorm(abs(ctable_red[, "t value"]), lower.tail = FALSE) * 2
+ctable_red_p <- cbind(ctable_red, `p-value` = p_values_red)
+
+as.data.frame(ctable_red_p) %>%
+  mutate(across(where(is.numeric), ~ round(.x, 4))) %>%
+  kable(caption = "Régression logistique ordinale — Coefficients et p-values (modèle réduit)") %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
+```
+
+#### Comparaison des modèles (test du rapport de vraisemblance)
+
+```{r lr-test-ordinal}
+anova(mod_ord_reduit, mod_ord_complet, test = "Chisq")
+```
+
+### Régression logistique binaire
+
+Variable réponse : `sante_mauvaise` (0/1). **Pourquoi cette dichotomisation ?** La conversion en variable binaire (bonne/mauvaise santé) permet de mobiliser l'outil prédictif le plus répandu en épidémiologie (courbe ROC, AUC) et de calculer des *odds ratios* directement interprétables en termes de risque relatif [@hosmer2013].
+
+- $0 =$ Bonne santé (Assez bon + Bon + Très bon)
+- $1 =$ Mauvaise santé (Mauvais + Très mauvais)
+
+Le seuil de coupure (Assez bon inclus dans « bonne santé ») est justifié par la pratique standard des enquêtes de population, où « Assez bon » est considéré comme un état de santé satisfaisant^[Ce choix de seuil, bien que conventionnel, est discutable. Une analyse de sensibilité au seuil de coupure (par exemple, en classant « Assez bon » comme « mauvaise santé ») constituerait une extension utile.].
+
+```{r logit-binaire}
+mod_bin <- glm(
+  sante_mauvaise ~ age + revenus_mensuels_euros + imc +
+    nombre_consultations_annuelles + nombre_medicaments_reguliers +
+    sexe + hospitalisation_12_mois + tabagisme +
+    activite_physique + handicap_declare,
+  data = df, family = binomial(link = "logit")
+)
+
+summary(mod_bin)
+```
+
+```{r logit-binaire-or}
+# Odds Ratios et IC 95%
+or_table <- exp(cbind(OR = coef(mod_bin), confint(mod_bin)))
+
+as.data.frame(or_table) %>%
+  mutate(across(where(is.numeric), ~ round(.x, 4))) %>%
+  kable(caption = "Odds Ratios et IC à 95\\% — Régression logistique binaire",
+        col.names = c("OR", "IC 2.5\\%", "IC 97.5\\%"), escape = FALSE) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
+```
+
+### Sélection de variables — Stepwise (régression logistique)
+
+```{r logit-stepwise}
+mod_bin_null <- glm(sante_mauvaise ~ 1, data = df, family = binomial)
+
+mod_bin_step <- step(mod_bin_null,
+                     scope = list(lower = mod_bin_null, upper = mod_bin),
+                     direction = "both", trace = 1)
+summary(mod_bin_step)
+```
+
+### Courbe ROC et AUC
+
+```{r roc, fig.cap="Courbe ROC — Régression logistique binaire"}
+pred_prob <- predict(mod_bin, type = "response")
+roc_obj <- pROC::roc(df$sante_mauvaise, pred_prob)
+
+plot(roc_obj, col = "steelblue", lwd = 2,
+     main = paste0("Courbe ROC — AUC = ", round(pROC::auc(roc_obj), 4)))
+abline(a = 0, b = 1, lty = 2, col = "gray50")
+```
+
+```{r auc}
+cat("AUC =", round(pROC::auc(roc_obj), 4), "\n")
+cat("IC 95% :", round(ci.auc(roc_obj)[1], 4), "–", round(ci.auc(roc_obj)[3], 4), "\n")
+```
+
+**Interprétation de l'AUC** : l'aire sous la courbe ROC mesure la capacité du modèle à discriminer correctement les individus en bonne et mauvaise santé. Selon la grille de @hosmer2013 : AUC $\in [0.7, 0.8]$ = discrimination acceptable ; AUC $\in [0.8, 0.9]$ = bonne discrimination ; AUC $> 0.9$ = excellente. **Le modèle prédit-il correctement ?** Si l'AUC est supérieure à 0.7, le modèle a une capacité prédictive suffisante pour être utile en dépistage ou en ciblage de politiques de santé publique. Si l'AUC est inférieure à 0.6, le modèle n'est pas meilleur qu'un classement aléatoire.
+
+### Matrice de confusion
+
+```{r confusion}
+pred_class <- ifelse(pred_prob > 0.5, 1, 0)
+conf_mat <- table(Observé = df$sante_mauvaise, Prédit = pred_class)
+
+conf_mat %>%
+  kable(caption = "Matrice de confusion (seuil = 0.5)") %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
+```
+
+```{r metriques}
+n <- sum(conf_mat)
+accuracy    <- sum(diag(conf_mat)) / n
+sensitivity <- conf_mat[2, 2] / sum(conf_mat[2, ])
+specificity <- conf_mat[1, 1] / sum(conf_mat[1, ])
+
+tibble(
+  Métrique     = c("Exactitude (Accuracy)", "Sensibilité", "Spécificité"),
+  Valeur       = round(c(accuracy, sensitivity, specificity), 4)
+) %>%
+  kable(caption = "Métriques de classification. \\textit{Lecture} : la sensibilité mesure la capacité du modèle à détecter les individus en mauvaise santé ; la spécificité, sa capacité à identifier correctement les individus en bonne santé.") %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
+```
+
+**Conformité à la réalité** : en santé publique, un modèle prédictif utile doit avoir une sensibilité élevée (peu de faux négatifs : on ne veut pas manquer un individu en mauvaise santé). Si la sensibilité est faible, cela peut indiquer que le modèle « rate » les individus en mauvaise santé --- problème classique lorsque la classe « mauvaise santé » est minoritaire (*class imbalance*). La spécificité élevée assure que le modèle ne surclasse pas les individus sains en « malades », ce qui limiterait les coûts d'un programme de dépistage ciblé.
+
+### Pseudo-$R^2$ (McFadden, Nagelkerke)
+
+```{r pseudo-r2}
+# Pseudo-R² de McFadden
+ll_full <- logLik(mod_bin)
+ll_null <- logLik(mod_bin_null)
+mcfadden_r2 <- 1 - as.numeric(ll_full) / as.numeric(ll_null)
+
+# Pseudo-R² de Nagelkerke
+n_obs <- nrow(df)
+cox_snell <- 1 - exp((2 / n_obs) * (as.numeric(ll_null) - as.numeric(ll_full)))
+nagelkerke  <- cox_snell / (1 - exp(2 * as.numeric(ll_null) / n_obs))
+
+tibble(
+  `Pseudo-R²`  = c("McFadden", "Cox & Snell", "Nagelkerke"),
+  Valeur       = round(c(mcfadden_r2, cox_snell, nagelkerke), 4)
+) %>%
+  kable(caption = "Pseudo-R² — Régression logistique binaire") %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
+```
+
+#### Test de Hosmer-Lemeshow (adéquation du modèle)
+
+Le test de Hosmer-Lemeshow vérifie la calibration du modèle : les probabilités prédites sont-elles conformes aux fréquences observées dans chaque décile de risque ? **Interprétation** : si $p > 0.05$, le modèle est bien calibré --- les prédictions sont conformes à la réalité observée. Si $p < 0.05$, le modèle surestime ou sous-estime systématiquement le risque dans certaines strates de la population^[Le test de Hosmer-Lemeshow est sensible au choix du nombre de groupes ($g$) et à la taille de l'échantillon. Pour $n = 500$ et $g = 10$, il est considéré comme fiable.].
+
+```{r hosmer-lemeshow}
+if (requireNamespace("ResourceSelection", quietly = TRUE)) {
+  ResourceSelection::hoslem.test(df$sante_mauvaise, pred_prob, g = 10)
+} else {
+  cat("Le package 'ResourceSelection' n'est pas installé. Installez-le avec :\n")
+  cat("install.packages('ResourceSelection')\n")
+}
+```
+
+\bigskip
+**Conclusion du chapitre.** L'ensemble des résultats --- analyse bivariée, régression linéaire, ANCOVA, régression logistique ordinale et binaire --- converge vers un noyau dur de déterminants robustes de la santé perçue : l'âge, les consultations médicales, les médicaments réguliers, l'activité physique et le handicap déclaré. La convergence des méthodes de sélection de variables et la concordance entre les approches linéaire et ordinale constituent les résultats de robustesse les plus saillants. Les diagnostics de validation confirment la qualité des ajustements, sous réserve des limites discutées au chapitre suivant.
+
+
+# Robustesse, limites et discussion {#chap-robustesse}
+
+Ce chapitre discute la robustesse des résultats, leur conformité à la réalité épidémiologique, et identifie les limites du travail.
+
+## Synthèse des résultats et conformité à la réalité
+
+Les analyses convergent vers un ensemble de déterminants robustes de l'état de santé perçu. L'âge, le nombre de consultations médicales, le nombre de médicaments réguliers, l'activité physique et le handicap déclaré sont systématiquement significatifs, quelle que soit la méthode employée (régression linéaire, ANCOVA, régression logistique ordinale et binaire). **Ces résultats sont-ils conformes à la réalité ?** La réponse est positive sur trois plans :
+
+1. **Conformité épidémiologique** : la dégradation de la santé perçue avec l'âge est un résultat universel [@mackenbach1999]. L'effet du handicap est conforme aux travaux de @cambois2008 sur la « double peine » des personnes en situation de handicap.
+2. **Conformité au modèle théorique** : l'association entre consultations/médicaments et mauvaise santé perçue est cohérente avec le modèle de capital santé de @grossman1972 (un stock de santé dégradé entraîne une demande de soins accrue).
+3. **Conformité méthodologique** : la convergence des méthodes de sélection de variables et la concordance entre modèle linéaire et modèle ordinal témoignent de la stabilité des résultats.
+
+## Discussion des hypothèses
+
+### Hypothèse H1 --- Déterminants quantitatifs dominants
+
+L'âge, le nombre de consultations et le nombre de médicaments sont les trois variables quantitatives systématiquement retenues par toutes les procédures de sélection (forward, backward, stepwise, `regsubsets`). Le VIF ne révèle pas de colinéarité problématique entre ces variables, confirmant l'indépendance de leurs effets respectifs. **Ce résultat est conforme aux prédictions du modèle de Grossman** : l'âge déprécie le stock de santé, tandis que les consultations et les médicaments sont des investissements en santé dont la demande croît avec la dépréciation du stock^[L'interprétation causale reste toutefois limitée par le design en coupe transversale et l'endogénéité potentielle des variables de recours aux soins.].
+
+### Hypothèse H2 --- Effet propre des facteurs comportementaux et de santé
+
+L'ANCOVA montre que l'activité physique et le handicap déclaré ont un effet significatif sur le score de santé, au-delà des effets sociodémographiques et économiques. Les moyennes marginales (LSMEANS) quantifient ces écarts et les comparaisons de Tukey identifient les paires de modalités significativement différentes. **Implication économique** : l'effet propre de l'activité physique, s'il est confirmé sur données réelles, justifierait le renforcement des politiques de promotion de l'activité physique comme levier de réduction des inégalités de santé --- argument mobilisé par @marmot2008 dans les recommandations de la Commission OMS.
+
+### Hypothèse H3 --- Supériorité du modèle ordinal
+
+La comparaison entre le modèle linéaire ($R^2$ ajusté) et le modèle logistique ordinal (pseudo-$R^2$, test de Brant) permettra de conclure sur la pertinence relative de chaque approche. Le respect de l'hypothèse de cotes proportionnelles conditionne la validité du modèle ordinal. **Si le test de Brant ne rejette pas la proportionnalité**, le modèle ordinal est correctement spécifié et constitue le cadre de référence pour les conclusions. **Si le test rejette la proportionnalité**, la régression linéaire pourrait être préférée comme approximation robuste, conformément aux conclusions de @greene2018.
+
+## Limites de données
+
+- **Données synthétiques** : les résultats n'ont aucune validité épidémiologique réelle. Les distributions et corrélations sont plausibles mais générées algorithmiquement. **Implication** : les coefficients estimés ne doivent pas être cités comme des effets réels en santé publique^[La transposition aux données réelles de l'ESPS, sous convention d'accès IRDES/CASD, constituerait la validation externe nécessaire.].
+- **Taille de l'échantillon** : $n = 500$ est suffisant pour les analyses bivariées et la régression (puissance adéquate pour détecter des effets de taille moyenne), mais limite la puissance des tests de sous-groupes et des interactions d'ordre élevé.
+- **Variables omises** : des déterminants importants de la santé perçue (alimentation, qualité du sommeil, pollution environnementale, capital social, santé mentale) ne sont pas disponibles dans la base. Ce biais de variable omise peut entraîner une surestimation de l'effet des variables incluses [@wooldridge2015].
+
+## Limites méthodologiques
+
+- **Causalité** : le design en coupe transversale interdit toute interprétation causale. Les associations observées peuvent refléter une causalité inverse (e.g., un mauvais état de santé entraîne plus de consultations) ou un facteur confondant non observé.
+- **Endogénéité** : le nombre de consultations et le nombre de médicaments sont potentiellement endogènes --- ils sont à la fois cause et conséquence de l'état de santé. En l'absence de variables instrumentales, les estimations sont biaisées de manière indéterminée [@grossman1972].
+- **Hypothèse d'équidistance** : la conversion en score ordinal (1--5) pour la régression linéaire suppose une équidistance entre les modalités, hypothèse non vérifiable empiriquement mais défendue pour les échelles à $\geq 5$ modalités [@greene2018].
+- **Hypothèse de proportionnalité des odds** : si le test de Brant rejette cette hypothèse, le modèle ordinal à cotes proportionnelles est mal spécifié et un modèle multinomial ou à cotes partiellement proportionnelles devrait être envisagé.
+
+## Limites d'interprétation
+
+- L'absence de pondération (plan de sondage) empêche toute inférence à la population française. Les résultats sont conditionnels à l'échantillon observé.
+- Les résultats reflètent les corrélations intégrées dans le script de génération des données synthétiques, et non des associations empiriques réelles. **Toute citation de coefficients comme « effets réels » serait abusive.**
+
+## Ouvertures
+
+Plusieurs extensions permettraient de dépasser les limites identifiées :
+
+- **Données réelles ESPS** : application de la même pipeline statistique aux données officielles de l'IRDES (sous convention d'accès), pour valider la robustesse des résultats sur données empiriques.
+- **Modèles multiniveaux** : prise en compte de la structure régionale des données (effets aléatoires par région) pour capter les effets contextuels [@subramanian2002].
+- **Modèles logistiques multinomiaux** : relâchement de l'hypothèse de proportionnalité des odds via `nnet::multinom()`, permettant des effets différenciés par seuil de coupure.
+- **Méthodes d'apprentissage automatique** : forêts aléatoires, gradient boosting pour la prédiction de l'état de santé, avec comparaison de performance prédictive (AUC, matrice de confusion) aux modèles paramétriques.
+- **Variables instrumentales** : identification d'instruments pour traiter l'endogénéité des variables de recours aux soins (e.g., distance au médecin le plus proche comme instrument de la fréquence de consultation).
+
+\bigskip
+**Conclusion du chapitre.** Les résultats sont robustes à la spécification (linéaire vs. ordinal) et cohérents avec la littérature épidémiologique. Les limites --- données synthétiques, endogénéité, design transversal --- appellent à la prudence dans l'interprétation mais n'invalident pas l'exercice méthodologique, dont la valeur réside dans la démonstration systématique de la complémentarité des approches statistiques.
+
+
+# Conclusion générale {-}
+
+Ce projet a mis en œuvre une analyse statistique complète et systématique des déterminants de l'état de santé perçu, à partir de données synthétiques reproduisant la structure de l'Enquête Santé et Protection Sociale (ESPS). Sept familles de méthodes statistiques ont été appliquées de manière séquentielle et complémentaire : analyse bivariée, régression linéaire multiple, étude de la colinéarité, sélection de variables, validation du modèle, analyse de covariance (ANCOVA) et régression logistique (ordinale et binaire).
+
+**Contribution méthodologique.** La valeur ajoutée de ce travail réside dans la confrontation systématique des approches linéaire et ordinale sur un même jeu de données, assortie d'un appareil diagnostique complet (VIF, Shapiro-Wilk, Durbin-Watson, Breusch-Pagan, Cook, LOESS, Brant, ROC/AUC) rarement déployé conjointement dans les études existantes. Cette démarche duale permet d'évaluer la sensibilité des conclusions à la spécification du modèle --- un point méthodologique essentiel pour la fiabilité des résultats en économie de la santé.
+
+**Résultats substantiels.** L'âge, le nombre de consultations médicales, le nombre de médicaments réguliers, l'activité physique et le handicap déclaré émergent comme déterminants robustes de l'état de santé perçu, significatifs à travers les différentes spécifications. L'ANCOVA confirme l'existence d'effets propres des facteurs comportementaux et de santé au-delà des caractéristiques sociodémographiques, confortant les hypothèses H1 et H2. Ces résultats sont conformes à la littérature épidémiologique [@mackenbach1999 ; @marmot2005 ; @singh2006] et aux prédictions du modèle de capital santé de @grossman1972.
+
+**Limites et perspectives.** La nature synthétique des données, le design en coupe transversale et l'endogénéité potentielle de certaines variables appellent à la prudence. L'application de cette méthodologie aux données réelles de l'ESPS (sous convention IRDES/CASD) constituerait la validation externe indispensable pour donner aux résultats une portée épidémiologique et politique.
+
+En définitive, ce travail démontre que la régression linéaire, convenablement diagnostiquée et confrontée au modèle ordinal, constitue un outil pertinent et interprétable pour la modélisation de la santé perçue --- un résultat méthodologique transposable à d'autres enquêtes de population et à d'autres contextes institutionnels.
+
+
+# Remerciements {-}
+
+Nous tenons à remercier M. Amor KEZIOU pour son encadrement et ses conseils méthodologiques tout au long de ce projet.
+
+
+`r if (knitr::is_latex_output()) '(APPENDIX) Annexes {-}'`
+
+# Annexe A : Description détaillée de la base de données {-}
+
+La base `base_esps_synthétique.csv` comporte 500 observations et 25 variables. Le dictionnaire complet des variables, les types, les modalités et les corrélations intégrées dans la génération sont documentés dans le fichier `README_base_esps.md`. La base a été générée par le script Python `generate_esps_database.py`, qui implémente les distributions marginales et les corrélations conditionnelles calibrées sur les statistiques publiées par l'IRDES et la DREES^[Les corrélations intégrées (âge--santé, revenus--consultations, etc.) reproduisent les ordres de grandeur observés dans l'ESPS réelle, sans pour autant en constituer une réplication exacte.].
+
+# Annexe B : Code R complet {-}
+
+L'intégralité du code R utilisé dans ce projet est reproduite ci-dessous. Le script SAS équivalent est disponible dans le fichier `analyse_etat_sante_esps.sas`. Les packages R mobilisés sont listés dans la bibliographie (section Packages référencés).
+
+```{r ref.label="packages", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="importation", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="structure", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="dimensions", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="recodage", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="verif-recodage", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="distribution-Y", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="chi2-function", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="chi2-tests", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="chi2-resume", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="anova-bivariee", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="anova-resume", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="kruskal-wallis", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="spearman", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="boxplots", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="reg-complet", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="reg-complet-r2", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="reg-reduit", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="reg-reduit-r2", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="comparaison-modeles", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="vif", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="matrice-corr", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="condition-index", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="regsubsets", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="best-models", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="forward", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="backward", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="stepwise", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="comparaison-selection", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="modele-retenu", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="qqplot", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="histogramme-resid", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="shapiro", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="rstudent-leverage", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="cook", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="durbin-watson", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="breusch-pagan", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="residus-fitted", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="loess-plots", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="obs-aberrantes", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="diag-4plots", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="ancova-complete", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="ancova-complete-anova", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="ancova-complete-summary", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="ancova-reduite", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="ancova-reduite-summary", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="lsmeans", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="interaction-age-sexe", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="interaction-plot", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="logit-ord-complet", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="logit-ord-complet-pvalues", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="brant-test", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="logit-ord-reduit", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="logit-ord-reduit-pvalues", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="lr-test-ordinal", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="logit-binaire", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="logit-binaire-or", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="logit-stepwise", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="roc", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="auc", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="confusion", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="metriques", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="pseudo-r2", echo=TRUE, eval=FALSE}
+```
+
+```{r ref.label="hosmer-lemeshow", echo=TRUE, eval=FALSE}
+```
+
+
+# Bibliographie {-}
