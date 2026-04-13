@@ -1,0 +1,641 @@
+% ============================================================
+% BIBLIOGRAPHIE — Modélisation hédonique des prix immobiliers
+% Sélection de variables et régularisation en grande dimension
+% Version consolidée et complète
+% ============================================================
+
+% ============================================================
+% THÉORIE DES PRIX HÉDONIQUES
+% ============================================================
+
+@incollection{court1939,
+  author    = {Court, Andrew T.},
+  title     = {Hedonic Price Indexes with Automotive Examples},
+  booktitle = {The Dynamics of Automobile Demand},
+  publisher = {General Motors Corporation},
+  address   = {New York},
+  year      = {1939},
+  pages     = {99--117}
+}
+
+@article{lancaster1966,
+  author  = {Lancaster, Kelvin J.},
+  title   = {A New Approach to Consumer Theory},
+  journal = {Journal of Political Economy},
+  volume  = {74},
+  number  = {2},
+  pages   = {132--157},
+  year    = {1966},
+  doi     = {10.1086/259131}
+}
+
+@article{rosen1974,
+  author  = {Rosen, Sherwin},
+  title   = {Hedonic Prices and Implicit Markets: Product Differentiation in Pure Competition},
+  journal = {Journal of Political Economy},
+  volume  = {82},
+  number  = {1},
+  pages   = {34--55},
+  year    = {1974},
+  doi     = {10.1086/260169}
+}
+
+@incollection{griliches1971,
+  author    = {Griliches, Zvi},
+  title     = {Hedonic Price Indexes for Automobiles: An Econometric Analysis of Quality Change},
+  booktitle = {Price Indexes and Quality Change: Studies in New Methods of Measurement},
+  publisher = {Harvard University Press},
+  address   = {Cambridge, MA},
+  year      = {1971}
+}
+
+% ============================================================
+% DÉTERMINANTS DES PRIX IMMOBILIERS
+% ============================================================
+
+@incollection{malpezzi2003,
+  author    = {Malpezzi, Stephen},
+  title     = {Hedonic Pricing Models: A Selective and Applied Review},
+  booktitle = {Housing Economics and Public Policy},
+  publisher = {Blackwell Science},
+  address   = {Oxford},
+  year      = {2003},
+  pages     = {67--89}
+}
+
+@article{sirmans2005,
+  author  = {Sirmans, G. Stacy and Macpherson, David A. and Zietz, Emily N.},
+  title   = {The Composition of Hedonic Pricing Models},
+  journal = {Journal of Real Estate Literature},
+  volume  = {13},
+  number  = {1},
+  pages   = {1--44},
+  year    = {2005},
+  doi     = {10.1080/10835547.2005.12090154}
+}
+
+@article{can1992,
+  author  = {Can, Ayse},
+  title   = {Specification and Estimation of Hedonic Housing Price Models},
+  journal = {Regional Science and Urban Economics},
+  volume  = {22},
+  number  = {3},
+  pages   = {453--474},
+  year    = {1992},
+  doi     = {10.1016/0166-0462(92)90039-4}
+}
+
+@article{basu1998,
+  author  = {Basu, Sabyasachi and Thibodeau, Thomas G.},
+  title   = {Analysis of Spatial Autocorrelation in House Prices},
+  journal = {The Journal of Real Estate Finance and Economics},
+  volume  = {17},
+  number  = {1},
+  pages   = {61--85},
+  year    = {1998},
+  doi     = {10.1023/A:1007703229507}
+}
+
+@article{dubin1992,
+  author  = {Dubin, Robin A.},
+  title   = {Spatial Autocorrelation and Neighborhood Quality},
+  journal = {Regional Science and Urban Economics},
+  volume  = {22},
+  number  = {2},
+  pages   = {433--452},
+  year    = {1992},
+  doi     = {10.1016/0166-0462(92)90038-3}
+}
+
+@article{case2004,
+  author  = {Case, Karl E. and Shiller, Robert J.},
+  title   = {Is There a Bubble in the Housing Market?},
+  journal = {Brookings Papers on Economic Activity},
+  volume  = {2003},
+  number  = {2},
+  pages   = {299--362},
+  year    = {2004},
+  doi     = {10.1353/eca.2004.0004}
+}
+
+@book{meen2001,
+  author    = {Meen, Geoffrey},
+  title     = {Modelling Spatial Housing Markets: Theory, Analysis and Policy},
+  publisher = {Kluwer Academic Publishers},
+  address   = {Boston, MA},
+  year      = {2001}
+}
+
+@article{combes2019,
+  author  = {Combes, Pierre-Philippe and Duranton, Gilles and Gobillon, Laurent},
+  title   = {The Costs of Agglomeration: House and Land Prices in French Cities},
+  journal = {The Review of Economic Studies},
+  volume  = {86},
+  number  = {4},
+  pages   = {1556--1589},
+  year    = {2019},
+  doi     = {10.1093/restud/rdy063}
+}
+
+@article{fack2006,
+  author  = {Fack, Gabrielle and Grenet, Julien},
+  title   = {Sectorisation des collèges et prix des logements à Paris},
+  journal = {Annales d'Économie et de Statistique},
+  number  = {83/84},
+  pages   = {299--338},
+  year    = {2006}
+}
+
+@article{gobillon2016,
+  author  = {Gobillon, Laurent and Magnac, Thierry},
+  title   = {Regional Policy Evaluation: Interactive Fixed Effects and Synthetic Controls},
+  journal = {The Review of Economics and Statistics},
+  volume  = {98},
+  number  = {3},
+  pages   = {535--551},
+  year    = {2016},
+  doi     = {10.1162/REST_a_00537}
+}
+
+@article{friggit2009,
+  author  = {Friggit, Jacques},
+  title   = {Le prix des logements sur le long terme},
+  journal = {Informations Sociales},
+  volume  = {155},
+  pages   = {26--33},
+  year    = {2009}
+}
+
+@book{lesage2009,
+  author    = {LeSage, James P. and Pace, R. Kelley},
+  title     = {Introduction to Spatial Econometrics},
+  publisher = {CRC Press},
+  address   = {Boca Raton},
+  year      = {2009}
+}
+
+% ============================================================
+% FRANCE ET BASE DVF
+% ============================================================
+
+@techreport{dvf2024,
+  author      = {{Ministère de l'Économie, des Finances et de la Souveraineté industrielle et numérique}},
+  title       = {Demandes de valeurs foncières},
+  institution = {Direction générale des finances publiques},
+  year        = {2024},
+  note        = {Données ouvertes --- \url{https://www.data.gouv.fr/fr/datasets/demandes-de-valeurs-foncieres-geolocalisees/}}
+}
+
+@article{trannoy2015,
+  author  = {Trannoy, Alain and Wasmer, Étienne},
+  title   = {Comment modérer les prix de l'immobilier ?},
+  journal = {Notes du Conseil d'analyse économique},
+  volume  = {2},
+  pages   = {1--12},
+  year    = {2015}
+}
+
+@article{blancosegarra2017,
+  author  = {Blanco, Fernando and Martín, Juan Carlos and Segarra, Agustí},
+  title   = {Machine Learning Methods Applied to Big Data in Real Estate Market},
+  journal = {Urban Science},
+  volume  = {1},
+  number  = {4},
+  pages   = {42},
+  year    = {2017},
+  doi     = {10.3390/urbansci1040042}
+}
+
+@article{bourassa2010,
+  author  = {Bourassa, Steven C. and Cantoni, Eva and Hoesli, Martin},
+  title   = {Predicting House Prices with Spatial Dependence: A Comparison of Alternative Methods},
+  journal = {Journal of Real Estate Research},
+  volume  = {32},
+  number  = {2},
+  pages   = {139--159},
+  year    = {2010}
+}
+
+@article{chrostek2020,
+  author  = {Chrostek, Katarzyna and Kopczewska, Katarzyna},
+  title   = {Spatial Prediction Models for Real Estate Market Analysis},
+  journal = {Econometrics},
+  volume  = {8},
+  number  = {1},
+  pages   = {1--23},
+  year    = {2020}
+}
+
+% ============================================================
+% ÉCONOMÉTRIE — MCO ET HYPOTHÈSES
+% ============================================================
+
+@book{wooldridge2020,
+  author    = {Wooldridge, Jeffrey M.},
+  title     = {Introductory Econometrics: A Modern Approach},
+  edition   = {7},
+  publisher = {Cengage Learning},
+  address   = {Boston, MA},
+  year      = {2020}
+}
+
+@book{greene2018,
+  author    = {Greene, William H.},
+  title     = {Econometric Analysis},
+  edition   = {8},
+  publisher = {Pearson},
+  address   = {New York},
+  year      = {2018}
+}
+
+@book{hamilton1994,
+  author    = {Hamilton, James D.},
+  title     = {Time Series Analysis},
+  publisher = {Princeton University Press},
+  address   = {Princeton, NJ},
+  year      = {1994}
+}
+
+@article{white1980,
+  author  = {White, Halbert},
+  title   = {A Heteroskedasticity-Consistent Covariance Matrix Estimator and a Direct Test for Heteroskedasticity},
+  journal = {Econometrica},
+  volume  = {48},
+  number  = {4},
+  pages   = {817--838},
+  year    = {1980},
+  doi     = {10.2307/1912934}
+}
+
+@article{breusch1979,
+  author  = {Breusch, T. S. and Pagan, A. R.},
+  title   = {A Simple Test for Heteroscedasticity and Random Coefficient Variation},
+  journal = {Econometrica},
+  volume  = {47},
+  number  = {5},
+  pages   = {1287--1294},
+  year    = {1979},
+  doi     = {10.2307/1911963}
+}
+
+@article{durbin1971,
+  author  = {Durbin, J. and Watson, G. S.},
+  title   = {Testing for Serial Correlation in Least Squares Regression},
+  journal = {Biometrika},
+  volume  = {58},
+  number  = {1},
+  pages   = {1--19},
+  year    = {1971}
+}
+
+@article{shapiro1965,
+  author  = {Shapiro, S. S. and Wilk, M. B.},
+  title   = {An Analysis of Variance Test for Normality (Complete Samples)},
+  journal = {Biometrika},
+  volume  = {52},
+  number  = {3-4},
+  pages   = {591--611},
+  year    = {1965},
+  doi     = {10.1093/biomet/52.3-4.591}
+}
+
+% ============================================================
+% SÉLECTION DE MODÈLES
+% ============================================================
+
+@article{akaike1974,
+  author  = {Akaike, Hirotugu},
+  title   = {A New Look at the Statistical Model Identification},
+  journal = {IEEE Transactions on Automatic Control},
+  volume  = {19},
+  number  = {6},
+  pages   = {716--723},
+  year    = {1974},
+  doi     = {10.1109/TAC.1974.1100705}
+}
+
+@article{schwarz1978,
+  author  = {Schwarz, Gideon},
+  title   = {Estimating the Dimension of a Model},
+  journal = {The Annals of Statistics},
+  volume  = {6},
+  number  = {2},
+  pages   = {461--464},
+  year    = {1978},
+  doi     = {10.1214/aos/1176344136}
+}
+
+% ============================================================
+% RÉGULARISATION — RIDGE, LASSO, GROUP LASSO
+% ============================================================
+
+@article{hoerl1970,
+  author  = {Hoerl, Arthur E. and Kennard, Robert W.},
+  title   = {Ridge Regression: Biased Estimation for Nonorthogonal Problems},
+  journal = {Technometrics},
+  volume  = {12},
+  number  = {1},
+  pages   = {55--67},
+  year    = {1970},
+  doi     = {10.1080/00401706.1970.10488634}
+}
+
+@article{tibshirani1996,
+  author  = {Tibshirani, Robert},
+  title   = {Regression Shrinkage and Selection via the Lasso},
+  journal = {Journal of the Royal Statistical Society: Series B},
+  volume  = {58},
+  number  = {1},
+  pages   = {267--288},
+  year    = {1996},
+  doi     = {10.1111/j.2517-6161.1996.tb02080.x}
+}
+
+@article{zou2005,
+  author  = {Zou, Hui and Hastie, Trevor},
+  title   = {Regularization and Variable Selection via the Elastic Net},
+  journal = {Journal of the Royal Statistical Society: Series B},
+  volume  = {67},
+  number  = {2},
+  pages   = {301--320},
+  year    = {2005},
+  doi     = {10.1111/j.1467-9868.2005.00503.x}
+}
+
+@article{yuan2006,
+  author  = {Yuan, Ming and Lin, Yi},
+  title   = {Model Selection and Estimation in Regression with Grouped Variables},
+  journal = {Journal of the Royal Statistical Society: Series B},
+  volume  = {68},
+  number  = {1},
+  pages   = {49--67},
+  year    = {2006},
+  doi     = {10.1111/j.1467-9868.2005.00532.x}
+}
+
+@article{friedman2010,
+  author  = {Friedman, Jerome and Hastie, Trevor and Tibshirani, Robert},
+  title   = {Regularization Paths for Generalized Linear Models via Coordinate Descent},
+  journal = {Journal of Statistical Software},
+  volume  = {33},
+  number  = {1},
+  pages   = {1--22},
+  year    = {2010},
+  doi     = {10.18637/jss.v033.i01}
+}
+
+@book{hastie2009,
+  author    = {Hastie, Trevor and Tibshirani, Robert and Friedman, Jerome},
+  title     = {The Elements of Statistical Learning: Data Mining, Inference, and Prediction},
+  edition   = {2},
+  publisher = {Springer},
+  address   = {New York},
+  year      = {2009}
+}
+
+@book{hastie2015,
+  author    = {Hastie, Trevor and Tibshirani, Robert and Wainwright, Martin},
+  title     = {Statistical Learning with Sparsity: The Lasso and Generalizations},
+  publisher = {CRC Press},
+  address   = {Boca Raton},
+  year      = {2015}
+}
+
+@article{belloni2011,
+  author  = {Belloni, Alexandre and Chernozhukov, Victor},
+  title   = {$\ell_1$-Penalized Quantile Regression in High-Dimensional Sparse Models},
+  journal = {The Annals of Statistics},
+  volume  = {39},
+  number  = {1},
+  pages   = {82--130},
+  year    = {2011},
+  doi     = {10.1214/10-AOS827}
+}
+
+@article{belloni2014,
+  author  = {Belloni, Alexandre and Chernozhukov, Victor and Hansen, Christian},
+  title   = {Inference on Treatment Effects after Selection among High-Dimensional Controls},
+  journal = {The Review of Economic Studies},
+  volume  = {81},
+  number  = {2},
+  pages   = {608--650},
+  year    = {2014},
+  doi     = {10.1093/restud/rdt044}
+}
+
+% ============================================================
+% VALIDATION CROISÉE
+% ============================================================
+
+@article{stone1974,
+  author  = {Stone, M.},
+  title   = {Cross-Validatory Choice and Assessment of Statistical Predictions},
+  journal = {Journal of the Royal Statistical Society: Series B},
+  volume  = {36},
+  number  = {2},
+  pages   = {111--147},
+  year    = {1974}
+}
+
+@article{arlot2010,
+  author  = {Arlot, Sylvain and Celisse, Alain},
+  title   = {A Survey of Cross-Validation Procedures for Model Selection},
+  journal = {Statistics Surveys},
+  volume  = {4},
+  pages   = {40--79},
+  year    = {2010},
+  doi     = {10.1214/09-SS054}
+}
+
+% ============================================================
+% CONCURRENCE SPATIALE ET ÉCONOMIE URBAINE
+% ============================================================
+
+@article{hotelling1929,
+  author  = {Hotelling, Harold},
+  title   = {Stability in Competition},
+  journal = {The Economic Journal},
+  volume  = {39},
+  number  = {153},
+  pages   = {41--57},
+  year    = {1929},
+  doi     = {10.2307/2224214}
+}
+
+@book{tirole1988,
+  author    = {Tirole, Jean},
+  title     = {The Theory of Industrial Organization},
+  publisher = {MIT Press},
+  address   = {Cambridge, MA},
+  year      = {1988}
+}
+
+@article{shaked1982,
+  author  = {Shaked, Avner and Sutton, John},
+  title   = {Relaxing Price Competition Through Product Differentiation},
+  journal = {The Review of Economic Studies},
+  volume  = {49},
+  number  = {1},
+  pages   = {3--13},
+  year    = {1982},
+  doi     = {10.2307/2297136}
+}
+
+% ============================================================
+% ÉCONOMIE IMMOBILIÈRE FRANÇAISE
+% ============================================================
+
+@book{piketty2013,
+  author    = {Piketty, Thomas},
+  title     = {Le Capital au XXIe siècle},
+  publisher = {Seuil},
+  address   = {Paris},
+  year      = {2013}
+}
+
+@article{bonnet2014,
+  author  = {Bonnet, Odran and Bono, Pierre-Henri and Chapelle, Guillaume and Wasmer, Étienne},
+  title   = {Does Housing Capital Contribute to Inequality? A Comment on Thomas Piketty's Capital in the 21st Century},
+  journal = {Sciences Po Economics Discussion Paper},
+  number  = {2014-07},
+  year    = {2014}
+}
+
+@article{knight1998,
+  author  = {Knight, John R. and Sirmans, C. F. and Turnbull, Geoffrey K.},
+  title   = {List Price Information in Residential Appraisal and Underwriting},
+  journal = {Journal of Real Estate Research},
+  volume  = {14},
+  number  = {1},
+  pages   = {59--76},
+  year    = {1998}
+}
+
+@article{nappi2011,
+  author  = {Nappi-Choulet, Ingrid and Maury, Tristan-Pierre},
+  title   = {A Spatial and Temporal Autoregressive Local Estimation for the Paris Housing Market},
+  journal = {Journal of Regional Science},
+  volume  = {51},
+  number  = {4},
+  pages   = {732--750},
+  year    = {2011},
+  doi     = {10.1111/j.1467-9787.2011.00722.x}
+}
+
+@article{hallack2020,
+  author  = {Hallack, Lucile and Thisse, Jacques-François},
+  title   = {The Geography of Housing Prices in France},
+  journal = {Regional Science and Urban Economics},
+  volume  = {83},
+  pages   = {103537},
+  year    = {2020}
+}
+
+% ============================================================
+% MACHINE LEARNING ET IMMOBILIER
+% ============================================================
+
+@article{geurts2006,
+  author  = {Geurts, Pierre and Ernst, Damien and Wehenkel, Louis},
+  title   = {Extremely Randomized Trees},
+  journal = {Machine Learning},
+  volume  = {63},
+  number  = {1},
+  pages   = {3--42},
+  year    = {2006},
+  doi     = {10.1007/s10994-006-6226-1}
+}
+
+@article{mullainathan2017,
+  author  = {Mullainathan, Sendhil and Spiess, Jann},
+  title   = {Machine Learning: An Applied Econometric Approach},
+  journal = {Journal of Economic Perspectives},
+  volume  = {31},
+  number  = {2},
+  pages   = {87--106},
+  year    = {2017},
+  doi     = {10.1257/jep.31.2.87}
+}
+
+@article{athey2019,
+  author  = {Athey, Susan and Imbens, Guido W.},
+  title   = {Machine Learning Methods That Economists Should Know About},
+  journal = {Annual Review of Economics},
+  volume  = {11},
+  pages   = {685--725},
+  year    = {2019},
+  doi     = {10.1146/annurev-economics-080217-053433}
+}
+
+% ============================================================
+% OUVRAGES MÉTHODOLOGIQUES GÉNÉRAUX
+% ============================================================
+
+@book{james2021,
+  author    = {James, Gareth and Witten, Daniela and Hastie, Trevor and Tibshirani, Robert},
+  title     = {An Introduction to Statistical Learning with Applications in R},
+  edition   = {2},
+  publisher = {Springer},
+  address   = {New York},
+  year      = {2021}
+}
+
+@book{buehlmann2011,
+  author    = {Bühlmann, Peter and van de Geer, Sara},
+  title     = {Statistics for High-Dimensional Data: Methods, Theory and Applications},
+  publisher = {Springer},
+  address   = {Heidelberg},
+  year      = {2011}
+}
+
+@article{fan2010,
+  author  = {Fan, Jianqing and Lv, Jinchi},
+  title   = {A Selective Overview of Variable Selection in High Dimensional Feature Space},
+  journal = {Statistica Sinica},
+  volume  = {20},
+  number  = {1},
+  pages   = {101--148},
+  year    = {2010}
+}
+
+@article{breiman1996,
+  author  = {Breiman, Leo},
+  title   = {Heuristics of Instability and Stabilization in Model Selection},
+  journal = {The Annals of Statistics},
+  volume  = {24},
+  number  = {6},
+  pages   = {2350--2383},
+  year    = {1996},
+  doi     = {10.1214/aos/1032181158}
+}
+
+@article{bickel2009,
+  author  = {Bickel, Peter J. and Ritov, Ya'acov and Tsybakov, Alexandre B.},
+  title   = {Simultaneous Analysis of Lasso and Dantzig Selector},
+  journal = {The Annals of Statistics},
+  volume  = {37},
+  number  = {4},
+  pages   = {1705--1732},
+  year    = {2009},
+  doi     = {10.1214/08-AOS620}
+}
+
+% ============================================================
+% DONNÉES PUBLIQUES (INSEE, NOTAIRES)
+% ============================================================
+
+@techreport{insee2024,
+  author      = {{INSEE}},
+  title       = {Les prix des logements anciens — Indice Notaires-INSEE},
+  institution = {Institut national de la statistique et des études économiques},
+  year        = {2024},
+  note        = {\url{https://www.insee.fr/fr/statistiques/serie/010605830}}
+}
+
+@techreport{notaires2024,
+  author      = {{Conseil supérieur du notariat}},
+  title       = {Note de conjoncture immobilière des notaires de France},
+  institution = {Conseil supérieur du notariat},
+  year        = {2024},
+  note        = {\url{https://www.notaires.fr/fr/immobilier-fiscalite/prix-et-tendances-de-limmobilier}}
+}
