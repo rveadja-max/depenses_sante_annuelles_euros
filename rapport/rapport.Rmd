@@ -548,6 +548,8 @@ chi2_summary %>%
 
 **Interprétation** : les variables présentant une association significative ($p < 0.05$) sont les candidates naturelles pour l'inclusion dans les modèles multivariés. Du point de vue économique et sanitaire, une association significative avec la couverture complémentaire indiquerait que le système d'assurance maladie complémentaire joue un rôle dans la perception de la santé --- résultat cohérent avec les travaux de @despres2011 sur le renoncement aux soins.
 
+**Implications en termes de politiques publiques.** Si la couverture complémentaire, le niveau d'éducation ou la profession sont significativement associés à l'état de santé perçu, plusieurs leviers d'action se dessinent : *(i)* sur le plan **sanitaire**, le renforcement de l'accès à la complémentaire santé (généralisation de la CSS, contrats solidaires) pourrait réduire les inégalités de perception de la santé ; *(ii)* sur le plan **économique**, le coût du renoncement aux soins pour la collectivité (hospitalisations évitables, perte de productivité) justifie un investissement préventif dans la couverture assurantielle ; *(iii)* sur le plan **social**, l'association entre profession/éducation et santé perçue plaide pour des politiques intersectorielles articulant formation, emploi et santé ; *(iv)* sur le plan **démographique**, une association significative avec la situation familiale orienterait les politiques familiales vers un accompagnement ciblé des ménages monoparentaux ou des familles nombreuses.
+
 ### Croisements Y qualitative $\times$ X quantitatives --- ANOVA
 
 L'ANOVA à un facteur teste si la moyenne de chaque variable quantitative diffère significativement selon l'état de santé perçu. **Pourquoi l'ANOVA ?** Elle est appropriée lorsque la variable de groupement comporte plus de deux modalités et que la variable réponse est continue^[L'ANOVA est ici « inversée » par rapport à la spécification habituelle : l'état de santé perçu joue le rôle de variable de groupement et les variables quantitatives sont les variables réponse. Cette inversion est standard en analyse bivariée exploratoire.].
@@ -600,6 +602,8 @@ anova_summary %>%
 
 **Interprétation économique et sanitaire** : les variables présentant des statistiques $F$ élevées (âge, consultations, médicaments) sont celles dont la distribution diffère le plus selon l'état de santé perçu. Une forte association entre les consultations médicales et la santé perçue est conforme au modèle de Grossman : un stock de santé dégradé entraîne une demande de soins accrue^[Il convient toutefois de rappeler que cette association bivariée ne permet pas de distinguer la causalité directe (mauvaise santé $\rightarrow$ consultations) de la causalité inverse (consultations $\rightarrow$ meilleure santé).]. L'association avec l'IMC, si elle est significative, corrobore les résultats de @singh2006 sur le rôle des marqueurs biologiques dans la santé perçue.
 
+**Implications en termes de politiques publiques.** *(i)* **Politique sanitaire** : si l'âge et le nombre de consultations différencient fortement l'état de santé perçu, la planification hospitalière et l'offre de soins de premier recours doivent anticiper le vieillissement démographique en augmentant les capacités gériatriques et la médecine de proximité. *(ii)* **Politique économique** : la corrélation entre dépenses de santé et mauvaise santé perçue souligne l'enjeu de la régulation des restes à charge, notamment pour les patients polymédiqués et les personnes âgées en affection de longue durée (ALD). *(iii)* **Politique sociale** : si les revenus mensuels ne différencient pas significativement l'état de santé en analyse bivariée, cela pourrait indiquer un effet protecteur du système d'assurance maladie universel français --- un résultat à confronter au modèle multivarié. *(iv)* **Politique démographique** : le gradient âge--santé perçu, s'il est confirmé, appelle au développement de politiques de prévention ciblées par tranche d'âge (dépistage après 50 ans, promotion de l'activité physique chez les seniors).
+
 ### Test de Kruskal-Wallis (alternative non paramétrique)
 
 Le test de Kruskal-Wallis est préféré à l'ANOVA lorsque l'hypothèse de normalité des résidus est douteuse ou lorsque la variable réponse est ordinale. **Pourquoi ce test est-il légitime ici ?** La variable `etat_sante_percu` est ordinale (non continue), ce qui viole formellement les hypothèses de l'ANOVA paramétrique. Le test de Kruskal-Wallis, basé sur les rangs, ne requiert pas la normalité et constitue donc le test le plus rigoureux pour notre configuration^[En pratique, les conclusions du Kruskal-Wallis et de l'ANOVA convergent presque toujours pour des échantillons de taille $n \geq 30$ par groupe, ce qui constitue un résultat de robustesse rassurant.].
@@ -623,7 +627,7 @@ kw_summary %>%
   kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
 ```
 
-**Robustesse** : la convergence des résultats entre l'ANOVA paramétrique et le test de Kruskal-Wallis constitue un premier indicateur de robustesse. Les variables significatives dans les deux tests sont des candidates solides pour la modélisation multivariée.
+**Robustesse** : la convergence des résultats entre l'ANOVA paramétrique et le test de Kruskal-Wallis constitue un premier indicateur de robustesse. Les variables significatives dans les deux tests sont des candidates solides pour la modélisation multivariée. Du point de vue des **politiques publiques**, cette robustesse méthodologique renforce la crédibilité des recommandations qui en découlent : les décideurs peuvent s'appuyer sur des associations statistiques confirmées par des approches complémentaires (paramétrique et non paramétrique), réduisant le risque de fonder une politique sur un artefact statistique.
 
 ### Corrélation de Spearman
 
@@ -652,6 +656,8 @@ spearman_results %>%
 
 **Interprétation** : un coefficient de Spearman négatif pour l'âge ($\rho < 0$) confirmerait la dégradation de la santé perçue avec l'âge --- résultat universel dans la littérature [@mackenbach1999]. Un $\rho$ négatif pour les consultations et les médicaments est conforme au modèle de capital santé : plus l'individu consomme de soins, moins il se perçoit en bonne santé (causalité inverse probable). À l'inverse, une corrélation positive avec les revenus serait cohérente avec le gradient social de santé [@marmot2005].
 
+**Implications en termes de politiques publiques.** *(i)* **Politique sanitaire** : une corrélation négative forte entre médicaments réguliers et santé perçue interroge les pratiques de polymédication et plaide pour le développement de programmes de déprescription chez les patients âgés, conformément aux recommandations de la Haute Autorité de Santé. *(ii)* **Politique économique** : si les revenus sont positivement corrélés à la santé perçue, les politiques de redistribution (minima sociaux, complémentaire santé solidaire) peuvent être envisagées comme des leviers indirects d'amélioration de la santé perçue. *(iii)* **Politique sociale** : la direction et l'intensité des corrélations permettent de hiérarchiser les déterminants et d'orienter les investissements publics vers les facteurs les plus fortement associés. *(iv)* **Perspective démographique** : le coefficient de Spearman entre l'âge et la santé perçue quantifie la vitesse de dégradation perçue avec l'avance en âge, information cruciale pour dimensionner les services gériatriques et les dispositifs d'aide à l'autonomie.
+
 ### Graphiques bivariés --- Boîtes à moustaches
 
 Les boîtes à moustaches offrent une visualisation non paramétrique de la distribution de chaque variable quantitative selon l'état de santé perçu. **Grille de lecture** : (i) la position médiane indique la tendance centrale ; (ii) l'étendue interquartile (boîte) mesure la dispersion ; (iii) les points extérieurs signalent des valeurs atypiques potentiellement influentes dans les modèles de régression.
@@ -670,6 +676,8 @@ patchwork::wrap_plots(plots_biv, ncol = 2)
 ```
 
 **Interprétation des boîtes à moustaches** : si la médiane de l'âge augmente de façon monotone de « Très bon » vers « Très mauvais », cela confirme visuellement le gradient âge--santé. De même, une médiane du nombre de médicaments croissante avec la dégradation de la santé perçue est un indicateur visuel puissant de la cohérence entre les données synthétiques et la réalité épidémiologique. La présence de valeurs extrêmes (points au-delà des moustaches) sera prise en compte dans l'analyse d'influence (distance de Cook, section\ \@ref(sec-validation)).
+
+**Implications en termes de politiques publiques.** Les boîtes à moustaches permettent d'identifier visuellement les groupes à risque et les seuils critiques. *(i)* **Politique sanitaire** : si les individus se déclarant en « Très mauvaise » santé présentent une médiane de consultations nettement plus élevée, cela plaide pour des dispositifs d'accompagnement renforcé (parcours de soins coordonnés, infirmiers en pratique avancée) ciblant cette population. *(ii)* **Politique économique** : la dispersion des dépenses de santé au sein de chaque catégorie de santé perçue renseigne sur l'hétérogénéité des restes à charge et justifie des mécanismes de plafonnement différenciés. *(iii)* **Politique sociale** : la visualisation des écarts interquartiles entre catégories de santé perçue peut alimenter la construction d'indicateurs de vulnérabilité utilisables par les travailleurs sociaux et les caisses d'assurance maladie pour le ciblage des aides. *(iv)* **Perspective démographique** : les différences de distribution de l'âge selon la santé perçue documentent l'ampleur du défi du vieillissement en santé (*healthy ageing*), objectif central de la Stratégie nationale de santé 2018--2022.
 
 
 ## Régression linéaire et $R^2$ {#sec-reglin}
@@ -695,6 +703,8 @@ cat("R² ajusté =", round(summary(mod_complet)$adj.r.squared, 4), "\n")
 ```
 
 **Interprétation du $R^2$** : le $R^2$ mesure la proportion de la variance du score de santé expliquée par les sept variables quantitatives. Un $R^2$ modéré (entre 0.10 et 0.30) est attendu et conforme à la littérature sur la santé perçue, car de nombreux déterminants non observés (qualité du sommeil, santé mentale, réseau social) contribuent à la variance résiduelle^[Dans les études sur la santé perçue, un $R^2$ supérieur à 0.15 est considéré comme honorable, compte tenu de la nature multifactorielle du phénomène (@kennedy1998).]. Le $R^2$ ajusté, qui pénalise l'ajout de variables non pertinentes, est systématiquement préféré au $R^2$ brut.
+
+**Implications en termes de politiques publiques.** Un $R^2$ modéré a des implications directes pour l'aide à la décision : *(i)* **Politique sanitaire** : la part de variance non expliquée rappelle que la santé perçue est un phénomène multifactoriel ; une politique de santé publique ne peut se limiter aux seuls déterminants médicaux (consultations, médicaments) et doit intégrer les dimensions psychosociales et environnementales. *(ii)* **Politique économique** : l'investissement dans les seules variables observées (accès aux soins, revenus) ne suffira pas à éliminer les inégalités de santé perçue ; des facteurs non mesurés (qualité du logement, conditions de travail, pollution) appellent des politiques complémentaires. *(iii)* **Politique sociale** : la part résiduelle plaide pour une approche intersectorielle de la santé, associant les ministères de la santé, du travail, de l'éducation et du logement --- conformément à la démarche « Santé dans toutes les politiques » (*Health in All Policies*) prônée par l'OMS.
 
 ### Modèle réduit --- variables significatives
 
@@ -745,6 +755,8 @@ tibble(
 ```
 
 **Interprétation** : si tous les VIF sont inférieurs à 5, la colinéarité n'est pas problématique et les coefficients du modèle linéaire sont interprétables individuellement. Dans le cas contraire, les variables incriminées devraient être retirées ou combinées en indices synthétiques. Ce diagnostic est crucial pour la validité de l'hypothèse H1 : les effets de l'âge, des consultations et des médicaments ne sont interprétables que si ces variables ne sont pas colinéaires entre elles.
+
+**Implications en termes de politiques publiques.** L'absence de colinéarité entre les prédicteurs a une implication majeure pour les politiques publiques : elle signifie que chaque déterminant exerce un effet *indépendant* sur la santé perçue, et que des interventions ciblées sur chaque dimension (âge, consultations, médicaments) sont justifiées séparément. *(i)* **Politique sanitaire** : la non-colinéarité entre consultations et médicaments indique que ces deux aspects du recours aux soins ne sont pas redondants et appellent des politiques distinctes (accès au médecin traitant vs. gestion de la polymédication). *(ii)* **Politique économique** : si revenus et dépenses de santé ne sont pas colinéaires, le levier de la redistribution et celui de la maîtrise des dépenses peuvent être actionnés indépendamment. *(iii)* **Politique sociale** : l'indépendance statistique des variables sociodémographiques et comportementales conforte la pertinence d'interventions multidimensionnelles (éducation à la santé, activité physique, accompagnement social) plutôt que d'actions monolithiques.
 
 ### Matrice de corrélation entre les prédicteurs
 
@@ -856,7 +868,9 @@ tibble(
   kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
 ```
 
-**Interprétation** : la convergence des méthodes *forward*, *backward* et *stepwise* vers un même ensemble de variables constitue un résultat de robustesse fort. Si les trois méthodes retiennent systématiquement l'âge, les consultations et les médicaments, cela conforte l'hypothèse H1 selon laquelle ces variables sont les déterminants quantitatifs dominants de la santé perçue. La valeur du BIC permet de discriminer parmi les modèles équivalents en $R^2$ ajusté.
+**Interprétation** : la convergence des méthodes *forward*, *backward* et *stepwise* vers un même ensemble de variables constitue un résultat de robustesse fort. Si les trois méthodes retiennent systématiquement l'âge, les consultations et les médicaments, cela conforte l'hypothèse H1 selon laquelle ces variables sont les déterminants quantitatifs dominants de la santé perçue. La valeur du BIC [@schwarz1978] permet de discriminer parmi les modèles équivalents en $R^2$ ajusté, tandis que l'AIC [@akaike1974] offre un critère complémentaire moins pénalisant.
+
+**Implications en termes de politiques publiques.** La parcimonie du modèle retenu (3 à 4 variables) a des implications opérationnelles directes : *(i)* **Politique sanitaire** : un nombre limité de déterminants robustes facilite la construction d'outils de dépistage simples et peu coûteux (questionnaires en médecine de ville, scores de risque en santé publique) pour identifier les individus à risque de mauvaise santé perçue. *(ii)* **Politique économique** : la parcimonie du modèle réduit le coût de collecte des données nécessaires au ciblage des politiques --- un avantage considérable pour les enquêtes de population et les systèmes d'information de l'Assurance Maladie. *(iii)* **Politique sociale** : les travailleurs sociaux et les agents de prévention peuvent concentrer leur action sur un petit nombre de facteurs (âge, recours aux soins, activité physique) sans disperser les moyens. *(iv)* **Perspective démographique** : la primauté de l'âge dans toutes les sélections confirme la nécessité d'adapter les politiques de prévention au vieillissement de la population, en cohérence avec les projections démographiques de l'INSEE.
 
 
 ## Validation du modèle {#sec-validation}
@@ -905,7 +919,7 @@ ggplot(df_diag, aes(x = .resid)) +
 
 #### Test de Shapiro-Wilk
 
-Le test de Shapiro-Wilk est le test le plus puissant pour détecter la non-normalité en échantillon de taille modérée ($n < 5000$). **Interprétation attendue** : si $p > 0.05$, l'hypothèse de normalité n'est pas rejetée et les inférences du modèle linéaire sont valides. Si $p < 0.05$, la normalité est rejetée --- mais, pour $n = 500$, le théorème central limite assure que les estimateurs MCO restent asymptotiquement normaux, de sorte que les tests restent approximativement valides^[En pratique, pour $n \geq 30$, la non-normalité des résidus n'invalide pas gravement les inférences, surtout si les résidus ne présentent pas d'asymétrie forte ou de queues lourdes.].
+Le test de @shapiro1965 est le test le plus puissant pour détecter la non-normalité en échantillon de taille modérée ($n < 5000$). **Interprétation attendue** : si $p > 0.05$, l'hypothèse de normalité n'est pas rejetée et les inférences du modèle linéaire sont valides. Si $p < 0.05$, la normalité est rejetée --- mais, pour $n = 500$, le théorème central limite assure que les estimateurs MCO restent asymptotiquement normaux, de sorte que les tests restent approximativement valides^[En pratique, pour $n \geq 30$, la non-normalité des résidus n'invalide pas gravement les inférences, surtout si les résidus ne présentent pas d'asymétrie forte ou de queues lourdes.].
 
 ```{r shapiro}
 shapiro.test(resid(mod_val))
@@ -938,7 +952,7 @@ ggplot(df_diag, aes(x = seq_len(nrow(df_diag)), y = cooksd)) +
 
 ### Indépendance des résidus --- Test de Durbin-Watson
 
-$H_0$ : pas d'autocorrélation $\Rightarrow$ on souhaite ne **pas** rejeter $H_0$. **Pourquoi ce test est-il pertinent ici ?** Bien que nos données soient en coupe transversale (pas de dimension temporelle), une autocorrélation résiduelle pourrait apparaître si les observations sont ordonnées par région, par âge ou par tout autre facteur de grappe. Une statistique $d \approx 2$ confirme l'indépendance^[Pour des données en coupe transversale non ordonnées, le test de Durbin-Watson est formellement moins pertinent que pour des séries temporelles, mais il reste un diagnostic utile en l'absence de structure explicite.].
+$H_0$ : pas d'autocorrélation $\Rightarrow$ on souhaite ne **pas** rejeter $H_0$. **Pourquoi ce test est-il pertinent ici ?** Bien que nos données soient en coupe transversale (pas de dimension temporelle), une autocorrélation résiduelle pourrait apparaître si les observations sont ordonnées par région, par âge ou par tout autre facteur de grappe. Une statistique $d \approx 2$ confirme l'indépendance [@durbin1971]^[Pour des données en coupe transversale non ordonnées, le test de Durbin-Watson est formellement moins pertinent que pour des séries temporelles, mais il reste un diagnostic utile en l'absence de structure explicite.].
 
 ```{r durbin-watson}
 lmtest::dwtest(mod_val)
@@ -946,7 +960,7 @@ lmtest::dwtest(mod_val)
 
 ### Homoscédasticité — Test de Breusch-Pagan (équivalent du test de White sous SAS)
 
-$H_0$ : variance constante des résidus (homoscédasticité). Si p-value $< 0.05$ $\Rightarrow$ hétéroscédasticité détectée.
+$H_0$ : variance constante des résidus (homoscédasticité) [@breusch1979]. Si p-value $< 0.05$ $\Rightarrow$ hétéroscédasticité détectée. Ce test est équivalent au test de @white1980 utilisé sous SAS.
 
 ```{r breusch-pagan}
 lmtest::bptest(mod_val)
@@ -981,6 +995,8 @@ p3 <- ggplot(df, aes(x = nombre_medicaments_reguliers, y = score_sante)) +
 
 patchwork::wrap_plots(p1, p2, p3, ncol = 3)
 ```
+
+**Implications en termes de politiques publiques des diagnostics de validation.** L'ensemble des diagnostics (normalité, indépendance, homoscédasticité, linéarité, influence) conditionne la fiabilité des recommandations politiques fondées sur le modèle. *(i)* **Politique sanitaire** : si les résidus du modèle sont bien comportés, les intervalles de confiance des coefficients sont valides et les décideurs peuvent s'appuyer sur les estimations ponctuelles pour quantifier l'effet attendu d'une intervention (par exemple, l'effet d'une réduction d'une consultation annuelle sur le score de santé). *(ii)* **Politique économique** : l'homoscédasticité garantit que la précision des prédictions est uniforme sur l'ensemble de la population, évitant que les recommandations soient biaisées en faveur d'un sous-groupe. *(iii)* **Politique sociale** : les observations influentes identifiées par la distance de Cook correspondent potentiellement à des profils atypiques (individus cumulant des facteurs de risque) ; leur identification est utile pour le ciblage de programmes d'accompagnement social renforcé.
 
 ### Observations potentiellement aberrantes / influentes
 
@@ -1094,6 +1110,8 @@ cat("═════════════════════════
 summary(emm_handi)
 ```
 
+**Implications en termes de politiques publiques de l'ANCOVA et des LSMEANS.** Les moyennes marginales estimées quantifient l'écart de santé perçue *net* entre les groupes, après ajustement sur les covariables continues (âge, consultations, médicaments). *(i)* **Politique sanitaire** : si l'activité physique améliore significativement le score de santé perçue à âge et état de santé objectif comparables, cela légitime le renforcement des programmes de prescription d'activité physique adaptée (APA) remboursés par l'Assurance Maladie depuis 2017. Le différentiel de score entre les individus actifs et sédentaires fournit un ordre de grandeur de l'effet attendu de tels programmes. *(ii)* **Politique économique** : l'effet propre du handicap, s'il est significatif, justifie un investissement accru dans l'accessibilité et l'accompagnement (PCH, AAH), car la mauvaise santé perçue des personnes handicapées ne se réduit pas à leur âge ou à leur consommation de soins. Le coût de l'inaction (hospitalisations évitables, perte d'autonomie précoce) peut être mis en balance avec l'investissement préventif. *(iii)* **Politique sociale** : si le sexe est un facteur significatif dans l'ANCOVA, les inégalités de genre en santé perçue appellent des actions spécifiques (dépistage différencié, prise en charge de la charge mentale, lutte contre les violences de genre). *(iv)* **Politique démographique** : les comparaisons de Tukey identifient les paires de modalités significativement différentes, permettant de cibler les sous-populations prioritaires pour les politiques de prévention.
+
 ### Test d'interaction — Âge $\times$ Sexe
 
 ```{r interaction-age-sexe}
@@ -1114,8 +1132,7 @@ ggplot(df, aes(x = age, y = score_sante, color = sexe)) +
   theme_minimal()
 ```
 
-
-## Régression logistique {#sec-logistique}
+**Implications en termes de politiques publiques de l'interaction Âge $\times$ Sexe.** Si l'interaction est significative, cela signifie que le vieillissement n'affecte pas de la même manière la santé perçue des hommes et des femmes. *(i)* **Politique sanitaire** : des parcours de prévention différenciés par sexe et par âge seraient alors justifiés (par exemple, dépistage ostéoporose plus précoce chez les femmes, surveillance cardiovasculaire renforcée chez les hommes après 55 ans). *(ii)* **Politique sociale** : l'interaction pourrait refléter le cumul de la charge domestique et professionnelle chez les femmes avec l'avance en âge, plaidant pour des politiques d'aménagement du temps de travail et de soutien à l'aidance. *(iii)* **Perspective démographique** : les différences de trajectoire de santé perçue entre hommes et femmes ont des implications directes pour la planification des services d'aide à domicile et des structures d'hébergement, dans un contexte où les femmes vivent plus longtemps mais en moins bonne santé perçue que les hommes.
 
 `etat_sante_percu` est qualitative ordinale (5 modalités) $\Rightarrow$ on utilise le modèle logistique ordinal (*cumulative logit*) via `MASS::polr()`. **Pourquoi passer à la régression logistique ?** La régression linéaire sur le score ordinal, bien que pratique, repose sur l'hypothèse d'équidistance entre les modalités. La régression logistique ordinale respecte la nature qualitative de la variable réponse et permet de tester explicitement l'hypothèse de proportionnalité des cotes [@mccullagh1980]. Ce passage au modèle ordinal constitue le test de l'hypothèse H3.
 
@@ -1147,6 +1164,8 @@ as.data.frame(ctable_ord_p) %>%
 ```
 
 **Interprétation** : les coefficients du modèle ordinal s'interprètent en termes de *log-odds cumulatifs*. Un coefficient négatif pour l'âge signifie qu'un individu plus âgé a une probabilité plus élevée de se situer dans les catégories inférieures de santé perçue (Mauvais, Très mauvais). Si les variables significatives dans le modèle ordinal sont les mêmes que dans le modèle linéaire, cela constitue un résultat de robustesse fort, confortant les hypothèses H1 et H2 indépendamment de la spécification choisie.
+
+**Implications en termes de politiques publiques.** Le modèle ordinal apporte une information supplémentaire par rapport au modèle linéaire : il quantifie les probabilités de transition entre catégories de santé. *(i)* **Politique sanitaire** : les odds ratios issus du modèle ordinal permettent de calculer la probabilité qu'un individu passe de « Assez bon » à « Mauvais » pour une variation unitaire d'un déterminant (par exemple, une année d'âge supplémentaire), ce qui est directement utilisable pour la construction de scores de risque en médecine préventive. *(ii)* **Politique économique** : la cohérence entre modèle linéaire et ordinal renforce la crédibilité des estimations de coût associées à la dégradation de la santé perçue (passage du « Bon » au « Mauvais » = surcoût moyen estimé en consultations et médicaments). *(iii)* **Politique sociale** : le modèle ordinal permet d'identifier les facteurs qui accélèrent la dégradation vers les catégories les plus basses (« Mauvais », « Très mauvais »), informant le ciblage des dispositifs d'urgence sociale (CMU-C, AME, fonds d'aide aux soins urgents).
 
 #### Test de l'hypothèse des cotes proportionnelles (Brant Test)
 
@@ -1228,7 +1247,7 @@ as.data.frame(or_table) %>%
   kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
 ```
 
-### Sélection de variables — Stepwise (régression logistique)
+**Implications en termes de politiques publiques des odds ratios.** Les odds ratios (OR) issus de la régression logistique binaire sont directement interprétables en termes de risque relatif de mauvaise santé. *(i)* **Politique sanitaire** : un OR significativement supérieur à 1 pour le handicap déclaré (par exemple, OR = 3) signifie que les personnes handicapées ont un risque de mauvaise santé perçue trois fois supérieur, justifiant des programmes de santé dédiés (consultations de suivi renforcées, accès prioritaire aux soins de réadaptation). *(ii)* **Politique économique** : les OR permettent de quantifier le « coût de la mauvaise santé » attribuable à chaque facteur et d'estimer le retour sur investissement des interventions préventives (par exemple, le gain en termes de réduction des hospitalisations si l'activité physique est promue). *(iii)* **Politique sociale** : un OR élevé pour les variables socio-économiques (faibles revenus, absence de complémentaire) documenterait le surrisque supporté par les populations précaires, alimentant le plaidoyer pour le renforcement du filet de protection sociale. *(iv)* **Perspective démographique** : l'OR associé à l'âge quantifie la vitesse d'accumulation du risque de mauvaise santé perçue au fil de la vie, information essentielle pour dimensionner les dispositifs de prise en charge du vieillissement (EHPAD, services à domicile, aidants familiaux).
 
 ```{r logit-stepwise}
 mod_bin_null <- glm(sante_mauvaise ~ 1, data = df, family = binomial)
@@ -1257,6 +1276,8 @@ cat("IC 95% :", round(ci.auc(roc_obj)[1], 4), "–", round(ci.auc(roc_obj)[3], 4
 
 **Interprétation de l'AUC** : l'aire sous la courbe ROC mesure la capacité du modèle à discriminer correctement les individus en bonne et mauvaise santé. Selon la grille de @hosmer2013 : AUC $\in [0.7, 0.8]$ = discrimination acceptable ; AUC $\in [0.8, 0.9]$ = bonne discrimination ; AUC $> 0.9$ = excellente. **Le modèle prédit-il correctement ?** Si l'AUC est supérieure à 0.7, le modèle a une capacité prédictive suffisante pour être utile en dépistage ou en ciblage de politiques de santé publique. Si l'AUC est inférieure à 0.6, le modèle n'est pas meilleur qu'un classement aléatoire.
 
+**Implications en termes de politiques publiques de la courbe ROC.** *(i)* **Politique sanitaire** : si l'AUC dépasse 0.7, le modèle peut servir de base à un outil de dépistage intégré dans les consultations de prévention (bilans de santé, médecine du travail) pour identifier les individus à risque de mauvaise santé perçue et les orienter vers un suivi adapté. Le choix du seuil de coupure optimal (sensibilité vs. spécificité) dépend de l'objectif : un seuil favorisant la sensibilité est adapté au dépistage de masse (on préfère sur-détecter que manquer des cas), tandis qu'un seuil favorisant la spécificité convient au ciblage d'interventions coûteuses. *(ii)* **Politique économique** : la capacité prédictive du modèle conditionne son utilité pour l'allocation optimale des ressources de santé publique --- un modèle précis permet de cibler les dépenses préventives sur les individus qui en bénéficieront le plus, maximisant le rapport coût-efficacité des interventions. *(iii)* **Politique sociale** : l'utilisation du modèle comme outil de ciblage soulève des questions éthiques (stigmatisation, discrimination statistique) qui doivent être prises en compte dans la conception des politiques.
+
 ### Matrice de confusion
 
 ```{r confusion}
@@ -1283,6 +1304,8 @@ tibble(
 ```
 
 **Conformité à la réalité** : en santé publique, un modèle prédictif utile doit avoir une sensibilité élevée (peu de faux négatifs : on ne veut pas manquer un individu en mauvaise santé). Si la sensibilité est faible, cela peut indiquer que le modèle « rate » les individus en mauvaise santé --- problème classique lorsque la classe « mauvaise santé » est minoritaire (*class imbalance*). La spécificité élevée assure que le modèle ne surclasse pas les individus sains en « malades », ce qui limiterait les coûts d'un programme de dépistage ciblé.
+
+**Implications en termes de politiques publiques de la matrice de confusion.** *(i)* **Politique sanitaire** : le taux de faux négatifs (individus en mauvaise santé classés comme « bonne santé ») correspond aux patients non détectés par le modèle ; en contexte de dépistage de masse, ce taux détermine le nombre d'individus vulnérables qui passeront entre les mailles du filet. Une politique de santé publique responsable doit viser à minimiser ce taux, quitte à accepter davantage de faux positifs (surdiagnostic). *(ii)* **Politique économique** : le taux de faux positifs (individus en bonne santé classés comme « mauvaise santé ») engendre un coût de sur-intervention (consultations, examens inutiles). Le rapport entre le coût d'un faux négatif (aggravation, hospitalisation évitable) et celui d'un faux positif (consultation supplémentaire) permet de calibrer le seuil optimal. *(iii)* **Politique sociale** : l'exactitude globale du modèle conditionne la confiance que les professionnels de terrain (médecins, travailleurs sociaux) accorderont à l'outil, et donc son adoption effective dans les pratiques. *(iv)* **Perspective démographique** : si la sensibilité varie selon l'âge ou le sexe, des adaptations spécifiques du seuil de dépistage par sous-population pourraient être nécessaires.
 
 ### Pseudo-$R^2$ (McFadden, Nagelkerke)
 
