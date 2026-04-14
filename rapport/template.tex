@@ -80,6 +80,7 @@ $endif$
 % bibliographie ; \thecitnum sur la page de titre affichera la valeur
 % finale (disponible dès le second passage LaTeX).
 \newcounter{citnum}
+\regtotcounter{citnum}
 \AtEveryBibitem{\stepcounter{citnum}}
 
 % --- Coloration syntaxique Pandoc ---------------------------------------------
@@ -118,7 +119,7 @@ $if(database)$\database{$database$}$else$\database{}$endif$
 % totcount (voir memoirerecherche.cls). Les lignes ci-dessous ne sont
 % conservées que pour ne pas casser un éventuel code qui référencerait
 % \@totfig, \@tottab, etc.
-\totfig{--}\tottab{--}\totref{--}\tottheo{0}
+\totfig{\totvalue{figure}}\tottab{\totvalue{table}}\totref{\totvalue{citnum}}\tottheo{0}
 
 % --- Titre, auteur, date ------------------------------------------------------
 \title{$title$}
