@@ -1,242 +1,190 @@
 % ============================================================
-% BIBLIOGRAPHIE — Modélisation hédonique des prix immobiliers
-% Sélection de variables et régularisation en grande dimension
-% Version consolidée et complète
+% BIBLIOGRAPHIE — Déterminants de l'état de santé perçu
+% Régression linéaire, logistique ordinale et sélection de
+% variables appliquées à l'Enquête Santé et Protection Sociale
+% Classement alphabétique par nom d'auteur
 % ============================================================
 
-% ============================================================
-% THÉORIE DES PRIX HÉDONIQUES
-% ============================================================
-
-@incollection{court1939,
-  author    = {Court, Andrew T.},
-  title     = {Hedonic Price Indexes with Automotive Examples},
-  booktitle = {The Dynamics of Automobile Demand},
-  publisher = {General Motors Corporation},
-  address   = {New York},
-  year      = {1939},
-  pages     = {99--117}
+@book{agresti2010,
+  author    = {Agresti, Alan},
+  title     = {Analysis of Ordinal Categorical Data},
+  edition   = {2},
+  publisher = {John Wiley \& Sons},
+  address   = {Hoboken, NJ},
+  year      = {2010}
 }
 
-@article{lancaster1966,
-  author  = {Lancaster, Kelvin J.},
-  title   = {A New Approach to Consumer Theory},
-  journal = {Journal of Political Economy},
-  volume  = {74},
-  number  = {2},
-  pages   = {132--157},
-  year    = {1966},
-  doi     = {10.1086/259131}
-}
-
-@article{rosen1974,
-  author  = {Rosen, Sherwin},
-  title   = {Hedonic Prices and Implicit Markets: Product Differentiation in Pure Competition},
-  journal = {Journal of Political Economy},
-  volume  = {82},
-  number  = {1},
-  pages   = {34--55},
+@article{akaike1974,
+  author  = {Akaike, Hirotugu},
+  title   = {A New Look at the Statistical Model Identification},
+  journal = {IEEE Transactions on Automatic Control},
+  volume  = {19},
+  number  = {6},
+  pages   = {716--723},
   year    = {1974},
-  doi     = {10.1086/260169}
+  doi     = {10.1109/TAC.1974.1100705}
 }
 
-@incollection{griliches1971,
-  author    = {Griliches, Zvi},
-  title     = {Hedonic Price Indexes for Automobiles: An Econometric Analysis of Quality Change},
-  booktitle = {Price Indexes and Quality Change: Studies in New Methods of Measurement},
-  publisher = {Harvard University Press},
-  address   = {Cambridge, MA},
-  year      = {1971}
+@techreport{art2006,
+  author      = {Aïach, Pierre and Fassin, Didier},
+  title       = {L'origine et les fondements des inégalités sociales de santé},
+  institution = {La Revue du Praticien},
+  volume      = {56},
+  pages       = {2221--2227},
+  year        = {2006}
 }
 
-% ============================================================
-% DÉTERMINANTS DES PRIX IMMOBILIERS
-% ============================================================
-
-@incollection{malpezzi2003,
-  author    = {Malpezzi, Stephen},
-  title     = {Hedonic Pricing Models: A Selective and Applied Review},
-  booktitle = {Housing Economics and Public Policy},
-  publisher = {Blackwell Science},
-  address   = {Oxford},
-  year      = {2003},
-  pages     = {67--89}
+@book{belsley1980,
+  author    = {Belsley, David A. and Kuh, Edwin and Welsch, Roy E.},
+  title     = {Regression Diagnostics: Identifying Influential Data and Sources of Collinearity},
+  publisher = {John Wiley \& Sons},
+  address   = {New York},
+  year      = {1980}
 }
 
-@article{sirmans2005,
-  author  = {Sirmans, G. Stacy and Macpherson, David A. and Zietz, Emily N.},
-  title   = {The Composition of Hedonic Pricing Models},
-  journal = {Journal of Real Estate Literature},
-  volume  = {13},
+@article{boes2006,
+  author  = {Boes, Stefan and Winkelmann, Rainer},
+  title   = {Ordered Response Models},
+  journal = {Allgemeines Statistisches Archiv},
+  volume  = {90},
   number  = {1},
-  pages   = {1--44},
-  year    = {2005},
-  doi     = {10.1080/10835547.2005.12090154}
+  pages   = {167--181},
+  year    = {2006},
+  doi     = {10.1007/s10182-006-0228-y}
 }
 
-@article{can1992,
-  author  = {Can, Ayse},
-  title   = {Specification and Estimation of Hedonic Housing Price Models},
-  journal = {Regional Science and Urban Economics},
-  volume  = {22},
-  number  = {3},
-  pages   = {453--474},
-  year    = {1992},
-  doi     = {10.1016/0166-0462(92)90039-4}
-}
-
-@article{basu1998,
-  author  = {Basu, Sabyasachi and Thibodeau, Thomas G.},
-  title   = {Analysis of Spatial Autocorrelation in House Prices},
-  journal = {The Journal of Real Estate Finance and Economics},
-  volume  = {17},
-  number  = {1},
-  pages   = {61--85},
-  year    = {1998},
-  doi     = {10.1023/A:1007703229507}
-}
-
-@article{dubin1992,
-  author  = {Dubin, Robin A.},
-  title   = {Spatial Autocorrelation and Neighborhood Quality},
-  journal = {Regional Science and Urban Economics},
-  volume  = {22},
-  number  = {2},
-  pages   = {433--452},
-  year    = {1992},
-  doi     = {10.1016/0166-0462(92)90038-3}
-}
-
-@article{case2004,
-  author  = {Case, Karl E. and Shiller, Robert J.},
-  title   = {Is There a Bubble in the Housing Market?},
-  journal = {Brookings Papers on Economic Activity},
-  volume  = {2003},
-  number  = {2},
-  pages   = {299--362},
-  year    = {2004},
-  doi     = {10.1353/eca.2004.0004}
-}
-
-@book{meen2001,
-  author    = {Meen, Geoffrey},
-  title     = {Modelling Spatial Housing Markets: Theory, Analysis and Policy},
-  publisher = {Kluwer Academic Publishers},
-  address   = {Boston, MA},
-  year      = {2001}
-}
-
-@article{combes2019,
-  author  = {Combes, Pierre-Philippe and Duranton, Gilles and Gobillon, Laurent},
-  title   = {The Costs of Agglomeration: House and Land Prices in French Cities},
-  journal = {The Review of Economic Studies},
-  volume  = {86},
+@article{brant1990,
+  author  = {Brant, Rollin},
+  title   = {Assessing Proportionality in the Proportional Odds Model for Ordinal Logistic Regression},
+  journal = {Biometrics},
+  volume  = {46},
   number  = {4},
-  pages   = {1556--1589},
-  year    = {2019},
-  doi     = {10.1093/restud/rdy063}
+  pages   = {1171--1178},
+  year    = {1990},
+  doi     = {10.2307/2532457}
 }
 
-@article{fack2006,
-  author  = {Fack, Gabrielle and Grenet, Julien},
-  title   = {Sectorisation des collèges et prix des logements à Paris},
-  journal = {Annales d'Économie et de Statistique},
-  number  = {83/84},
-  pages   = {299--338},
-  year    = {2006}
+@article{breusch1979,
+  author  = {Breusch, Trevor S. and Pagan, Adrian R.},
+  title   = {A Simple Test for Heteroscedasticity and Random Coefficient Variation},
+  journal = {Econometrica},
+  volume  = {47},
+  number  = {5},
+  pages   = {1287--1294},
+  year    = {1979},
+  doi     = {10.2307/1911963}
 }
 
-@article{gobillon2016,
-  author  = {Gobillon, Laurent and Magnac, Thierry},
-  title   = {Regional Policy Evaluation: Interactive Fixed Effects and Synthetic Controls},
-  journal = {The Review of Economics and Statistics},
-  volume  = {98},
-  number  = {3},
-  pages   = {535--551},
-  year    = {2016},
-  doi     = {10.1162/REST_a_00537}
+@article{bricard2015,
+  author  = {Bricard, Damien and Jusot, Florence and Tubeuf, Sandy and Trannoy, Alain},
+  title   = {Inequality of Opportunities in Health and the Principle of Natural Reward: Evidence from European Countries},
+  journal = {Research on Economic Inequality},
+  volume  = {23},
+  pages   = {335--370},
+  year    = {2015},
+  doi     = {10.1108/S1049-258520150000023010}
 }
 
-@article{friggit2009,
-  author  = {Friggit, Jacques},
-  title   = {Le prix des logements sur le long terme},
-  journal = {Informations Sociales},
-  volume  = {155},
-  pages   = {26--33},
-  year    = {2009}
+@book{burnham2002,
+  author    = {Burnham, Kenneth P. and Anderson, David R.},
+  title     = {Model Selection and Multimodel Inference: A Practical Information-Theoretic Approach},
+  edition   = {2},
+  publisher = {Springer},
+  address   = {New York},
+  year      = {2002}
 }
 
-@book{lesage2009,
-  author    = {LeSage, James P. and Pace, R. Kelley},
-  title     = {Introduction to Spatial Econometrics},
-  publisher = {CRC Press},
-  address   = {Boca Raton},
-  year      = {2009}
+@article{cambois2008,
+  author  = {Cambois, Emmanuelle and Laborde, Caroline and Robine, Jean-Marie},
+  title   = {La « double peine » des ouvriers : plus d'années d'incapacité au sein d'une vie plus courte},
+  journal = {Population et Sociétés},
+  number  = {441},
+  pages   = {1--4},
+  year    = {2008}
 }
 
-% ============================================================
-% FRANCE ET BASE DVF
-% ============================================================
-
-@techreport{dvf2024,
-  author      = {{Ministère de l'Économie, des Finances et de la Souveraineté industrielle et numérique}},
-  title       = {Demandes de valeurs foncières},
-  institution = {Direction générale des finances publiques},
-  year        = {2024},
-  note        = {Données ouvertes --- \url{https://www.data.gouv.fr/fr/datasets/demandes-de-valeurs-foncieres-geolocalisees/}}
+@article{dahlgren1991,
+  author  = {Dahlgren, Göran and Whitehead, Margaret},
+  title   = {Policies and Strategies to Promote Social Equity in Health},
+  journal = {Institute for Futures Studies, Stockholm},
+  year    = {1991},
+  note    = {Réimprimé en 2007, OMS Bureau régional pour l'Europe}
 }
 
-@article{trannoy2015,
-  author  = {Trannoy, Alain and Wasmer, Étienne},
-  title   = {Comment modérer les prix de l'immobilier ?},
-  journal = {Notes du Conseil d'analyse économique},
-  volume  = {2},
-  pages   = {1--12},
-  year    = {2015}
+@article{despres2011,
+  author  = {Desprès, Caroline and Dourgnon, Paul and Fantin, Romain and Jusot, Florence},
+  title   = {Le renoncement aux soins pour raisons financières : une approche économétrique},
+  journal = {Questions d'économie de la santé},
+  number  = {170},
+  pages   = {1--6},
+  year    = {2011},
+  note    = {IRDES}
 }
 
-@article{blancosegarra2017,
-  author  = {Blanco, Fernando and Martín, Juan Carlos and Segarra, Agustí},
-  title   = {Machine Learning Methods Applied to Big Data in Real Estate Market},
-  journal = {Urban Science},
-  volume  = {1},
-  number  = {4},
-  pages   = {42},
-  year    = {2017},
-  doi     = {10.3390/urbansci1040042}
-}
-
-@article{bourassa2010,
-  author  = {Bourassa, Steven C. and Cantoni, Eva and Hoesli, Martin},
-  title   = {Predicting House Prices with Spatial Dependence: A Comparison of Alternative Methods},
-  journal = {Journal of Real Estate Research},
-  volume  = {32},
-  number  = {2},
-  pages   = {139--159},
+@article{devaux2010,
+  author  = {Devaux, Marion and Jusot, Florence and Trannoy, Alain and Tubeuf, Sandy},
+  title   = {La santé des seniors selon leur origine sociale et la longévité de leurs parents},
+  journal = {Économie et Statistique},
+  volume  = {411},
+  pages   = {25--46},
   year    = {2010}
 }
 
-@article{chrostek2020,
-  author  = {Chrostek, Katarzyna and Kopczewska, Katarzyna},
-  title   = {Spatial Prediction Models for Real Estate Market Analysis},
-  journal = {Econometrics},
-  volume  = {8},
-  number  = {1},
-  pages   = {1--23},
-  year    = {2020}
+@article{dourgnon2012,
+  author  = {Dourgnon, Paul and Jusot, Florence and Fantin, Romain},
+  title   = {Payer nuit gravement à la santé : une étude de l'impact du renoncement financier aux soins sur l'état de santé},
+  journal = {Économie Publique},
+  volume  = {28--29},
+  pages   = {123--147},
+  year    = {2012}
 }
 
-% ============================================================
-% ÉCONOMÉTRIE — MCO ET HYPOTHÈSES
-% ============================================================
+@techreport{drees2017,
+  author      = {{DREES}},
+  title       = {L'état de santé de la population en France --- Rapport 2017},
+  institution = {Direction de la recherche, des études, de l'évaluation et des statistiques},
+  address     = {Paris},
+  year        = {2017},
+  note        = {\url{https://drees.solidarites-sante.gouv.fr/publications/rapports/letat-de-sante-de-la-population-en-france}}
+}
 
-@book{wooldridge2020,
-  author    = {Wooldridge, Jeffrey M.},
-  title     = {Introductory Econometrics: A Modern Approach},
-  edition   = {7},
-  publisher = {Cengage Learning},
-  address   = {Boston, MA},
-  year      = {2020}
+@article{durbin1971,
+  author  = {Durbin, James and Watson, Geoffrey S.},
+  title   = {Testing for Serial Correlation in Least Squares Regression --- {III}},
+  journal = {Biometrika},
+  volume  = {58},
+  number  = {1},
+  pages   = {1--19},
+  year    = {1971},
+  doi     = {10.1093/biomet/58.1.1}
+}
+
+@article{etile2007,
+  author  = {Étilé, Fabrice and Milcent, Carine},
+  title   = {Income-Related Reporting Heterogeneity in Self-Assessed Health: Evidence from France},
+  journal = {Health Economics},
+  volume  = {15},
+  number  = {9},
+  pages   = {965--981},
+  year    = {2007},
+  doi     = {10.1002/hec.1164}
+}
+
+@techreport{eurostat_health,
+  author      = {{Eurostat}},
+  title       = {Self-Perceived Health Statistics},
+  institution = {Statistical Office of the European Union},
+  year        = {2023},
+  note        = {\url{https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Self-perceived_health_statistics}}
+}
+
+@book{fox2015,
+  author    = {Fox, John},
+  title     = {Applied Regression Analysis and Generalized Linear Models},
+  edition   = {3},
+  publisher = {Sage Publications},
+  address   = {Los Angeles},
+  year      = {2015}
 }
 
 @book{greene2018,
@@ -248,70 +196,121 @@
   year      = {2018}
 }
 
-@book{hamilton1994,
-  author    = {Hamilton, James D.},
-  title     = {Time Series Analysis},
-  publisher = {Princeton University Press},
-  address   = {Princeton, NJ},
-  year      = {1994}
+@article{grossman1972,
+  author  = {Grossman, Michael},
+  title   = {On the Concept of Health Capital and the Demand for Health},
+  journal = {Journal of Political Economy},
+  volume  = {80},
+  number  = {2},
+  pages   = {223--255},
+  year    = {1972},
+  doi     = {10.1086/259880}
 }
 
-@article{white1980,
-  author  = {White, Halbert},
-  title   = {A Heteroskedasticity-Consistent Covariance Matrix Estimator and a Direct Test for Heteroskedasticity},
-  journal = {Econometrica},
-  volume  = {48},
-  number  = {4},
-  pages   = {817--838},
-  year    = {1980},
-  doi     = {10.2307/1912934}
+@book{hosmer2013,
+  author    = {Hosmer, David W. and Lemeshow, Stanley and Sturdivant, Rodney X.},
+  title     = {Applied Logistic Regression},
+  edition   = {3},
+  publisher = {John Wiley \& Sons},
+  address   = {Hoboken, NJ},
+  year      = {2013}
 }
 
-@article{breusch1979,
-  author  = {Breusch, T. S. and Pagan, A. R.},
-  title   = {A Simple Test for Heteroscedasticity and Random Coefficient Variation},
-  journal = {Econometrica},
-  volume  = {47},
-  number  = {5},
-  pages   = {1287--1294},
-  year    = {1979},
-  doi     = {10.2307/1911963}
-}
-
-@article{durbin1971,
-  author  = {Durbin, J. and Watson, G. S.},
-  title   = {Testing for Serial Correlation in Least Squares Regression},
-  journal = {Biometrika},
-  volume  = {58},
+@article{idler1997,
+  author  = {Idler, Ellen L. and Benyamini, Yael},
+  title   = {Self-Rated Health and Mortality: A Review of Twenty-Seven Community Studies},
+  journal = {Journal of Health and Social Behavior},
+  volume  = {38},
   number  = {1},
-  pages   = {1--19},
-  year    = {1971}
+  pages   = {21--37},
+  year    = {1997},
+  doi     = {10.2307/2955359}
 }
 
-@article{shapiro1965,
-  author  = {Shapiro, S. S. and Wilk, M. B.},
-  title   = {An Analysis of Variance Test for Normality (Complete Samples)},
-  journal = {Biometrika},
-  volume  = {52},
-  number  = {3-4},
-  pages   = {591--611},
-  year    = {1965},
-  doi     = {10.1093/biomet/52.3-4.591}
+@techreport{irdes_esps,
+  author      = {{IRDES}},
+  title       = {Enquête Santé et Protection Sociale (ESPS)},
+  institution = {Institut de recherche et documentation en économie de la santé},
+  year        = {2023},
+  note        = {\url{https://www.irdes.fr/recherche/enquetes/esps-enquete-sur-la-sante-et-la-protection-sociale/}}
 }
 
-% ============================================================
-% SÉLECTION DE MODÈLES
-% ============================================================
+@article{jusot2008,
+  author  = {Jusot, Florence and Tubeuf, Sandy and Trannoy, Alain},
+  title   = {Inequality of Opportunities in Health in Europe: Why So Much Difference across Countries?},
+  journal = {Journal of Health Economics},
+  volume  = {32},
+  number  = {1},
+  pages   = {1--18},
+  year    = {2008}
+}
 
-@article{akaike1974,
-  author  = {Akaike, Hirotugu},
-  title   = {A New Look at the Statistical Model Identification},
-  journal = {IEEE Transactions on Automatic Control},
-  volume  = {19},
-  number  = {6},
-  pages   = {716--723},
-  year    = {1974},
-  doi     = {10.1109/TAC.1974.1100705}
+@article{jylha2009,
+  author  = {Jylhä, Marja},
+  title   = {What Is Self-Rated Health and Why Does It Predict Mortality? Towards a Unified Conceptual Model},
+  journal = {Social Science \& Medicine},
+  volume  = {69},
+  number  = {3},
+  pages   = {307--316},
+  year    = {2009},
+  doi     = {10.1016/j.socscimed.2009.05.013}
+}
+
+@article{kennedy1998,
+  author  = {Kennedy, Bruce P. and Kawachi, Ichiro and Glass, Roberta and Prothrow-Stith, Deborah},
+  title   = {Income Distribution, Socioeconomic Status, and Self Rated Health in the United States: Multilevel Analysis},
+  journal = {BMJ},
+  volume  = {317},
+  number  = {7163},
+  pages   = {917--921},
+  year    = {1998},
+  doi     = {10.1136/bmj.317.7163.917}
+}
+
+@article{mackenbach1999,
+  author  = {Mackenbach, Johan P. and Kunst, Anton E. and Cavelaars, Ada E.J.M. and Groenhof, Feikje and Geurts, José J.M.},
+  title   = {Socioeconomic Inequalities in Morbidity and Mortality in Western Europe},
+  journal = {The Lancet},
+  volume  = {349},
+  number  = {9066},
+  pages   = {1655--1659},
+  year    = {1999},
+  doi     = {10.1016/S0140-6736(96)07226-1}
+}
+
+@book{marmot2005,
+  author    = {Marmot, Michael},
+  title     = {Status Syndrome: How Your Social Standing Directly Affects Your Health},
+  publisher = {Bloomsbury Publishing},
+  address   = {London},
+  year      = {2005}
+}
+
+@techreport{marmot2008,
+  author      = {Marmot, Michael and Friel, Sharon and Bell, Ruth and Houweling, Tanja A.J. and Taylor, Sebastian},
+  title       = {Closing the Gap in a Generation: Health Equity through Action on the Social Determinants of Health},
+  institution = {Commission on Social Determinants of Health, WHO},
+  year        = {2008},
+  note        = {Lancet, 372(9650), 1661--1669}
+}
+
+@article{mccullagh1980,
+  author  = {McCullagh, Peter},
+  title   = {Regression Models for Ordinal Data},
+  journal = {Journal of the Royal Statistical Society: Series B (Methodological)},
+  volume  = {42},
+  number  = {2},
+  pages   = {109--142},
+  year    = {1980},
+  doi     = {10.1111/j.2517-6161.1980.tb01109.x}
+}
+
+@techreport{oms2008,
+  author      = {{Organisation mondiale de la santé}},
+  title       = {Combler le fossé en une génération : instaurer l'équité en santé en agissant sur les déterminants sociaux de la santé},
+  institution = {Commission des déterminants sociaux de la santé},
+  address     = {Genève},
+  year        = {2008}
 }
 
 @article{schwarz1978,
@@ -325,317 +324,66 @@
   doi     = {10.1214/aos/1176344136}
 }
 
-% ============================================================
-% RÉGULARISATION — RIDGE, LASSO, GROUP LASSO
-% ============================================================
-
-@article{hoerl1970,
-  author  = {Hoerl, Arthur E. and Kennard, Robert W.},
-  title   = {Ridge Regression: Biased Estimation for Nonorthogonal Problems},
-  journal = {Technometrics},
-  volume  = {12},
-  number  = {1},
-  pages   = {55--67},
-  year    = {1970},
-  doi     = {10.1080/00401706.1970.10488634}
+@article{shapiro1965,
+  author  = {Shapiro, Samuel S. and Wilk, Martin B.},
+  title   = {An Analysis of Variance Test for Normality (Complete Samples)},
+  journal = {Biometrika},
+  volume  = {52},
+  number  = {3--4},
+  pages   = {591--611},
+  year    = {1965},
+  doi     = {10.1093/biomet/52.3-4.591}
 }
 
-@article{tibshirani1996,
-  author  = {Tibshirani, Robert},
-  title   = {Regression Shrinkage and Selection via the Lasso},
-  journal = {Journal of the Royal Statistical Society: Series B},
-  volume  = {58},
-  number  = {1},
-  pages   = {267--288},
-  year    = {1996},
-  doi     = {10.1111/j.2517-6161.1996.tb02080.x}
-}
-
-@article{zou2005,
-  author  = {Zou, Hui and Hastie, Trevor},
-  title   = {Regularization and Variable Selection via the Elastic Net},
-  journal = {Journal of the Royal Statistical Society: Series B},
-  volume  = {67},
-  number  = {2},
-  pages   = {301--320},
-  year    = {2005},
-  doi     = {10.1111/j.1467-9868.2005.00503.x}
-}
-
-@article{yuan2006,
-  author  = {Yuan, Ming and Lin, Yi},
-  title   = {Model Selection and Estimation in Regression with Grouped Variables},
-  journal = {Journal of the Royal Statistical Society: Series B},
-  volume  = {68},
-  number  = {1},
-  pages   = {49--67},
+@article{singh2006,
+  author  = {Singh-Manoux, Archana and Martikainen, Pekka and Ferrie, Jane and Zins, Marie and Marmot, Michael and Goldberg, Marcel},
+  title   = {What Does Self Rated Health Measure? Results from the British Whitehall II and French Gazel Cohort Studies},
+  journal = {Journal of Epidemiology and Community Health},
+  volume  = {60},
+  number  = {4},
+  pages   = {364--372},
   year    = {2006},
-  doi     = {10.1111/j.1467-9868.2005.00532.x}
+  doi     = {10.1136/jech.2005.039883}
 }
 
-@article{friedman2010,
-  author  = {Friedman, Jerome and Hastie, Trevor and Tibshirani, Robert},
-  title   = {Regularization Paths for Generalized Linear Models via Coordinate Descent},
-  journal = {Journal of Statistical Software},
-  volume  = {33},
-  number  = {1},
-  pages   = {1--22},
-  year    = {2010},
-  doi     = {10.18637/jss.v033.i01}
+@article{subramanian2002,
+  author  = {Subramanian, S.V. and Kim, Daniel J. and Kawachi, Ichiro},
+  title   = {Social Trust and Self-Rated Health in US Communities: A Multilevel Analysis},
+  journal = {Journal of Urban Health},
+  volume  = {79},
+  number  = {4 Suppl 1},
+  pages   = {S21--S34},
+  year    = {2002},
+  doi     = {10.1093/jurban/79.suppl_1.S21}
 }
 
-@book{hastie2009,
-  author    = {Hastie, Trevor and Tibshirani, Robert and Friedman, Jerome},
-  title     = {The Elements of Statistical Learning: Data Mining, Inference, and Prediction},
-  edition   = {2},
-  publisher = {Springer},
-  address   = {New York},
-  year      = {2009}
+@article{van_doorslaer2004,
+  author  = {van Doorslaer, Eddy and Koolman, Xander},
+  title   = {Explaining the Differences in Income-Related Health Inequalities across European Countries},
+  journal = {Health Economics},
+  volume  = {13},
+  number  = {7},
+  pages   = {609--628},
+  year    = {2004},
+  doi     = {10.1002/hec.918}
 }
 
-@book{hastie2015,
-  author    = {Hastie, Trevor and Tibshirani, Robert and Wainwright, Martin},
-  title     = {Statistical Learning with Sparsity: The Lasso and Generalizations},
-  publisher = {CRC Press},
-  address   = {Boca Raton},
+@article{white1980,
+  author  = {White, Halbert},
+  title   = {A Heteroskedasticity-Consistent Covariance Matrix Estimator and a Direct Test for Heteroskedasticity},
+  journal = {Econometrica},
+  volume  = {48},
+  number  = {4},
+  pages   = {817--838},
+  year    = {1980},
+  doi     = {10.2307/1912934}
+}
+
+@book{wooldridge2015,
+  author    = {Wooldridge, Jeffrey M.},
+  title     = {Introductory Econometrics: A Modern Approach},
+  edition   = {6},
+  publisher = {Cengage Learning},
+  address   = {Boston, MA},
   year      = {2015}
-}
-
-@article{belloni2011,
-  author  = {Belloni, Alexandre and Chernozhukov, Victor},
-  title   = {$\ell_1$-Penalized Quantile Regression in High-Dimensional Sparse Models},
-  journal = {The Annals of Statistics},
-  volume  = {39},
-  number  = {1},
-  pages   = {82--130},
-  year    = {2011},
-  doi     = {10.1214/10-AOS827}
-}
-
-@article{belloni2014,
-  author  = {Belloni, Alexandre and Chernozhukov, Victor and Hansen, Christian},
-  title   = {Inference on Treatment Effects after Selection among High-Dimensional Controls},
-  journal = {The Review of Economic Studies},
-  volume  = {81},
-  number  = {2},
-  pages   = {608--650},
-  year    = {2014},
-  doi     = {10.1093/restud/rdt044}
-}
-
-% ============================================================
-% VALIDATION CROISÉE
-% ============================================================
-
-@article{stone1974,
-  author  = {Stone, M.},
-  title   = {Cross-Validatory Choice and Assessment of Statistical Predictions},
-  journal = {Journal of the Royal Statistical Society: Series B},
-  volume  = {36},
-  number  = {2},
-  pages   = {111--147},
-  year    = {1974}
-}
-
-@article{arlot2010,
-  author  = {Arlot, Sylvain and Celisse, Alain},
-  title   = {A Survey of Cross-Validation Procedures for Model Selection},
-  journal = {Statistics Surveys},
-  volume  = {4},
-  pages   = {40--79},
-  year    = {2010},
-  doi     = {10.1214/09-SS054}
-}
-
-% ============================================================
-% CONCURRENCE SPATIALE ET ÉCONOMIE URBAINE
-% ============================================================
-
-@article{hotelling1929,
-  author  = {Hotelling, Harold},
-  title   = {Stability in Competition},
-  journal = {The Economic Journal},
-  volume  = {39},
-  number  = {153},
-  pages   = {41--57},
-  year    = {1929},
-  doi     = {10.2307/2224214}
-}
-
-@book{tirole1988,
-  author    = {Tirole, Jean},
-  title     = {The Theory of Industrial Organization},
-  publisher = {MIT Press},
-  address   = {Cambridge, MA},
-  year      = {1988}
-}
-
-@article{shaked1982,
-  author  = {Shaked, Avner and Sutton, John},
-  title   = {Relaxing Price Competition Through Product Differentiation},
-  journal = {The Review of Economic Studies},
-  volume  = {49},
-  number  = {1},
-  pages   = {3--13},
-  year    = {1982},
-  doi     = {10.2307/2297136}
-}
-
-% ============================================================
-% ÉCONOMIE IMMOBILIÈRE FRANÇAISE
-% ============================================================
-
-@book{piketty2013,
-  author    = {Piketty, Thomas},
-  title     = {Le Capital au XXIe siècle},
-  publisher = {Seuil},
-  address   = {Paris},
-  year      = {2013}
-}
-
-@article{bonnet2014,
-  author  = {Bonnet, Odran and Bono, Pierre-Henri and Chapelle, Guillaume and Wasmer, Étienne},
-  title   = {Does Housing Capital Contribute to Inequality? A Comment on Thomas Piketty's Capital in the 21st Century},
-  journal = {Sciences Po Economics Discussion Paper},
-  number  = {2014-07},
-  year    = {2014}
-}
-
-@article{knight1998,
-  author  = {Knight, John R. and Sirmans, C. F. and Turnbull, Geoffrey K.},
-  title   = {List Price Information in Residential Appraisal and Underwriting},
-  journal = {Journal of Real Estate Research},
-  volume  = {14},
-  number  = {1},
-  pages   = {59--76},
-  year    = {1998}
-}
-
-@article{nappi2011,
-  author  = {Nappi-Choulet, Ingrid and Maury, Tristan-Pierre},
-  title   = {A Spatial and Temporal Autoregressive Local Estimation for the Paris Housing Market},
-  journal = {Journal of Regional Science},
-  volume  = {51},
-  number  = {4},
-  pages   = {732--750},
-  year    = {2011},
-  doi     = {10.1111/j.1467-9787.2011.00722.x}
-}
-
-@article{hallack2020,
-  author  = {Hallack, Lucile and Thisse, Jacques-François},
-  title   = {The Geography of Housing Prices in France},
-  journal = {Regional Science and Urban Economics},
-  volume  = {83},
-  pages   = {103537},
-  year    = {2020}
-}
-
-% ============================================================
-% MACHINE LEARNING ET IMMOBILIER
-% ============================================================
-
-@article{geurts2006,
-  author  = {Geurts, Pierre and Ernst, Damien and Wehenkel, Louis},
-  title   = {Extremely Randomized Trees},
-  journal = {Machine Learning},
-  volume  = {63},
-  number  = {1},
-  pages   = {3--42},
-  year    = {2006},
-  doi     = {10.1007/s10994-006-6226-1}
-}
-
-@article{mullainathan2017,
-  author  = {Mullainathan, Sendhil and Spiess, Jann},
-  title   = {Machine Learning: An Applied Econometric Approach},
-  journal = {Journal of Economic Perspectives},
-  volume  = {31},
-  number  = {2},
-  pages   = {87--106},
-  year    = {2017},
-  doi     = {10.1257/jep.31.2.87}
-}
-
-@article{athey2019,
-  author  = {Athey, Susan and Imbens, Guido W.},
-  title   = {Machine Learning Methods That Economists Should Know About},
-  journal = {Annual Review of Economics},
-  volume  = {11},
-  pages   = {685--725},
-  year    = {2019},
-  doi     = {10.1146/annurev-economics-080217-053433}
-}
-
-% ============================================================
-% OUVRAGES MÉTHODOLOGIQUES GÉNÉRAUX
-% ============================================================
-
-@book{james2021,
-  author    = {James, Gareth and Witten, Daniela and Hastie, Trevor and Tibshirani, Robert},
-  title     = {An Introduction to Statistical Learning with Applications in R},
-  edition   = {2},
-  publisher = {Springer},
-  address   = {New York},
-  year      = {2021}
-}
-
-@book{buehlmann2011,
-  author    = {Bühlmann, Peter and van de Geer, Sara},
-  title     = {Statistics for High-Dimensional Data: Methods, Theory and Applications},
-  publisher = {Springer},
-  address   = {Heidelberg},
-  year      = {2011}
-}
-
-@article{fan2010,
-  author  = {Fan, Jianqing and Lv, Jinchi},
-  title   = {A Selective Overview of Variable Selection in High Dimensional Feature Space},
-  journal = {Statistica Sinica},
-  volume  = {20},
-  number  = {1},
-  pages   = {101--148},
-  year    = {2010}
-}
-
-@article{breiman1996,
-  author  = {Breiman, Leo},
-  title   = {Heuristics of Instability and Stabilization in Model Selection},
-  journal = {The Annals of Statistics},
-  volume  = {24},
-  number  = {6},
-  pages   = {2350--2383},
-  year    = {1996},
-  doi     = {10.1214/aos/1032181158}
-}
-
-@article{bickel2009,
-  author  = {Bickel, Peter J. and Ritov, Ya'acov and Tsybakov, Alexandre B.},
-  title   = {Simultaneous Analysis of Lasso and Dantzig Selector},
-  journal = {The Annals of Statistics},
-  volume  = {37},
-  number  = {4},
-  pages   = {1705--1732},
-  year    = {2009},
-  doi     = {10.1214/08-AOS620}
-}
-
-% ============================================================
-% DONNÉES PUBLIQUES (INSEE, NOTAIRES)
-% ============================================================
-
-@techreport{insee2024,
-  author      = {{INSEE}},
-  title       = {Les prix des logements anciens — Indice Notaires-INSEE},
-  institution = {Institut national de la statistique et des études économiques},
-  year        = {2024},
-  note        = {\url{https://www.insee.fr/fr/statistiques/serie/010605830}}
-}
-
-@techreport{notaires2024,
-  author      = {{Conseil supérieur du notariat}},
-  title       = {Note de conjoncture immobilière des notaires de France},
-  institution = {Conseil supérieur du notariat},
-  year        = {2024},
-  note        = {\url{https://www.notaires.fr/fr/immobilier-fiscalite/prix-et-tendances-de-limmobilier}}
 }

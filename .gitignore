@@ -1,0 +1,40 @@
+# RStudio project user files
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+
+# LaTeX intermediate files
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.bcf
+*.blg
+*.run.xml
+*.nav
+*.snm
+*.vrb
+
+# Bookdown intermediate files
+_bookdown_files/
+rapport/_bookdown_files/
+rapport/*.tex
+rapport/*.log
+
+# Compiled output (regenerated)
+rapport/rapport.pdf
+
+# R temporary files
+*.Rout
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
