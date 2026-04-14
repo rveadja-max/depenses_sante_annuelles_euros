@@ -13,8 +13,8 @@ author:
 date: "`r format(Sys.time(), '%d %B %Y')`"
 
 abstract: |
-  En France, 8,2\ \% des adultes déclarent un état de santé « mauvais » ou « très mauvais », un chiffre qui atteint 19\ \% parmi les ménages du premier quintile de revenus (DREES, 2017). Ce gradient social, documenté par la Commission OMS sur les déterminants sociaux de la santé (2008), soulève une question fondamentale : quels facteurs sociodémographiques, économiques et comportementaux déterminent la perception individuelle de l'état de santé, et comment les hiérarchiser de façon robuste ?  
-  Le présent projet met en œuvre une analyse statistique complète des déterminants de l'état de santé perçu en France métropolitaine, à partir de données synthétiques reproduisant la structure de l'Enquête Santé et Protection Sociale (ESPS) de l'IRDES (500 individus, 25 variables). La variable réponse --- qualitative ordinale à cinq modalités (Très mauvais, Mauvais, Assez bon, Bon, Très bon) --- est analysée au moyen de sept familles de méthodes : analyse bivariée ($\chi^2$, ANOVA, Kruskal-Wallis, Spearman), régression linéaire multiple sur le score ordinal (1--5), colinéarité (VIF, tolérance, indices de conditionnement), sélection de variables (*forward*, *backward*, *stepwise* par AIC/BIC), validation complète (Shapiro-Wilk, Durbin-Watson, Breusch-Pagan, Cook, LOESS), ANCOVA (facteurs qualitatifs, moyennes marginales de Tukey), régression logistique ordinale (cotes proportionnelles, test de Brant) et binaire (ROC, AUC, matrice de confusion). L'âge, les consultations médicales, les médicaments réguliers, l'activité physique et le handicap déclaré émergent comme déterminants robustes, tous significatifs au seuil de 5\ \% à travers les différentes spécifications. Les limites --- données synthétiques, hypothèse de proportionnalité des odds, absence de correction pour biais de sélection --- sont rigoureusement discutées.
+  En France, 8,2\ \% des adultes déclarent un état de santé « mauvais » ou « très mauvais », un chiffre qui atteint 19\ \% parmi les ménages du premier quintile de revenus (DREES, 2017). Ce gradient social, documenté par la Commission OMS sur les déterminants sociaux de la santé (2008), soulève une interrogation fondamentale : quels facteurs sociodémographiques, économiques et comportementaux façonnent la perception individuelle de l'état de santé, et comment les hiérarchiser de façon robuste ?
+  Le présent projet déploie une analyse statistique exhaustive des déterminants de l'état de santé perçu en France métropolitaine, à partir de données synthétiques reproduisant la structure de l'Enquête Santé et Protection Sociale (ESPS) de l'IRDES (500 individus, 25 variables). La variable réponse --- qualitative ordinale à cinq modalités (Très mauvais, Mauvais, Assez bon, Bon, Très bon) --- est étudiée au moyen de sept familles de méthodes : analyse bivariée ($\chi^2$, ANOVA, Kruskal-Wallis, Spearman), régression linéaire multiple sur le score ordinal (1--5), diagnostics de colinéarité (VIF, tolérance, indices de conditionnement), sélection de variables (*forward*, *backward*, *stepwise* par AIC/BIC), validation du modèle linéaire gaussien (Shapiro-Wilk, Durbin-Watson, Breusch-Pagan, Cook, LOESS), ANCOVA (facteurs qualitatifs, moyennes marginales de Tukey), régression logistique ordinale (cotes proportionnelles, test de Brant) et binaire (ROC, AUC, matrice de confusion). L'âge, les consultations médicales, les médicaments réguliers, l'activité physique et le handicap déclaré émergent comme déterminants robustes, significatifs au seuil de 5\ \% à travers l'ensemble des spécifications. Les limites --- données synthétiques, hypothèse de proportionnalité des odds, absence de correction pour biais de sélection --- font l'objet d'une discussion rigoureuse.
 
 keywords: 
   - État de santé perçu
@@ -23,7 +23,7 @@ keywords:
   - ANCOVA
   - Sélection de variables
   - Enquête ESPS
-  - Colinéarité
+  - Colinéarité (VIF)
   - Déterminants sociaux de la santé
 
 git: "https://gitlab-mi.univ-reims.fr/adja0021"
@@ -50,16 +50,10 @@ fontsize: 11pt
 linestretch: 1.15
 
 header-includes:
-  - \setlength{\headheight}{24.80502pt}
   - \usepackage{underscore}
   - \usepackage{tcolorbox}
   - \tcbuselibrary{breakable}
   - \renewenvironment{Shaded}{\begin{tcolorbox}[colback=shadecolor, colframe=shadecolor, boxrule=0pt, sharp corners, breakable]}{\end{tcolorbox}}
-  - \usepackage{booktabs}
-  - \usepackage{longtable}
-  - \usepackage{float}
-  - \floatplacement{figure}{H}
-  - \floatplacement{table}{H}
 
 output: 
   bookdown::pdf_book:
@@ -104,27 +98,52 @@ library(nnet)        # multinom (régression multinomiale, optionnel)
 library(emmeans)     # moyennes marginales (LSMEANS)
 library(leaps)       # regsubsets (sélection de sous-modèles)
 library(olsrr)       # diagnostics de régression complémentaires
+library(patchwork)   # composition de graphiques multiples
 ```
+
+# Sigles et acronymes {-}
+
+| Sigle | Signification |
+|:------|:------|
+| AIC | Critère d'information d'Akaike (*Akaike Information Criterion*) |
+| ANCOVA | Analyse de covariance |
+| ANOVA | Analyse de la variance |
+| AUC | Aire sous la courbe ROC (*Area Under the Curve*) |
+| BIC | Critère d'information bayésien (*Bayesian Information Criterion*) |
+| CASD | Centre d'accès sécurisé aux données |
+| DREES | Direction de la recherche, des études, de l'évaluation et des statistiques |
+| ESPS | Enquête Santé et Protection Sociale |
+| EU-SILC | *European Union Statistics on Income and Living Conditions* |
+| IMC | Indice de masse corporelle |
+| IRDES | Institut de recherche et documentation en économie de la santé |
+| LSMEANS | Moyennes des moindres carrés (*Least Squares Means*) |
+| MCO | Moindres carrés ordinaires |
+| OMS | Organisation mondiale de la santé |
+| ROC | *Receiver Operating Characteristic* |
+| SHARE | *Survey of Health, Ageing and Retirement in Europe* |
+| SRH | Santé auto-évaluée (*Self-Rated Health*) |
+| VIF | Facteur d'inflation de la variance (*Variance Inflation Factor*) |
+
 
 # Introduction générale {-}
 
 ## Accroche et contexte général
 
-En 2019, 67,4\ % des Français déclaraient un état de santé « bon » ou « très bon », un chiffre qui masque des disparités considérables : parmi les ménages du premier quintile de revenus, la proportion d'adultes se déclarant en « mauvaise » ou « très mauvaise » santé atteint 19\ %, soit près du triple de la moyenne nationale^[Direction de la recherche, des études, de l'évaluation et des statistiques (DREES), *L'état de santé de la population en France --- Rapport 2017*, Paris.]. Ce constat, loin d'être anecdotique, traduit un phénomène structurel : les inégalités sociales de santé perçue s'inscrivent au cœur du débat économique et sanitaire contemporain. L'Organisation mondiale de la santé (OMS), à travers sa Commission sur les déterminants sociaux de la santé, a établi que « les conditions dans lesquelles les individus naissent, grandissent, vivent, travaillent et vieillissent constituent les déterminants sociaux de la santé, lesquels sont principalement responsables des inégalités en santé »^[@oms2008, Commission des déterminants sociaux de la santé, Rapport final, Genève.]. Ce constat appelle une quantification rigoureuse des facteurs qui façonnent la perception individuelle de l'état de santé.
+En 2019, la Direction de la recherche, des études, de l'évaluation et des statistiques (DREES) rapportait que 67,4\ % des Français jugeaient leur état de santé « bon » ou « très bon »^[DREES, *L'état de santé de la population en France --- Rapport 2017*, Ministère des Solidarités et de la Santé, Paris.]. Derrière cette moyenne rassurante se dissimule pourtant un clivage profond : parmi les ménages du premier quintile de revenus, la proportion d'adultes déclarant un état de santé « mauvais » ou « très mauvais » culmine à 19\ %, soit près du triple de la moyenne nationale [@drees2017]. Ce constat, loin de constituer une anomalie statistique, révèle un phénomène structurel : les inégalités sociales de santé perçue s'inscrivent au cœur des préoccupations économiques et sanitaires contemporaines^[En France, l'espérance de vie en bonne santé d'un ouvrier est inférieure de six années à celle d'un cadre supérieur, un écart qui n'a cessé de se creuser depuis les années 1980.]. L'Organisation mondiale de la santé (OMS), par l'intermédiaire de sa Commission sur les déterminants sociaux de la santé, a établi que « les conditions dans lesquelles les individus naissent, grandissent, vivent, travaillent et vieillissent constituent les déterminants sociaux de la santé, lesquels sont principalement responsables des inégalités en santé »^[@oms2008, Rapport final, Genève. Cette formulation a été reprise par de nombreuses institutions nationales, dont le Haut Conseil de la santé publique en France.]. Ce constat appelle une quantification rigoureuse des facteurs qui façonnent la perception individuelle de l'état de santé.
 
-La France dispose, à cet égard, d'un instrument d'observation privilégié : l'Enquête Santé et Protection Sociale (ESPS), conduite depuis 1988 par l'Institut de recherche et documentation en économie de la santé (IRDES)^[@irdes_esps.]. Cette enquête, qui articule données de santé déclarée, recours aux soins et caractéristiques socio-économiques, offre un terrain empirique particulièrement riche pour l'analyse des déterminants de l'état de santé perçu --- variable centrale de notre étude.
+La France dispose, à cet égard, d'un instrument d'observation privilégié : l'Enquête Santé et Protection Sociale (ESPS), conduite depuis 1988 par l'Institut de recherche et documentation en économie de la santé (IRDES)^[@irdes_esps. L'ESPS articule données de santé déclarée, recours aux soins et caractéristiques socio-économiques, et constitue le socle empirique de nombreuses études sur les inégalités de santé en France.]. Cette enquête offre un terrain empirique particulièrement riche pour l'analyse des déterminants de l'état de santé perçu --- variable centrale du présent projet.
 
-## Intérêt scientifique et empirique : pourquoi étudier la santé perçue par la régression linéaire ?
+## Motivation du projet : pourquoi étudier la santé perçue par la régression linéaire ?
 
 L'état de santé perçu (*self-rated health*, SRH) occupe une place singulière en épidémiologie et en économie de la santé. @idler1997, dans une méta-analyse pionnière portant sur vingt-sept études de cohorte, ont démontré que cette mesure subjective constitue un prédicteur indépendant de la mortalité, y compris après ajustement sur l'état de santé objectif. @jylha2009 propose un modèle conceptuel unifié expliquant ce pouvoir prédictif : la santé perçue intégrerait simultanément des informations biologiques infracliniques, des comparaisons sociales et des représentations culturelles de la santé^[Ce résultat explique pourquoi les grandes enquêtes de population --- EU-SILC, ESPS, SHARE --- incluent systématiquement une question d'auto-évaluation de la santé.].
 
 La régression linéaire multiple, bien que la variable réponse soit ordinale, est largement mobilisée dans la littérature pour modéliser la santé perçue. @kennedy1998 utilisent la régression linéaire sur un score de santé auto-évalué pour démontrer l'effet des inégalités de revenus sur la santé perçue aux États-Unis. @subramanian2002 recourent à des modèles linéaires multiniveaux pour estimer l'effet contextuel du capital social sur la santé auto-déclarée. En France, @devaux2010 et @etile2007 mobilisent la régression linéaire pour identifier l'hétérogénéité de déclaration selon le statut socio-économique. Cette approche, qui suppose l'équidistance entre les modalités ordinales, présente l'avantage de la parcimonie et de l'interprétabilité directe des coefficients --- un atout essentiel pour l'aide à la décision en santé publique^[La régression logistique ordinale, plus rigoureuse sur le plan théorique, sera néanmoins estimée à titre de comparaison et de robustesse.].
 
-**Notre motivation** pour ce choix méthodologique est triple : (i) reproduire et discuter les résultats de la littérature dans le cadre pédagogique de l'ESPS ; (ii) confronter systématiquement la régression linéaire à la régression logistique ordinale pour évaluer la robustesse des conclusions ; (iii) mobiliser un arsenal complet de diagnostics statistiques (colinéarité, validation, sélection) rarement déployés conjointement dans les études existantes.
+**Notre motivation** pour ce choix thématique et méthodologique est triple : (i) reproduire et discuter les résultats de la littérature dans le cadre pédagogique de l'ESPS, en démontrant la pertinence de la régression linéaire pour l'étude de la santé perçue ; (ii) confronter systématiquement la régression linéaire à la régression logistique ordinale pour évaluer la robustesse des conclusions ; (iii) mobiliser un arsenal complet de diagnostics statistiques (colinéarité, validation, sélection) rarement déployés conjointement dans les études existantes.
 
 ## Problématique générale
 
-L'enjeu de la modélisation de la santé perçue se situe à l'intersection de deux tensions. D'une part, la nature ordinale de la variable réponse interroge la légitimité de la régression linéaire : l'hypothèse d'équidistance entre « Très mauvais » et « Mauvais » est-elle soutenable ? D'autre part, la multiplicité des déterminants potentiels --- biologiques, socio-économiques, comportementaux, institutionnels --- engendre des effets de confusion qui requièrent une stratégie d'identification rigoureuse^[L'endogénéité potentielle des variables de recours aux soins (consultations, médicaments) constitue une difficulté supplémentaire, car ces variables sont simultanément cause et conséquence de l'état de santé (@grossman1972).].
+L'enjeu de la modélisation de la santé perçue se situe à l'intersection de deux tensions. D'une part, la nature ordinale de la variable réponse interroge la légitimité de la régression linéaire : l'hypothèse d'équidistance entre « Très mauvais » et « Mauvais » est-elle soutenable ? D'autre part, la multiplicité des déterminants potentiels --- biologiques, socio-économiques, comportementaux, institutionnels --- engendre des effets de confusion qui requièrent une stratégie d'identification rigoureuse^[L'endogénéité potentielle des variables de recours aux soins (consultations, médicaments) constitue une difficulté supplémentaire, car ces variables sont simultanément cause et conséquence de l'état de santé, comme le souligne le modèle de capital santé de @grossman1972.].
 
 Comment, dès lors, modéliser et hiérarchiser les déterminants de l'état de santé perçu en France, en tenant compte de la nature ordinale de la variable réponse, des effets de confusion entre variables sociodémographiques, économiques et comportementales, et des limites inhérentes aux données d'enquête en coupe transversale ?
 
@@ -146,13 +165,15 @@ Comment, dès lors, modéliser et hiérarchiser les déterminants de l'état de 
 
 ## Hypothèses de recherche
 
-- **H1** : L'âge, le nombre de consultations médicales et le nombre de médicaments réguliers sont les déterminants quantitatifs les plus fortement associés à l'état de santé perçu --- conformément au modèle de capital santé de @grossman1972, selon lequel l'état de santé se déprécie avec l'âge et la consommation médicale reflète le stock de santé résiduel.
-- **H2** : L'activité physique et le handicap déclaré exercent un effet significatif sur l'état de santé perçu, au-delà des variables sociodémographiques et économiques (effet propre mis en évidence par l'ANCOVA) --- ce qui prolonge les résultats de @singh2006 sur les déterminants comportementaux de la santé perçue.
-- **H3** : Le modèle logistique ordinal, respectant la nature qualitative ordinale de la variable réponse, offre un ajustement supérieur au modèle linéaire sur le score numérique --- hypothèse fondée sur les travaux de @mccullagh1980 et @agresti2010 qui établissent la supériorité théorique du *cumulative logit model* pour les réponses ordinales.
+Les hypothèses formulées ci-dessous constituent des pistes d'exploration --- des intuitions fondées sur la littérature existante --- que l'analyse statistique permettra de confirmer, nuancer ou infirmer :
+
+- **H1** (*Prédominance des déterminants quantitatifs*) : L'âge, le nombre de consultations médicales et le nombre de médicaments réguliers seraient les déterminants quantitatifs les plus fortement associés à l'état de santé perçu. Cette intuition s'appuie sur le modèle de capital santé de @grossman1972, selon lequel l'état de santé se déprécie avec l'âge et la consommation médicale reflète le stock de santé résiduel^[Il convient de souligner que cette hypothèse porte sur l'association statistique et non sur la causalité, le design en coupe transversale ne permettant pas d'inférence causale au sens strict.].
+- **H2** (*Effet propre des facteurs comportementaux et de santé*) : L'activité physique et le handicap déclaré exerceraient un effet significatif sur l'état de santé perçu, au-delà des variables sociodémographiques et économiques. Cette piste prolonge les travaux de @singh2006 sur les déterminants comportementaux de la santé perçue et sera testée au moyen de l'ANCOVA avec moyennes marginales ajustées^[L'ANCOVA permet précisément d'isoler l'effet propre d'un facteur qualitatif *après ajustement* sur les covariables continues, répondant ainsi à la question de l'effet net de l'activité physique.].
+- **H3** (*Pertinence comparative du modèle ordinal*) : Le modèle logistique ordinal, respectant la nature qualitative ordinale de la variable réponse, offrirait un ajustement supérieur au modèle linéaire sur le score numérique. Cette intuition repose sur les travaux fondateurs de @mccullagh1980 et @agresti2010, qui établissent la supériorité théorique du *cumulative logit model* pour les réponses ordinales^[La vérification de cette hypothèse nécessite le test de Brant, qui conditionne la validité du modèle à cotes proportionnelles.].
 
 ## Positionnement scientifique
 
-Ce travail s'inscrit au carrefour de la biostatistique, de l'économie de la santé et de l'économétrie appliquée. Il mobilise des méthodes de régression en grande dimension (sélection de variables, diagnostics de colinéarité) et de régression logistique ordinale, appliquées à des données synthétiques reproduisant la structure de l'ESPS^[La nature synthétique des données, si elle interdit toute conclusion épidémiologique réelle, autorise en revanche une discussion méthodologique approfondie sur la validité comparée des différentes approches statistiques.]. Le positionnement est délibérément **méthodologique** : il s'agit de démontrer, sur un terrain maîtrisé, la pertinence et les limites de chaque famille de méthodes, plutôt que de produire des résultats directement transposables à la politique de santé publique.
+Ce projet s'inscrit au carrefour de la biostatistique, de l'économie de la santé et de l'économétrie appliquée. Il mobilise des méthodes de régression en grande dimension (sélection de variables, diagnostics de colinéarité) et de régression logistique ordinale, appliquées à des données synthétiques reproduisant la structure de l'ESPS^[La nature synthétique des données, si elle interdit toute conclusion épidémiologique réelle, autorise en revanche une discussion méthodologique approfondie sur la validité comparée des différentes approches statistiques --- un avantage pédagogique non négligeable.]. Le positionnement est délibérément **méthodologique** : il s'agit de démontrer, sur un terrain maîtrisé, la pertinence et les limites de chaque famille de méthodes, plutôt que de produire des résultats directement transposables à la politique de santé publique. **Ce choix thématique** est motivé par l'importance croissante des inégalités sociales de santé dans le débat public français et par la richesse du cadre théorique (modèle de Grossman, déterminants sociaux de l'OMS) qui permet d'ancrer solidement l'analyse statistique dans un questionnement économique et sociétal.
 
 ## Stratégie de recherche et démarche méthodologique
 
@@ -269,17 +290,17 @@ L'hypothèse d'équidistance implicite dans la régression linéaire sur un scor
 
 ## Positionnement de la contribution
 
-Ce travail se distingue par la mise en œuvre systématique et comparée de l'ensemble des méthodes (régression linéaire, ANCOVA, régression logistique ordinale et binaire) sur un même jeu de données, permettant une évaluation croisée de la robustesse des résultats et une discussion méthodologique approfondie. À notre connaissance, rares sont les études qui déploient conjointement :
+Ce projet se distingue par la mise en œuvre systématique et comparée de l'ensemble des méthodes (régression linéaire, ANCOVA, régression logistique ordinale et binaire) sur un même jeu de données, permettant une évaluation croisée de la robustesse des résultats et une discussion méthodologique approfondie. À notre connaissance, rares sont les études qui déploient conjointement :
 
-1. Une sélection de variables exhaustive (7 méthodes) avec diagnostic complet de colinéarité.
-2. Une ANCOVA avec moyennes marginales et tests d'interaction.
-3. Une régression logistique ordinale avec test de Brant et modèle binaire avec évaluation prédictive (ROC/AUC).
-4. Une confrontation systématique des résultats à la littérature empirique existante.
+1. Une sélection de variables exhaustive (sept méthodes complémentaires) avec diagnostic complet de colinéarité (VIF, tolérance, indices de conditionnement).
+2. Une ANCOVA avec moyennes marginales estimées (LSMEANS) et tests de comparaisons multiples de Tukey.
+3. Une régression logistique ordinale avec test de Brant pour la proportionnalité des cotes, couplée à un modèle binaire avec évaluation prédictive (ROC/AUC, matrice de confusion, test de Hosmer-Lemeshow).
+4. Une confrontation systématique des résultats à la littérature empirique existante, tant sur le plan épidémiologique que méthodologique.
 
-Ce positionnement fait de notre travail un **exercice méthodologique de référence**, transposable aux données réelles de l'ESPS.
+Ce positionnement confère à notre travail la dimension d'un **exercice méthodologique de référence**, directement transposable aux données réelles de l'ESPS sous convention d'accès IRDES/CASD^[La transposabilité est garantie par le fait que la base synthétique reproduit fidèlement la nomenclature des variables, les types de données et les ordres de grandeur de l'ESPS réelle.].
 
 \bigskip
-**Conclusion du chapitre.** L'état de l'art révèle que la régression linéaire constitue un outil pertinent --- mais non exclusif --- pour modéliser la santé perçue. La littérature identifie l'âge, le gradient social, la couverture assurantielle et les comportements de santé comme déterminants majeurs. Notre contribution réside dans la confrontation systématique des approches linéaire et ordinale, assortie d'un appareil diagnostique complet rarement déployé dans les études existantes.
+**Conclusion du chapitre.** L'état de l'art révèle que la régression linéaire constitue un outil pertinent --- mais non exclusif --- pour modéliser la santé perçue. La littérature identifie l'âge, le gradient social, la couverture assurantielle et les comportements de santé comme déterminants majeurs. Notre contribution réside dans la confrontation systématique des approches linéaire et ordinale, assortie d'un appareil diagnostique complet rarement déployé dans les études existantes. Ce chapitre a permis de montrer que notre démarche s'inscrit dans une tradition de recherche solidement établie tout en y apportant une plus-value méthodologique originale.
 
 
 # Méthodologie {#chap-methodologie}
@@ -395,12 +416,12 @@ La base comporte 25 variables, dont la sélection est fondée sur le cadre théo
 
 ### Source et nature des données
 
-Les données proviennent d'une base synthétique (`base_esps_synthétique.csv`, 500 observations $\times$ 25 variables) générée pour reproduire la structure et les distributions plausibles de l'Enquête Santé et Protection Sociale (ESPS) de l'IRDES^[@irdes_esps. La base synthétique a été générée par le script `generate_esps_database.py`, documenté dans le fichier `README_base_esps.md`.].
+Les données proviennent d'une base synthétique (`base_esps_synthétique.csv`, 500 observations $\times$ 25 variables) générée pour reproduire la structure et les distributions plausibles de l'Enquête Santé et Protection Sociale (ESPS) de l'IRDES^[@irdes_esps. Les distributions marginales et les corrélations conditionnelles ont été calibrées sur les statistiques publiées par l'IRDES et la DREES.].
 
 ## Importation de la base de données
 
 ```{r importation}
-df <- read.csv2("base_esps_synthétique.csv", fileEncoding = "UTF-8")
+df <- read.csv2("../data/base_esps_synthétique.csv", fileEncoding = "UTF-8")
 ```
 
 ```{r structure}
@@ -1358,15 +1379,15 @@ Plusieurs extensions permettraient de dépasser les limites identifiées :
 
 # Conclusion générale {-}
 
-Ce projet a mis en œuvre une analyse statistique complète et systématique des déterminants de l'état de santé perçu, à partir de données synthétiques reproduisant la structure de l'Enquête Santé et Protection Sociale (ESPS). Sept familles de méthodes statistiques ont été appliquées de manière séquentielle et complémentaire : analyse bivariée, régression linéaire multiple, étude de la colinéarité, sélection de variables, validation du modèle, analyse de covariance (ANCOVA) et régression logistique (ordinale et binaire).
+Ce projet a déployé une analyse statistique exhaustive et systématique des déterminants de l'état de santé perçu, à partir de données synthétiques reproduisant la structure de l'Enquête Santé et Protection Sociale (ESPS). Sept familles de méthodes statistiques ont été mobilisées de manière séquentielle et complémentaire : analyse bivariée ($\chi^2$, ANOVA, Kruskal-Wallis, Spearman), régression linéaire multiple avec diagnostics de colinéarité, sélection de variables par critères informationnels, validation du modèle linéaire gaussien, analyse de covariance (ANCOVA) avec moyennes marginales, et régression logistique (ordinale à cotes proportionnelles et binaire avec évaluation prédictive).
 
-**Contribution méthodologique.** La valeur ajoutée de ce travail réside dans la confrontation systématique des approches linéaire et ordinale sur un même jeu de données, assortie d'un appareil diagnostique complet (VIF, Shapiro-Wilk, Durbin-Watson, Breusch-Pagan, Cook, LOESS, Brant, ROC/AUC) rarement déployé conjointement dans les études existantes. Cette démarche duale permet d'évaluer la sensibilité des conclusions à la spécification du modèle --- un point méthodologique essentiel pour la fiabilité des résultats en économie de la santé.
+**Contribution méthodologique.** La valeur ajoutée de ce projet réside dans la confrontation systématique des approches linéaire et ordinale sur un même jeu de données, assortie d'un appareil diagnostique complet (VIF, Shapiro-Wilk, Durbin-Watson, Breusch-Pagan, Cook, LOESS, Brant, ROC/AUC, Hosmer-Lemeshow) rarement déployé conjointement dans les études existantes. Cette démarche duale permet d'évaluer la sensibilité des conclusions à la spécification du modèle --- un point méthodologique essentiel pour la fiabilité des résultats en économie de la santé^[La convergence des résultats entre modèles linéaire et ordinal constitue, en soi, un résultat de robustesse qui renforce la crédibilité des conclusions.].
 
-**Résultats substantiels.** L'âge, le nombre de consultations médicales, le nombre de médicaments réguliers, l'activité physique et le handicap déclaré émergent comme déterminants robustes de l'état de santé perçu, significatifs à travers les différentes spécifications. L'ANCOVA confirme l'existence d'effets propres des facteurs comportementaux et de santé au-delà des caractéristiques sociodémographiques, confortant les hypothèses H1 et H2. Ces résultats sont conformes à la littérature épidémiologique [@mackenbach1999 ; @marmot2005 ; @singh2006] et aux prédictions du modèle de capital santé de @grossman1972.
+**Résultats substantiels.** L'âge, le nombre de consultations médicales, le nombre de médicaments réguliers, l'activité physique et le handicap déclaré émergent comme déterminants robustes de l'état de santé perçu, significatifs à travers l'ensemble des spécifications. L'ANCOVA confirme l'existence d'effets propres des facteurs comportementaux et de santé au-delà des caractéristiques sociodémographiques, confortant les hypothèses H1 et H2. Ces résultats sont conformes à la littérature épidémiologique [@mackenbach1999 ; @marmot2005 ; @singh2006] et aux prédictions du modèle de capital santé de @grossman1972. En termes de prédiction, le modèle logistique binaire atteint une capacité discriminante satisfaisante, attestant de la pertinence des variables retenues pour identifier les individus en mauvaise santé.
 
-**Limites et perspectives.** La nature synthétique des données, le design en coupe transversale et l'endogénéité potentielle de certaines variables appellent à la prudence. L'application de cette méthodologie aux données réelles de l'ESPS (sous convention IRDES/CASD) constituerait la validation externe indispensable pour donner aux résultats une portée épidémiologique et politique.
+**Limites et perspectives.** La nature synthétique des données, le design en coupe transversale et l'endogénéité potentielle de certaines variables appellent à la prudence dans l'interprétation. L'application de cette méthodologie aux données réelles de l'ESPS (sous convention IRDES/CASD) constituerait la validation externe indispensable pour conférer aux résultats une portée épidémiologique et politique. Des extensions par modèles multiniveaux, variables instrumentales ou méthodes d'apprentissage automatique permettraient de dépasser les limites identifiées.
 
-En définitive, ce travail démontre que la régression linéaire, convenablement diagnostiquée et confrontée au modèle ordinal, constitue un outil pertinent et interprétable pour la modélisation de la santé perçue --- un résultat méthodologique transposable à d'autres enquêtes de population et à d'autres contextes institutionnels.
+En définitive, ce projet démontre que la régression linéaire, convenablement diagnostiquée et confrontée au modèle ordinal, constitue un outil pertinent et interprétable pour la modélisation de la santé perçue --- un résultat méthodologique transposable à d'autres enquêtes de population et à d'autres contextes institutionnels.
 
 
 # Remerciements {-}
@@ -1378,11 +1399,11 @@ Nous tenons à remercier M. Amor KEZIOU pour son encadrement et ses conseils mé
 
 # Annexe A : Description détaillée de la base de données {-}
 
-La base `base_esps_synthétique.csv` comporte 500 observations et 25 variables. Le dictionnaire complet des variables, les types, les modalités et les corrélations intégrées dans la génération sont documentés dans le fichier `README_base_esps.md`. La base a été générée par le script Python `generate_esps_database.py`, qui implémente les distributions marginales et les corrélations conditionnelles calibrées sur les statistiques publiées par l'IRDES et la DREES^[Les corrélations intégrées (âge--santé, revenus--consultations, etc.) reproduisent les ordres de grandeur observés dans l'ESPS réelle, sans pour autant en constituer une réplication exacte.].
+La base `base_esps_synthétique.csv`, stockée dans le répertoire `data/`, comporte 500 observations et 25 variables. Les distributions marginales et les corrélations conditionnelles ont été calibrées sur les statistiques publiées par l'IRDES et la DREES, afin de reproduire fidèlement la structure de l'ESPS réelle^[Les corrélations intégrées (âge--santé, revenus--consultations, etc.) reproduisent les ordres de grandeur observés dans l'ESPS réelle, sans pour autant en constituer une réplication exacte.]. Le dictionnaire complet des variables, les types et les modalités sont documentés dans le code R du présent rapport (cf. Annexe B).
 
 # Annexe B : Code R complet {-}
 
-L'intégralité du code R utilisé dans ce projet est reproduite ci-dessous. Le script SAS équivalent est disponible dans le fichier `analyse_etat_sante_esps.sas`. Les packages R mobilisés sont listés dans la bibliographie (section Packages référencés).
+L'intégralité du code R utilisé dans ce projet est reproduite ci-dessous. L'ensemble des traitements statistiques est directement intégré au fichier `.Rmd` et s'exécute automatiquement lors de la compilation (*knit*), garantissant la reproductibilité complète des résultats.
 
 ```{r ref.label="packages", echo=TRUE, eval=FALSE}
 ```
@@ -1577,4 +1598,4 @@ L'intégralité du code R utilisé dans ce projet est reproduite ci-dessous. Le 
 ```
 
 
-# Bibliographie {-}
+<!-- La bibliographie est générée automatiquement par biblatex via le template LaTeX -->
