@@ -175,6 +175,11 @@ $endif$
 % --- Corps du document --------------------------------------------------------
 $body$
 
+% --- Inclusion de toutes les entrées bibliographiques -------------------------
+$if(nocite-ids)$
+\nocite{$for(nocite-ids)$$nocite-ids$$sep$, $endfor$}
+$endif$
+
 % --- Bibliographie ------------------------------------------------------------
 $if(biblatex)$
 \printbibliography[heading=bibintoc,title={Bibliographie}]

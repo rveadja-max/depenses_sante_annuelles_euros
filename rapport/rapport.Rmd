@@ -69,6 +69,7 @@ output:
 
 bibliography: biblio-cr-urca.bib
 link-citations: yes
+nocite: '@*'
 ---
 
 ```{r setup, include=FALSE}
