@@ -421,15 +421,10 @@ Les données proviennent d'une base synthétique (`base_esps_synthétique.csv`, 
 ## Importation de la base de données
 
 ```{r importation}
-df <- read.csv2("../data/base_esps_synthétique.csv", fileEncoding = "UTF-8")
-
-# Conversion nécessaire : imc et depenses utilisent le point décimal (format anglais)
-# alors que read.csv2() attend la virgule comme séparateur décimal (format français).
-df <- df %>%
-  mutate(
-    imc = as.numeric(imc),
-    depenses_sante_annuelles_euros = as.numeric(depenses_sante_annuelles_euros)
-  )
+# Lecture avec read.csv() et sep=";" : le séparateur décimal par défaut est le point (.),
+# ce qui correspond au format du fichier CSV. Cela évite les problèmes de conversion
+# liés à read.csv2() qui attend la virgule comme séparateur décimal (locale française).
+df <- read.csv("../data/base_esps_synthétique.csv", sep = ";", fileEncoding = "UTF-8")
 ```
 
 ```{r structure}
