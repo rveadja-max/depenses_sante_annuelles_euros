@@ -423,7 +423,8 @@ Les données proviennent d'une base synthétique (`base_esps_synthétique.csv`, 
 ```{r importation}
 df <- read.csv2("../data/base_esps_synthétique.csv", fileEncoding = "UTF-8")
 
-# Conversion des variables numériques lues comme caractères (décimales au format point)
+# Conversion nécessaire : imc et depenses utilisent le point décimal (format anglais)
+# alors que read.csv2() attend la virgule comme séparateur décimal (format français).
 df <- df %>%
   mutate(
     imc = as.numeric(imc),
