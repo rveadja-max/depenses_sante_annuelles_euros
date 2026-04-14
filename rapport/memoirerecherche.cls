@@ -142,11 +142,11 @@
  \thispagestyle{plain}
 
  \begin{center}
-   \includegraphics[height=6cm]{\thelogo}
+   \includegraphics[height=3.5cm]{\thelogo}
  \end{center}
 
-\vspace{0.5cm}
- {\Large \textbf{\@evaluation}}
+\vspace{0.2cm}
+ {\normalsize \textbf{\@evaluation}}
  
 \vspace{0.3cm}
 valant évaluation dans le cadre de :
@@ -171,9 +171,9 @@ valant évaluation dans le cadre de :
   %\\ \hline
 \end{tabular}
 
-\vspace{1.4cm}
+\vspace{0.5cm}
 \noindent
-\Large{\textsc{\textbf{\textcolor{urcabrown}{\@title}}}}
+\large{\textsc{\textbf{\textcolor{urcabrown}{\@title}}}}
 
 
 % \vspace{-0.2cm}
@@ -191,7 +191,7 @@ valant évaluation dans le cadre de :
 
 \small \normalfont
 
-\vspace{1.4cm}
+\vspace{0.5cm}
 
 \begin{tabular}{@{}p{0.33\textwidth}>{\columncolor{urcalightbrown!20}}p{0.66\textwidth}@{}}
 % \begin{tabular}{@{}c@{}@{}c@{}}
@@ -212,22 +212,22 @@ valant évaluation dans le cadre de :
    % \end{minipage}%}
    &
    % \begin{minipage}[t]{0.66\textwidth}
-      \noindent \textbf{\textcolor{urcabrown}{ Résumé :}} {\@resume}
+      \noindent \textbf{\textcolor{urcabrown}{ Résumé :}} {\footnotesize \@resume}
       
       \vspace{0.2cm}
       \noindent
      % \fcolorbox{urcalightbrown!60}{urcalightbrown!20}{%
    % \begin{minipage}{0.34\textwidth}%{\dimexpr0.34\textwidth-2\fboxrule-2\fboxsep\relax}
       \textcolor{urcabrown}{\textbf{Mots-clés :}} % \\
-      \@keywords
+      {\footnotesize \@keywords}
       
-  \vspace{0.2cm}
+  \vspace{0.1cm}
    \noindent
-   \textcolor{urcabrown}{\textbf{Matériel supplémentaire :}}
+   {\footnotesize \textcolor{urcabrown}{\textbf{Matériel supplémentaire :}}
    
    \noindent \faGit :  {\@gitrepo} 
    
-   \noindent \faDatabase :  {\@database} 
+   \noindent \faDatabase :  {\@database}} 
       
       
    % \end{minipage}
