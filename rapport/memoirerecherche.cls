@@ -17,9 +17,7 @@
 \RequirePackage{amsthm}
 \RequirePackage{lastpage} %Last page number
 % \RequirePackage[figure,table]{totalcount} % Pour avoir les nombres de figures, tables et théoremes
-\RequirePackage{totcount} % Pour compter le nombre de références
-\regtotcounter{figure}
-\regtotcounter{table}
+% \RequirePackage{totcount} % Pour compter le nombre de références
 %\RequirePackage{thmtools}
 \RequirePackage{fontawesome}
 

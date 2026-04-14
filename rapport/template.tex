@@ -77,11 +77,28 @@ $endif$
 
 % --- Comptage automatique des références bibliographiques ---------------------
 % Le compteur citnum est incrémenté pour chaque entrée imprimée dans la
-% bibliographie ; \thecitnum sur la page de titre affichera la valeur
-% finale (disponible dès le second passage LaTeX).
+% bibliographie.
 \newcounter{citnum}
-\regtotcounter{citnum}
 \AtEveryBibitem{\stepcounter{citnum}}
+
+% --- Sauvegarde des totaux dans le fichier .aux (second passage) --------------
+% À la fin du document on écrit les valeurs finales des compteurs figure,
+% table et citnum dans le .aux. Au passage suivant, \providecommand les
+% lit avant \maketitle, ce qui rend les métriques disponibles sur la
+% page de titre sans dépendre du paquet totcount.
+\makeatletter
+\providecommand{\savedFigCount}{0}
+\providecommand{\savedTabCount}{0}
+\providecommand{\savedRefCount}{0}
+\AtEndDocument{%
+  \immediate\write\@auxout{%
+    \string\gdef\string\savedFigCount{\number\value{figure}}}%
+  \immediate\write\@auxout{%
+    \string\gdef\string\savedTabCount{\number\value{table}}}%
+  \immediate\write\@auxout{%
+    \string\gdef\string\savedRefCount{\number\value{citnum}}}%
+}
+\makeatother
 
 % --- Coloration syntaxique Pandoc ---------------------------------------------
 $if(highlighting-macros)$
@@ -115,11 +132,10 @@ $if(database)$\database{$database$}$else$\database{}$endif$
 \logo{logoSESGURCA.jpg}
 
 % Métriques de la page de titre — comptage automatique
-% Les compteurs figure, table et citnum sont gérés automatiquement par
-% totcount (voir memoirerecherche.cls). Les lignes ci-dessous ne sont
-% conservées que pour ne pas casser un éventuel code qui référencerait
-% \@totfig, \@tottab, etc.
-\totfig{\totvalue{figure}}\tottab{\totvalue{table}}\totref{\totvalue{citnum}}\tottheo{0}
+% Les valeurs finales des compteurs figure, table et citnum sont
+% sauvegardées dans le .aux et relues au passage suivant via
+% \savedFigCount, \savedTabCount, \savedRefCount (voir bloc ci-dessus).
+\totfig{\savedFigCount}\tottab{\savedTabCount}\totref{\savedRefCount}\tottheo{0}
 
 % --- Titre, auteur, date ------------------------------------------------------
 \title{$title$}
