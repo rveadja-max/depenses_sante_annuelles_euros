@@ -16,8 +16,10 @@
 /*  0.  PARAMÉTRAGE GLOBAL                                            */
 /* ================================================================== */
 
-/* -- Adapter ce chemin au répertoire contenant le fichier CSV ------- */
-%LET chemin = /home/u00000000/depenses_sante_annuelles_euros/data;
+/* -- IMPORTANT : Adapter ce chemin au répertoire contenant le CSV -- */
+/* -- Exemple SAS OnDemand : /home/votre_id/depenses_sante/data     -- */
+/* -- Exemple Windows :      C:\Projets\depenses_sante\data          -- */
+%LET chemin = /chemin/vers/votre/projet/data;
 
 /* -- Options globales ---------------------------------------------- */
 OPTIONS NOCENTER PAGESIZE=MAX LINESIZE=MAX FORMCHAR="|----|+|---+=|-/\<>*"
@@ -48,9 +50,8 @@ PROC PRINT DATA=esps (OBS=5); RUN;
 
 TITLE2 "Dimensions de la base";
 PROC SQL;
-    SELECT COUNT(*) AS nb_observations,
-           COUNT(*) AS nb_variables
-           FORMAT=COMMA8.
+    SELECT (SELECT COUNT(*) FROM WORK.ESPS) AS nb_observations FORMAT=COMMA8.,
+           COUNT(NAME)                       AS nb_variables    FORMAT=COMMA8.
     FROM DICTIONARY.COLUMNS
     WHERE LIBNAME='WORK' AND MEMNAME='ESPS';
 QUIT;
