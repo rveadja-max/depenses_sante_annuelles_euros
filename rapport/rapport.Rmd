@@ -143,6 +143,39 @@ esps$renoncement_num <- ifelse(esps$renoncement_soins_12_mois == "Oui", 1, 0)
 n_obs <- nrow(esps)
 ```
 
+# Sigles et acronymes {-}
+
+\begin{tabular}{@{} l @{\hspace{1.5em}} p{12cm} @{}}
+\toprule
+\textbf{Sigle} & \textbf{Signification} \\
+\midrule
+AIC     & \textit{Akaike Information Criterion} --- Critère d'information d'Akaike \\
+ANCOVA  & \textit{Analysis of Covariance} --- Analyse de covariance \\
+ANOVA   & \textit{Analysis of Variance} --- Analyse de la variance \\
+AUC     & \textit{Area Under the Curve} --- Aire sous la courbe ROC \\
+BIC     & \textit{Bayesian Information Criterion} --- Critère d'information bayésien \\
+CMU-C   & Couverture maladie universelle complémentaire \\
+DREES   & Direction de la recherche, des études, de l'évaluation et des statistiques \\
+ESPS    & Enquête Santé et Protection Sociale \\
+EU-SILC & \textit{European Union --- Statistics on Income and Living Conditions} \\
+GLM     & \textit{General Linear Model} --- Modèle linéaire général \\
+IMC     & Indice de masse corporelle \\
+INSEE   & Institut national de la statistique et des études économiques \\
+IRDES   & Institut de recherche et documentation en économie de la santé \\
+LOESS   & \textit{Locally Estimated Scatterplot Smoothing} --- Lissage local \\
+LSMEANS & \textit{Least Squares Means} --- Moyennes des moindres carrés \\
+MCO     & Moindres carrés ordinaires \\
+OMS     & Organisation mondiale de la santé \\
+ROC     & \textit{Receiver Operating Characteristic} --- Courbe caractéristique de fonctionnement du récepteur \\
+SAS     & \textit{Statistical Analysis System} \\
+SHARE   & \textit{Survey of Health, Ageing and Retirement in Europe} \\
+SRH     & \textit{Self-Rated Health} --- Santé auto-évaluée \\
+VIF     & \textit{Variance Inflation Factor} --- Facteur d'inflation de la variance \\
+\bottomrule
+\end{tabular}
+
+\newpage
+
 # Introduction générale {-}
 
 ## Accroche et contexte général
