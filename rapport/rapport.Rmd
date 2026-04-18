@@ -1370,11 +1370,6 @@ Ce projet a mis en œuvre une analyse statistique complète et systématique des
 En définitive, ce travail démontre que la régression linéaire, convenablement diagnostiquée et confrontée au modèle ordinal, constitue un outil pertinent et interprétable pour la modélisation de la santé perçue --- un résultat méthodologique transposable à d'autres enquêtes de population et à d'autres contextes institutionnels.
 
 
-# Remerciements {-}
-
-Nous tenons à remercier M. Amor KEZIOU pour son encadrement et ses conseils méthodologiques tout au long de ce projet.
-
-
 `r if (knitr::is_latex_output()) '(APPENDIX) Annexes {-}'`
 
 # Annexe A : Description détaillée de la base de données {-}
@@ -1390,6 +1385,3 @@ cat("\\begin{verbatim}")
 cat(readLines("../analyse_etat_sante_esps.sas", encoding = "UTF-8"), sep = "\n")
 cat("\\end{verbatim}")
 ```
-
-
-# Bibliographie {-}
