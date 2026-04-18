@@ -31,7 +31,7 @@ database: "ESPS (synthétique) : base\\_esps\\_synthétique.csv (500 obs., 25 va
 
 diplome: "Master Statistique pour l'évaluation et la prévision, 1ère année"
 module: "Modèles linéaires - Statistical Analysis System"
-enseig: "EMMANUELLE GAUTHERAT"
+enseig: "CHARLOTTE PAPELARD"
 evaluation: "Projet de Modèles linéaires avec Statistical Analysis System"
 coefficient: '50\%'
 
@@ -1381,200 +1381,14 @@ Nous tenons à remercier M. Amor KEZIOU pour son encadrement et ses conseils mé
 
 La base `base_esps_synthétique.csv` comporte 500 observations et 25 variables. Le dictionnaire complet des variables, les types, les modalités et les corrélations intégrées dans la génération sont documentés dans le fichier `README_base_esps.md`. La base a été générée par le script Python `generate_esps_database.py`, qui implémente les distributions marginales et les corrélations conditionnelles calibrées sur les statistiques publiées par l'IRDES et la DREES^[Les corrélations intégrées (âge--santé, revenus--consultations, etc.) reproduisent les ordres de grandeur observés dans l'ESPS réelle, sans pour autant en constituer une réplication exacte.].
 
-# Annexe B : Code R complet {-}
+# Annexe B : Code SAS complet {-}
 
-L'intégralité du code R utilisé dans ce projet est reproduite ci-dessous. Le script SAS équivalent est disponible dans le fichier `analyse_etat_sante_esps.sas`. Les packages R mobilisés sont listés dans la bibliographie (section Packages référencés).
+L'intégralité du code SAS utilisé pour le traitement des données sous SAS est reproduite ci-dessous. Ce script correspond au fichier `analyse_etat_sante_esps.sas`.
 
-```{r ref.label="packages", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="importation", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="structure", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="dimensions", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="recodage", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="verif-recodage", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="distribution-Y", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="chi2-function", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="chi2-tests", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="chi2-resume", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="anova-bivariee", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="anova-resume", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="kruskal-wallis", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="spearman", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="boxplots", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="reg-complet", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="reg-complet-r2", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="reg-reduit", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="reg-reduit-r2", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="comparaison-modeles", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="vif", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="matrice-corr", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="condition-index", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="regsubsets", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="best-models", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="forward", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="backward", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="stepwise", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="comparaison-selection", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="modele-retenu", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="qqplot", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="histogramme-resid", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="shapiro", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="rstudent-leverage", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="cook", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="durbin-watson", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="breusch-pagan", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="residus-fitted", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="loess-plots", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="obs-aberrantes", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="diag-4plots", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="ancova-complete", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="ancova-complete-anova", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="ancova-complete-summary", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="ancova-reduite", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="ancova-reduite-summary", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="lsmeans", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="interaction-age-sexe", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="interaction-plot", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="logit-ord-complet", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="logit-ord-complet-pvalues", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="brant-test", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="logit-ord-reduit", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="logit-ord-reduit-pvalues", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="lr-test-ordinal", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="logit-binaire", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="logit-binaire-or", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="logit-stepwise", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="roc", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="auc", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="confusion", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="metriques", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="pseudo-r2", echo=TRUE, eval=FALSE}
-```
-
-```{r ref.label="hosmer-lemeshow", echo=TRUE, eval=FALSE}
+```{r sas-code-annexe, echo=FALSE, results='asis'}
+cat("\\begin{verbatim}")
+cat(readLines("../analyse_etat_sante_esps.sas", encoding = "UTF-8"), sep = "\n")
+cat("\\end{verbatim}")
 ```
 
 
