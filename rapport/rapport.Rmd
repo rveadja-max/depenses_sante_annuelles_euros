@@ -13,8 +13,7 @@ author:
 date: "`r format(Sys.time(), '%d %B %Y')`"
 
 abstract: |
-  En France, 8,2\ \% des adultes déclarent un état de santé « mauvais » ou « très mauvais », un chiffre qui atteint 19\ \% parmi les ménages du premier quintile de revenus (DREES, 2017). Ce gradient social, documenté par la Commission OMS sur les déterminants sociaux de la santé (2008), soulève une question fondamentale : quels facteurs sociodémographiques, économiques et comportementaux déterminent la perception individuelle de l'état de santé, et comment les hiérarchiser de façon robuste ?  
-  Le présent projet met en œuvre une analyse statistique complète des déterminants de l'état de santé perçu en France métropolitaine, à partir de données synthétiques reproduisant la structure de l'Enquête Santé et Protection Sociale (ESPS) de l'IRDES (500 individus, 25 variables). La variable réponse --- qualitative ordinale à cinq modalités (Très mauvais, Mauvais, Assez bon, Bon, Très bon) --- est analysée au moyen de sept familles de méthodes : analyse bivariée ($\chi^2$, ANOVA, Kruskal-Wallis, Spearman), régression linéaire multiple sur le score ordinal (1--5), colinéarité (VIF, tolérance, indices de conditionnement), sélection de variables (*forward*, *backward*, *stepwise* par AIC/BIC), validation complète (Shapiro-Wilk, Durbin-Watson, Breusch-Pagan, Cook, LOESS), ANCOVA (facteurs qualitatifs, moyennes marginales de Tukey), régression logistique ordinale (cotes proportionnelles, test de Brant) et binaire (ROC, AUC, matrice de confusion). L'âge, les consultations médicales, les médicaments réguliers, l'activité physique et le handicap déclaré émergent comme déterminants robustes, tous significatifs au seuil de 5\ \% à travers les différentes spécifications. Les limites --- données synthétiques, hypothèse de proportionnalité des odds, absence de correction pour biais de sélection --- sont rigoureusement discutées.
+  En France, 8,2\ \% des adultes déclarent un état de santé « mauvais » ou « très mauvais », un chiffre qui atteint 19\ \% parmi les ménages du premier quintile de revenus (DREES, 2017). Ce gradient social, documenté par la Commission OMS sur les déterminants sociaux de la santé (2008), soulève une question fondamentale : quels facteurs sociodémographiques, économiques et comportementaux déterminent la perception individuelle de l'état de santé, et comment les hiérarchiser de façon robuste ? Le présent projet met en œuvre une analyse statistique complète des déterminants de l'état de santé perçu en France métropolitaine, à partir de données synthétiques reproduisant la structure de l'Enquête Santé et Protection Sociale (ESPS) de l'IRDES (500 individus, 25 variables). La variable réponse --- qualitative ordinale à cinq modalités (Très mauvais, Mauvais, Assez bon, Bon, Très bon) --- est analysée au moyen de sept familles de méthodes : analyse bivariée ($\chi^2$, ANOVA, Kruskal-Wallis, Spearman), régression linéaire multiple sur le score ordinal (1--5), colinéarité (VIF, tolérance, indices de conditionnement), sélection de variables (*forward*, *backward*, *stepwise* par AIC/BIC), validation complète (Shapiro-Wilk, Durbin-Watson, Breusch-Pagan, Cook, LOESS), ANCOVA (facteurs qualitatifs, moyennes marginales de Tukey), régression logistique ordinale (cotes proportionnelles, test de Brant) et binaire (ROC, AUC, matrice de confusion). L'âge, les consultations médicales, les médicaments réguliers, l'activité physique et le handicap déclaré émergent comme déterminants robustes, tous significatifs au seuil de 5\ \% à travers les différentes spécifications. Les limites --- données synthétiques, hypothèse de proportionnalité des odds, absence de correction pour biais de sélection --- sont rigoureusement discutées.
 
 keywords: 
   - État de santé perçu
@@ -28,9 +27,7 @@ keywords:
 
 git: "https://gitlab-mi.univ-reims.fr/adja0021"
 
-database: |
-  ESPS (synthétique) : base\_esps\_synthétique.csv (500 obs. × 25 variables)
-  IRDES — Enquête Santé et Protection Sociale : \url{https://www.irdes.fr/recherche/enquetes/esps-enquete-sur-la-sante-et-la-protection-sociale/}
+database: "ESPS (synthétique) : base\\_esps\\_synthétique.csv (500 obs., 25 variables) --- IRDES"
 
 diplome: "Master Statistique pour l'évaluation et la prévision, 1ère année"
 module: "Modèles linéaires - Statistical Analysis System"
@@ -73,7 +70,7 @@ output:
     lot: yes
     lof: yes
 
-bibliography: biblio-cr-urca.bib
+bibliography: biblio-sante.bib
 link-citations: yes
 ---
 
@@ -103,7 +100,7 @@ library(pROC)        # courbe ROC
 library(nnet)        # multinom (régression multinomiale, optionnel)
 library(emmeans)     # moyennes marginales (LSMEANS)
 library(leaps)       # regsubsets (sélection de sous-modèles)
-library(olsrr)       # diagnostics de régression complémentaires
+if (requireNamespace("olsrr", quietly = TRUE)) library(olsrr)  # diagnostics de régression complémentaires (optionnel)
 ```
 
 # Introduction générale {-}
@@ -400,7 +397,11 @@ Les données proviennent d'une base synthétique (`base_esps_synthétique.csv`, 
 ## Importation de la base de données
 
 ```{r importation}
-df <- read.csv2("base_esps_synthétique.csv", fileEncoding = "UTF-8")
+df <- read.csv2("../data/base_esps_synthétique.csv", fileEncoding = "UTF-8")
+
+# Conversion des colonnes numériques lues comme caractères (décimales avec point)
+df$depenses_sante_annuelles_euros <- as.numeric(df$depenses_sante_annuelles_euros)
+df$imc <- as.numeric(df$imc)
 ```
 
 ```{r structure}
@@ -965,7 +966,7 @@ seuil_cook <- 4 / nrow(df)
 
 df_diag %>%
   filter(abs(rstud) > 2 | cooksd > seuil_cook) %>%
-  select(id, age, score_sante, .fitted, .resid, rstud, cooksd, leverage) %>%
+  dplyr::select(id, age, score_sante, .fitted, .resid, rstud, cooksd, leverage) %>%
   arrange(desc(abs(rstud))) %>%
   mutate(across(where(is.numeric), ~ round(.x, 4))) %>%
   kable(caption = paste0("Observations potentiellement aberrantes / influentes ",

@@ -79,6 +79,7 @@ $endif$
 % Le compteur citnum (défini dans memoirerecherche.cls) est incrémenté pour
 % chaque entrée imprimée dans la bibliographie ; \total{citnum} sur la page
 % de titre affichera la valeur finale (disponible dès le second passage LaTeX).
+\newcounter{citnum}
 \AtEveryBibitem{\stepcounter{citnum}}
 
 % --- Coloration syntaxique Pandoc ---------------------------------------------
