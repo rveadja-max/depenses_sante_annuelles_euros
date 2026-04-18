@@ -1298,7 +1298,12 @@ La base `base_esps_synthétique.csv` comporte `r n_obs` observations et 25 varia
 L'intégralité du code SAS utilisé pour le traitement des données sous SAS est reproduite ci-dessous. Ce script correspond au fichier `analyse_etat_sante_esps.sas`.
 
 ```{r sas-code-annexe, echo=FALSE, results='asis'}
-cat("\\begin{verbatim}")
-cat(readLines("../analyse_etat_sante_esps.sas", encoding = "UTF-8"), sep = "\n")
-cat("\\end{verbatim}")
+sas_file <- "../analyse_etat_sante_esps.sas"
+if (file.exists(sas_file)) {
+  cat("\\begin{verbatim}")
+  cat(readLines(sas_file, encoding = "UTF-8"), sep = "\n")
+  cat("\\end{verbatim}")
+} else {
+  cat("\\textit{Le fichier SAS n'a pas été trouvé. Veuillez consulter le fichier analyse\\_etat\\_sante\\_esps.sas dans le dépôt.}")
+}
 ```
