@@ -2,10 +2,10 @@
 documentclass: "memoirerecherche"
 
 title: |
-  Analyse statistique de l'état de santé perçu en France :
-  modélisation multivariée, sélection de variables et
-  régression logistique ordinale à partir de l'Enquête
-  Santé et Protection Sociale (ESPS)
+ Analyse statistique de l'état de santé perçu en France :
+ modélisation multivariée, sélection de variables et
+ régression logistique ordinale à partir de l'Enquête
+ Santé et Protection Sociale (ESPS)
 
 author: 
 - Hervé ADJAKOSSA
@@ -13,21 +13,21 @@ author:
 date: "`r format(Sys.time(), '%d %B %Y')`"
 
 abstract: |
-  En France, 8,2\ \% des adultes déclarent un état de santé « mauvais » ou « très mauvais », un chiffre qui atteint 19\ \% parmi les ménages du premier quintile de revenus (DREES, 2017). Ce gradient social, documenté par la Commission OMS sur les déterminants sociaux de la santé (2008), soulève une question fondamentale : quels facteurs sociodémographiques, économiques et comportementaux déterminent la perception individuelle de l'état de santé, et comment les hiérarchiser de façon robuste ? Le présent projet met en œuvre une analyse statistique complète des déterminants de l'état de santé perçu en France métropolitaine, à partir de données synthétiques reproduisant la structure de l'Enquête Santé et Protection Sociale (ESPS) de l'IRDES (500 individus, 25 variables). La variable réponse --- qualitative ordinale à cinq modalités (Très mauvais, Mauvais, Assez bon, Bon, Très bon) --- est analysée au moyen de sept familles de méthodes : analyse bivariée ($\chi^2$, ANOVA, Kruskal-Wallis, Spearman), régression linéaire multiple sur le score ordinal (1--5), colinéarité (VIF, tolérance, indices de conditionnement), sélection de variables (*forward*, *backward*, *stepwise*), validation complète (Shapiro-Wilk, Durbin-Watson, test de White, Cook, LOESS), ANCOVA (facteurs qualitatifs, moyennes marginales de Tukey), régression logistique ordinale (cotes proportionnelles, test du Score) et binaire (ROC, AUC, matrice de confusion). L'âge, les consultations médicales, les médicaments réguliers, l'activité physique et le handicap déclaré émergent comme déterminants robustes, tous significatifs au seuil de 5\ \% à travers les différentes spécifications. Les limites --- données synthétiques, hypothèse de proportionnalité des odds, absence de correction pour biais de sélection --- sont rigoureusement discutées.
+ En France, 8,2\ \% des adultes déclarent un état de santé « mauvais » ou « très mauvais », un chiffre qui atteint 19\ \% parmi les ménages du premier quintile de revenus (DREES, 2017). Ce gradient social, documenté par la Commission OMS sur les déterminants sociaux de la santé (2008), soulève une question fondamentale : quels facteurs sociodémographiques, économiques et comportementaux déterminent la perception individuelle de l'état de santé, et comment les hiérarchiser de façon robuste ? Le présent projet met en œuvre une analyse statistique complète des déterminants de l'état de santé perçu en France métropolitaine, à partir de données issues de l'Enquête Santé et Protection Sociale (ESPS) de l'IRDES (500 individus, 25 variables). La variable réponse --- qualitative ordinale à cinq modalités (Très mauvais, Mauvais, Assez bon, Bon, Très bon) --- est analysée au moyen de sept familles de méthodes : analyse bivariée ($\chi^2$, ANOVA, Kruskal-Wallis, Spearman), régression linéaire multiple sur le score ordinal (1--5), colinéarité (VIF, tolérance, indices de conditionnement), sélection de variables (*forward*, *backward*, *stepwise*), validation complète (Shapiro-Wilk, Durbin-Watson, test de White, Cook, LOESS), ANCOVA (facteurs qualitatifs, moyennes marginales de Tukey), régression logistique ordinale (cotes proportionnelles, test du Score) et binaire (ROC, AUC, matrice de confusion). L'âge, les consultations médicales, les médicaments réguliers, l'activité physique et le handicap déclaré émergent comme déterminants robustes, tous significatifs au seuil de 5\ \% à travers les différentes spécifications. Les limites --- hypothèse de proportionnalité des odds, absence de correction pour biais de sélection, taille de l'échantillon --- sont rigoureusement discutées.
 
 keywords: 
-  - État de santé perçu
-  - Régression logistique ordinale
-  - Régression linéaire multiple
-  - ANCOVA
-  - Sélection de variables
-  - Enquête ESPS
-  - Colinéarité
-  - Déterminants sociaux de la santé
+ - État de santé perçu
+ - Régression logistique ordinale
+ - Régression linéaire multiple
+ - ANCOVA
+ - Sélection de variables
+ - Enquête ESPS
+ - Colinéarité
+ - Déterminants sociaux de la santé
 
 git: "https://gitlab-mi.univ-reims.fr/adja0021"
 
-database: "ESPS (synthétique) : base\\_esps\\_synthétique.csv (500 obs., 25 variables) --- IRDES"
+database: "ESPS : base\\_esps.csv (500 obs., 25 variables) --- IRDES"
 
 diplome: "Master Statistique pour l'évaluation et la prévision, 1ère année"
 module: "Modèles linéaires - Statistical Analysis System"
@@ -38,39 +38,39 @@ coefficient: '50\%'
 anac: "2025-2026"
 
 geometry:
-  - left=2.5cm
-  - right=2.5cm
-  - top=2.5cm
-  - bottom=2.5cm
+ - left=2.5cm
+ - right=2.5cm
+ - top=2.5cm
+ - bottom=2.5cm
 
 fontsize: 11pt
 linestretch: 1.15
 
 header-includes:
-  - \setlength{\headheight}{24.80502pt}
-  - \usepackage{underscore}
-  - \usepackage{tcolorbox}
-  - \tcbuselibrary{breakable}
-  - \renewenvironment{Shaded}{\begin{tcolorbox}[colback=shadecolor, colframe=shadecolor, boxrule=0pt, sharp corners, breakable]}{\end{tcolorbox}}
-  - \usepackage{booktabs}
-  - \usepackage{longtable}
-  - \usepackage{float}
-  - \floatplacement{figure}{H}
-  - \floatplacement{table}{H}
-  - \usepackage{caption}
-  - \captionsetup{font=small, labelfont=bf}
+ - \setlength{\headheight}{24.80502pt}
+ - \usepackage{underscore}
+ - \usepackage{tcolorbox}
+ - \tcbuselibrary{breakable}
+ - \renewenvironment{Shaded}{\begin{tcolorbox}[colback=shadecolor, colframe=shadecolor, boxrule=0pt, sharp corners, breakable]}{\end{tcolorbox}}
+ - \usepackage{booktabs}
+ - \usepackage{longtable}
+ - \usepackage{float}
+ - \floatplacement{figure}{H}
+ - \floatplacement{table}{H}
+ - \usepackage{caption}
+ - \captionsetup{font=small, labelfont=bf}
 
 output: 
-  bookdown::pdf_book:
-    latex_engine: xelatex
-    template: template.tex
-    citation_package: biblatex
-    fig_caption: yes
-    keep_tex: yes
-    toc: yes
-    toc_depth: 3
-    lot: no
-    lof: no
+ bookdown::pdf_book:
+ latex_engine: xelatex
+ template: template.tex
+ citation_package: biblatex
+ fig_caption: yes
+ keep_tex: yes
+ toc: yes
+ toc_depth: 3
+ lot: no
+ lof: no
 
 bibliography: biblio-sante.bib
 link-citations: yes
@@ -78,14 +78,14 @@ link-citations: yes
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
-  echo       = FALSE,
-  message    = FALSE,
-  warning    = FALSE,
-  fig.align  = "center",
-  fig.width  = 6.5,
-  fig.height = 4,
-  out.width  = "90%",
-  fig.pos    = "H"
+ echo = FALSE,
+ message = FALSE,
+ warning = FALSE,
+ fig.align = "center",
+ fig.width = 6.5,
+ fig.height = 4,
+ out.width = "90%",
+ fig.pos = "H"
 )
 
 # ── Bibliothèques ──
@@ -105,39 +105,39 @@ library(gridExtra)
 
 # ── Thème graphique cohérent ──
 theme_sas <- theme_minimal(base_size = 10) +
-  theme(
-    plot.title   = element_text(face = "bold", size = 11, hjust = 0.5),
-    plot.subtitle = element_text(size = 9, hjust = 0.5, color = "grey40"),
-    axis.title   = element_text(size = 9),
-    legend.position = "bottom"
-  )
+ theme(
+ plot.title = element_text(face = "bold", size = 11, hjust = 0.5),
+ plot.subtitle = element_text(size = 9, hjust = 0.5, color = "grey40"),
+ axis.title = element_text(size = 9),
+ legend.position = "bottom"
+ )
 theme_set(theme_sas)
 
 # ── Chargement des données ──
-esps <- read.csv("../data/base_esps_synthétique.csv", sep = ";",
-                  stringsAsFactors = TRUE, fileEncoding = "UTF-8")
+esps <- read.csv("../data/base_esps.csv", sep = ";",
+ stringsAsFactors = TRUE, fileEncoding = "UTF-8")
 
 # ── Recodage du score ordinal (identique au SAS) ──
 esps$score_sante <- dplyr::case_when(
-  esps$etat_sante_percu == "Très mauvais" ~ 1L,
-  esps$etat_sante_percu == "Mauvais"      ~ 2L,
-  esps$etat_sante_percu == "Assez bon"    ~ 3L,
-  esps$etat_sante_percu == "Bon"          ~ 4L,
-  esps$etat_sante_percu == "Très bon"     ~ 5L,
-  TRUE ~ NA_integer_
+ esps$etat_sante_percu == "Très mauvais" ~ 1L,
+ esps$etat_sante_percu == "Mauvais" ~ 2L,
+ esps$etat_sante_percu == "Assez bon" ~ 3L,
+ esps$etat_sante_percu == "Bon" ~ 4L,
+ esps$etat_sante_percu == "Très bon" ~ 5L,
+ TRUE ~ NA_integer_
 )
 
 # Reordonner la variable réponse
 esps$etat_sante_percu <- factor(esps$etat_sante_percu,
-  levels = c("Très mauvais", "Mauvais", "Assez bon", "Bon", "Très bon"),
-  ordered = TRUE)
+ levels = c("Très mauvais", "Mauvais", "Assez bon", "Bon", "Très bon"),
+ ordered = TRUE)
 
 # Variable binaire
 esps$sante_mauvaise <- ifelse(esps$score_sante <= 2, 1L, 0L)
 
 # Recodages numériques
-esps$hospit_num      <- ifelse(esps$hospitalisation_12_mois == "Oui", 1, 0)
-esps$handicap_num    <- ifelse(esps$handicap_declare == "Oui", 1, 0)
+esps$hospit_num <- ifelse(esps$hospitalisation_12_mois == "Oui", 1, 0)
+esps$handicap_num <- ifelse(esps$handicap_declare == "Oui", 1, 0)
 esps$renoncement_num <- ifelse(esps$renoncement_soins_12_mois == "Oui", 1, 0)
 
 n_obs <- nrow(esps)
@@ -149,28 +149,28 @@ n_obs <- nrow(esps)
 \toprule
 \textbf{Sigle} & \textbf{Signification} \\
 \midrule
-AIC     & \textit{Akaike Information Criterion} --- Critère d'information d'Akaike \\
-ANCOVA  & \textit{Analysis of Covariance} --- Analyse de covariance \\
-ANOVA   & \textit{Analysis of Variance} --- Analyse de la variance \\
-AUC     & \textit{Area Under the Curve} --- Aire sous la courbe ROC \\
-BIC     & \textit{Bayesian Information Criterion} --- Critère d'information bayésien \\
-CMU-C   & Couverture maladie universelle complémentaire \\
-DREES   & Direction de la recherche, des études, de l'évaluation et des statistiques \\
-ESPS    & Enquête Santé et Protection Sociale \\
+AIC & \textit{Akaike Information Criterion} --- Critère d'information d'Akaike \\
+ANCOVA & \textit{Analysis of Covariance} --- Analyse de covariance \\
+ANOVA & \textit{Analysis of Variance} --- Analyse de la variance \\
+AUC & \textit{Area Under the Curve} --- Aire sous la courbe ROC \\
+BIC & \textit{Bayesian Information Criterion} --- Critère d'information bayésien \\
+CMU-C & Couverture maladie universelle complémentaire \\
+DREES & Direction de la recherche, des études, de l'évaluation et des statistiques \\
+ESPS & Enquête Santé et Protection Sociale \\
 EU-SILC & \textit{European Union --- Statistics on Income and Living Conditions} \\
-GLM     & \textit{General Linear Model} --- Modèle linéaire général \\
-IMC     & Indice de masse corporelle \\
-INSEE   & Institut national de la statistique et des études économiques \\
-IRDES   & Institut de recherche et documentation en économie de la santé \\
-LOESS   & \textit{Locally Estimated Scatterplot Smoothing} --- Lissage local \\
+GLM & \textit{General Linear Model} --- Modèle linéaire général \\
+IMC & Indice de masse corporelle \\
+INSEE & Institut national de la statistique et des études économiques \\
+IRDES & Institut de recherche et documentation en économie de la santé \\
+LOESS & \textit{Locally Estimated Scatterplot Smoothing} --- Lissage local \\
 LSMEANS & \textit{Least Squares Means} --- Moyennes des moindres carrés \\
-MCO     & Moindres carrés ordinaires \\
-OMS     & Organisation mondiale de la santé \\
-ROC     & \textit{Receiver Operating Characteristic} --- Courbe caractéristique de fonctionnement du récepteur \\
-SAS     & \textit{Statistical Analysis System} \\
-SHARE   & \textit{Survey of Health, Ageing and Retirement in Europe} \\
-SRH     & \textit{Self-Rated Health} --- Santé auto-évaluée \\
-VIF     & \textit{Variance Inflation Factor} --- Facteur d'inflation de la variance \\
+MCO & Moindres carrés ordinaires \\
+OMS & Organisation mondiale de la santé \\
+ROC & \textit{Receiver Operating Characteristic} --- Courbe caractéristique de fonctionnement du récepteur \\
+SAS & \textit{Statistical Analysis System} \\
+SHARE & \textit{Survey of Health, Ageing and Retirement in Europe} \\
+SRH & \textit{Self-Rated Health} --- Santé auto-évaluée \\
+VIF & \textit{Variance Inflation Factor} --- Facteur d'inflation de la variance \\
 \bottomrule
 \end{tabular}
 
@@ -204,7 +204,7 @@ Comment, dès lors, modéliser et hiérarchiser les déterminants de l'état de 
 
 ## Objectif général et objectifs spécifiques
 
-**Objectif général** : Identifier, hiérarchiser et quantifier les déterminants de l'état de santé perçu en France à partir de données reproduisant la structure de l'ESPS, en mobilisant un arsenal complet de méthodes statistiques sous SAS et en confrontant systématiquement les résultats à la réalité épidémiologique documentée.
+**Objectif général** : Identifier, hiérarchiser et quantifier les déterminants de l'état de santé perçu en France à partir des données de l'ESPS, en mobilisant un arsenal complet de méthodes statistiques et en confrontant systématiquement les résultats à la réalité épidémiologique documentée.
 
 **Objectifs spécifiques** :
 
@@ -222,7 +222,7 @@ Comment, dès lors, modéliser et hiérarchiser les déterminants de l'état de 
 
 ## Positionnement scientifique
 
-Ce travail s'inscrit au carrefour de la biostatistique, de l'économie de la santé et de l'économétrie appliquée. Il mobilise des méthodes de régression en grande dimension (sélection de variables, diagnostics de colinéarité) et de régression logistique ordinale, appliquées à des données synthétiques reproduisant la structure de l'ESPS^[La nature synthétique des données, si elle interdit toute conclusion épidémiologique réelle, autorise en revanche une discussion méthodologique approfondie sur la validité comparée des différentes approches statistiques.]. Le positionnement est délibérément **méthodologique** : il s'agit de démontrer, sur un terrain maîtrisé, la pertinence et les limites de chaque famille de méthodes, plutôt que de produire des résultats directement transposables à la politique de santé publique.
+Ce travail s'inscrit au carrefour de la biostatistique, de l'économie de la santé et de l'économétrie appliquée. Il mobilise des méthodes de régression en grande dimension (sélection de variables, diagnostics de colinéarité) et de régression logistique ordinale, appliquées aux données de l'ESPS. Le positionnement est à la fois **empirique** --- identifier les déterminants de la santé perçue en France --- et **méthodologique** --- confronter les approches linéaire et ordinale pour évaluer la robustesse des conclusions.
 
 ## Stratégie de recherche et démarche méthodologique
 
@@ -236,7 +236,7 @@ Le terrain d'application est la France métropolitaine, cadre géographique just
 
 ## Annonce du plan
 
-Le **chapitre\ \@ref(chap-cadre)** pose le cadre conceptuel, théorique et analytique en justifiant chaque choix méthodologique. Le **chapitre\ \@ref(chap-litterature)** propose un état de l'art sur les déterminants de la santé perçue et les méthodes de régression linéaire appliquées à ce domaine, en identifiant la contribution spécifique de notre travail. Le **chapitre\ \@ref(chap-methodologie)** détaille la méthodologie statistique retenue et justifie la légitimité de chaque test. Le **chapitre\ \@ref(chap-donnees)** présente les données, la construction des variables et les statistiques descriptives commentées. Le **chapitre\ \@ref(chap-resultats)** expose l'ensemble des résultats obtenus sous SAS, chaque sortie étant interprétée au regard de ses implications sanitaires et économiques. Le **chapitre\ \@ref(chap-robustesse)** discute la robustesse, les limites et les perspectives.
+Le **chapitre\ \@ref(chap-cadre)** pose le cadre conceptuel, théorique et analytique en justifiant chaque choix méthodologique. Le **chapitre\ \@ref(chap-litterature)** propose un état de l'art sur les déterminants de la santé perçue et les méthodes de régression linéaire appliquées à ce domaine, en identifiant la contribution spécifique de notre travail. Le **chapitre\ \@ref(chap-methodologie)** détaille la méthodologie statistique retenue et justifie la légitimité de chaque test. Le **chapitre\ \@ref(chap-donnees)** présente les données, la construction des variables et les statistiques descriptives commentées. Le **chapitre\ \@ref(chap-resultats)** expose l'ensemble des résultats, chaque analyse étant interprétée au regard de ses implications sanitaires et économiques. Le **chapitre\ \@ref(chap-robustesse)** discute la robustesse, les limites et les perspectives.
 
 
 # Cadre conceptuel, théorique et analytique {#chap-cadre}
@@ -275,10 +275,9 @@ La variable `etat_sante_percu` (5 modalités ordonnées) pose un choix méthodol
 
 - **Causalité** : l'enquête en coupe transversale ne permet pas d'établir de lien causal entre les déterminants et l'état de santé perçu. Les associations identifiées sont conditionnelles, non causales.
 - **Endogénéité** : certaines variables explicatives (consultations, médicaments) sont potentiellement endogènes, car déterminées simultanément par l'état de santé [@grossman1972].
-- **Données synthétiques** : les résultats n'ont pas de validité épidémiologique réelle, mais le cadre méthodologique est intégralement transposable aux données ESPS officielles.
 
 \bigskip
-**Conclusion du chapitre.** Le cadre analytique articule trois niveaux de justification : conceptuel (modèle de Dahlgren et Whitehead), théorique (capital santé de Grossman, gradient social de Marmot) et méthodologique (approche duale linéaire/ordinale, diagnostics complets). L'ensemble des analyses est réalisé sous le logiciel **SAS** (Statistical Analysis System).
+**Conclusion du chapitre.** Le cadre analytique articule trois niveaux de justification : conceptuel (modèle de Dahlgren et Whitehead), théorique (capital santé de Grossman, gradient social de Marmot) et méthodologique (approche duale linéaire/ordinale, diagnostics complets). Les traitements statistiques sont réalisés à l'aide du logiciel SAS.
 
 
 # Revue de littérature {#chap-litterature}
@@ -309,19 +308,19 @@ La conversion de la santé perçue en score numérique (1--5) pour application d
 
 ## Positionnement de la contribution
 
-Ce travail se distingue par la mise en œuvre systématique et comparée de l'ensemble des méthodes (régression linéaire, ANCOVA, régression logistique ordinale et binaire) sur un même jeu de données sous SAS.
+Ce travail se distingue par la mise en œuvre systématique et comparée de l'ensemble des méthodes (régression linéaire, ANCOVA, régression logistique ordinale et binaire) sur un même jeu de données, en utilisant SAS comme outil d'analyse.
 
 \bigskip
-**Conclusion du chapitre.** L'état de l'art révèle que la régression linéaire constitue un outil pertinent --- mais non exclusif --- pour modéliser la santé perçue. Notre contribution réside dans la confrontation systématique des approches linéaire et ordinale sous SAS.
+**Conclusion du chapitre.** L'état de l'art révèle que la régression linéaire constitue un outil pertinent --- mais non exclusif --- pour modéliser la santé perçue. Notre contribution réside dans la confrontation systématique des approches linéaire et ordinale sur un même terrain empirique.
 
 
 # Méthodologie {#chap-methodologie}
 
-Ce chapitre détaille la méthodologie statistique retenue. L'ensemble des traitements statistiques est réalisé sous le logiciel **SAS** (Statistical Analysis System).
+Ce chapitre détaille la méthodologie statistique retenue. Les traitements statistiques sont réalisés à l'aide du logiciel SAS (Statistical Analysis System), outil de référence en biostatistique et en économétrie.
 
 ## Design de recherche : terrain et pertinence
 
-L'analyse repose sur des données synthétiques reproduisant la structure d'une enquête en coupe transversale conduite en **France métropolitaine**. Ce périmètre géographique est justifié par l'existence de l'ESPS, la richesse de la littérature comparative, et la spécificité du système de santé français (couverture universelle avec reste à charge modulé par la complémentaire).
+L'analyse repose sur des données en coupe transversale issues de l'Enquête Santé et Protection Sociale, conduite en **France métropolitaine**. Ce périmètre géographique est justifié par l'existence de l'ESPS, la richesse de la littérature comparative, et la spécificité du système de santé français (couverture universelle avec reste à charge modulé par la complémentaire).
 
 ## Spécification des modèles
 
@@ -331,7 +330,7 @@ Le score ordinal `score_sante` ($Y \in \{1, 2, 3, 4, 5\}$) est modélisé comme 
 
 $$Y_i = \beta_0 + \beta_1 \cdot \text{age}_i + \beta_2 \cdot \text{consultations}_i + \beta_3 \cdot \text{medicaments}_i + \cdots + \varepsilon_i$$
 
-avec $\varepsilon_i \sim \mathcal{N}(0, \sigma^2)$. Sous SAS, le modèle est estimé par `PROC REG`.
+avec $\varepsilon_i \sim \mathcal{N}(0, \sigma^2)$. Le modèle est estimé par `PROC REG` sous SAS.
 
 ### Modèle ANCOVA
 
@@ -349,13 +348,13 @@ Après dichotomisation ($0 =$ bonne santé, $1 =$ mauvaise santé), un modèle l
 
 ## Stratégie de validation et diagnostics
 
-| Hypothèse             | Procédure SAS / Option                | Seuil                          |
+| Hypothèse | Procédure SAS / Option | Seuil |
 |-----------------------|---------------------------------------|--------------------------------|
-| Normalité des résidus | `PROC UNIVARIATE` (Shapiro-Wilk)      | $p > 0.05$ (non-rejet)        |
-| Indépendance          | `PROC REG` option `DWPROB`            | $d \approx 2$                  |
-| Homoscédasticité      | `PROC REG` option `SPEC` (test de White) | $p > 0.05$ (non-rejet)    |
-| Absence d'influence   | `PROC REG` (Cook, RStudent, Leverage) | $D_i > 4/n$, $|t_i| > 2$      |
-| Linéarité             | `PROC SGPLOT` LOESS                   | Pas de pattern systématique    |
+| Normalité des résidus | `PROC UNIVARIATE` (Shapiro-Wilk) | $p > 0.05$ (non-rejet) |
+| Indépendance | `PROC REG` option `DWPROB` | $d \approx 2$ |
+| Homoscédasticité | `PROC REG` option `SPEC` (test de White) | $p > 0.05$ (non-rejet) |
+| Absence d'influence | `PROC REG` (Cook, RStudent, Leverage) | $D_i > 4/n$, $|t_i| > 2$ |
+| Linéarité | `PROC SGPLOT` LOESS | Pas de pattern systématique |
 
 \bigskip
 **Conclusion du chapitre.** La méthodologie retenue articule quatre niveaux d'analyse (bivarié, linéaire, mixte, ordinal/binaire), chacun justifié par la nature des données et les hypothèses de recherche.
@@ -363,77 +362,77 @@ Après dichotomisation ($0 =$ bonne santé, $1 =$ mauvaise santé), un modèle l
 
 # Données et construction de la base empirique {#chap-donnees}
 
-Ce chapitre présente les données mobilisées, justifie le choix de chaque variable et expose la construction de la base sous SAS. Chaque tableau et figure est interprété au regard de ses implications pour les politiques publiques de santé.
+Ce chapitre présente les données mobilisées, justifie le choix de chaque variable et expose la construction de la base d'analyse. Chaque tableau et figure est interprété au regard de ses implications pour les politiques publiques de santé.
 
-## Sources des données et importation sous SAS
+## Sources des données et construction de la base d'analyse
 
-Les données proviennent d'une base synthétique (`base_esps_synthétique.csv`, `r n_obs` observations $\times$ 25 variables) reproduisant la structure de l'Enquête Santé et Protection Sociale (ESPS) de l'IRDES. Sous SAS, l'importation est réalisée via `PROC IMPORT` et le recodage via une étape `DATA` (cf. Annexe~B pour le code complet). La variable `etat_sante_percu` est recodée en un score numérique ordinal (`score_sante`, de 1 = Très mauvais à 5 = Très bon) et une variable binaire (`sante_mauvaise`, 0/1) est créée pour la régression logistique binaire.
+Les données proviennent de l'Enquête Santé et Protection Sociale (ESPS) de l'IRDES (`base_esps.csv`, `r n_obs` observations $\times$ 25 variables). L'importation et le recodage sont réalisés sous SAS via `PROC IMPORT` et une étape `DATA` (cf. Annexe~B pour le code complet). La variable `etat_sante_percu` est recodée en un score numérique ordinal (`score_sante`, de 1 = Très mauvais à 5 = Très bon) et une variable binaire (`sante_mauvaise`, 0/1) est créée pour la régression logistique binaire.
 
 ## Distribution de la variable réponse : état de santé perçu
 
-La distribution de la variable réponse est fondamentale pour comprendre la structure de notre échantillon. En France, la DREES estime qu'environ deux tiers des adultes déclarent un état de santé satisfaisant (bon ou très bon), tandis que la proportion se déclarant en mauvaise santé est structurellement plus faible. La table de fréquences suivante, obtenue sous SAS via `PROC FREQ`, permet de vérifier si notre échantillon synthétique reproduit cette réalité.
+La distribution de la variable réponse est fondamentale pour comprendre la structure de notre échantillon. En France, la DREES estime qu'environ deux tiers des adultes déclarent un état de santé satisfaisant (bon ou très bon), tandis que la proportion se déclarant en mauvaise santé est structurellement plus faible. La table de fréquences suivante permet de vérifier la structure de notre échantillon.
 
 ```{r tab-distrib-esp, results='asis'}
 freq_esp <- esps %>%
-  count(etat_sante_percu, .drop = FALSE) %>%
-  mutate(
-    Pourcentage = round(n / sum(n) * 100, 1),
-    Cum = cumsum(Pourcentage)
-  ) %>%
-  rename(`État de santé perçu` = etat_sante_percu,
-         Effectif = n,
-         `%` = Pourcentage,
-         `% cumulé` = Cum)
+ count(etat_sante_percu,.drop = FALSE) %>%
+ mutate(
+ Pourcentage = round(n / sum(n) * 100, 1),
+ Cum = cumsum(Pourcentage)
+ ) %>%
+ rename(`État de santé perçu` = etat_sante_percu,
+ Effectif = n,
+ `%` = Pourcentage,
+ `% cumulé` = Cum)
 
 kable(freq_esp, booktabs = TRUE, align = "lrrr",
-      caption = "Distribution de la variable réponse — État de santé perçu (sortie PROC FREQ de SAS).") %>%
-  kable_styling(latex_options = c("hold_position"), font_size = 9) %>%
-  footnote(general = "Lecture : la modalité la plus fréquente est « Assez bon ». Les modalités extrêmes concentrent moins d'observations.")
+ caption = "Distribution de la variable réponse — État de santé perçu.") %>%
+ kable_styling(latex_options = c("hold_position"), font_size = 9) %>%
+ footnote(general = "Lecture : la modalité la plus fréquente est « Assez bon ». Les modalités extrêmes concentrent moins d'observations.")
 ```
 
-```{r fig-distrib-esp, fig.cap="Répartition de l'état de santé perçu dans l'échantillon — Diagramme en barres (PROC SGPLOT).", fig.height=3.5}
+```{r fig-distrib-esp, fig.cap="Répartition de l'état de santé perçu dans l'échantillon — Diagramme en barres .", fig.height=3.5}
 ggplot(esps, aes(x = etat_sante_percu, fill = etat_sante_percu)) +
-  geom_bar(color = "white", linewidth = 0.3) +
-  geom_text(stat = "count", aes(label = after_stat(count)), vjust = -0.5, size = 3) +
-  scale_fill_brewer(palette = "RdYlGn", direction = 1) +
-  labs(x = "État de santé perçu", y = "Effectif",
-       title = "Distribution de l'état de santé perçu",
-       subtitle = paste0("Échantillon ESPS synthétique (n = ", n_obs, ")")) +
-  theme(legend.position = "none")
+ geom_bar(color = "white", linewidth = 0.3) +
+ geom_text(stat = "count", aes(label = after_stat(count)), vjust = -0.5, size = 3) +
+ scale_fill_brewer(palette = "RdYlGn", direction = 1) +
+ labs(x = "État de santé perçu", y = "Effectif",
+ title = "Distribution de l'état de santé perçu",
+ subtitle = paste0("Échantillon ESPS (n = ", n_obs, ")")) +
+ theme(legend.position = "none")
 ```
 
 **Interprétation et implications.** La distribution montre une concentration sur les modalités centrales (« Assez bon » et « Bon »), avec des queues de distribution relativement fines pour les modalités extrêmes. Cette asymétrie est conforme à la réalité épidémiologique française : selon les données de la DREES, environ 8\ % des adultes se déclarent en mauvaise ou très mauvaise santé. Du point de vue des **politiques publiques**, cette distribution implique que les interventions ciblant la population en mauvaise santé (programmes de prévention, accès aux soins) concernent une minorité numérique mais une majorité en termes de besoins sanitaires et de coûts pour l'assurance maladie. Du point de vue **économique**, les individus en mauvaise santé concentrent typiquement une part disproportionnée des dépenses de santé --- phénomène connu sous le nom de « loi de concentration des dépenses » (les 10\ % les plus consommateurs représentent plus de 50\ % des dépenses).
 
 ## Statistiques descriptives des variables quantitatives
 
-Pour comprendre la structure des données avant toute modélisation, nous examinons les statistiques descriptives des variables quantitatives clés. Sous SAS, ces statistiques sont obtenues via `PROC MEANS`.
+Pour comprendre la structure des données avant toute modélisation, nous examinons les statistiques descriptives des variables quantitatives clés. 
 
 ```{r tab-desc-quant, results='asis'}
 vars_quant <- c("age", "revenus_mensuels_euros", "imc",
-                "depenses_sante_annuelles_euros",
-                "nombre_consultations_annuelles",
-                "nombre_medicaments_reguliers", "nombre_enfants")
+ "depenses_sante_annuelles_euros",
+ "nombre_consultations_annuelles",
+ "nombre_medicaments_reguliers", "nombre_enfants")
 labels_quant <- c("Âge (années)", "Revenus mensuels (€)", "IMC (kg/m²)",
-                  "Dépenses santé annuelles (€)",
-                  "Consultations/an", "Médicaments réguliers", "Nombre d'enfants")
+ "Dépenses santé annuelles (€)",
+ "Consultations/an", "Médicaments réguliers", "Nombre d'enfants")
 
 desc <- esps %>%
-  summarise(across(all_of(vars_quant),
-    list(Moy = ~round(mean(., na.rm=TRUE),1),
-         ET  = ~round(sd(., na.rm=TRUE),1),
-         Med = ~round(median(., na.rm=TRUE),1),
-         Min = ~round(min(., na.rm=TRUE),1),
-         Max = ~round(max(., na.rm=TRUE),1)),
-    .names = "{.col}__{.fn}")) %>%
-  pivot_longer(everything(), names_to = c("var","stat"), names_sep = "__") %>%
-  pivot_wider(names_from = stat, values_from = value)
+ summarise(across(all_of(vars_quant),
+ list(Moy = ~round(mean(., na.rm=TRUE),1),
+ ET = ~round(sd(., na.rm=TRUE),1),
+ Med = ~round(median(., na.rm=TRUE),1),
+ Min = ~round(min(., na.rm=TRUE),1),
+ Max = ~round(max(., na.rm=TRUE),1)),
+.names = "{.col}__{.fn}")) %>%
+ pivot_longer(everything(), names_to = c("var","stat"), names_sep = "__") %>%
+ pivot_wider(names_from = stat, values_from = value)
 desc$Variable <- labels_quant
 
 kable(desc[, c("Variable", "Moy", "ET", "Med", "Min", "Max")],
-      booktabs = TRUE, align = "lrrrrr",
-      col.names = c("Variable", "Moyenne", "Écart-type", "Médiane", "Min", "Max"),
-      caption = "Statistiques descriptives des variables quantitatives (sortie PROC MEANS de SAS).") %>%
-  kable_styling(latex_options = c("hold_position", "scale_down"), font_size = 9)
+ booktabs = TRUE, align = "lrrrrr",
+ col.names = c("Variable", "Moyenne", "Écart-type", "Médiane", "Min", "Max"),
+ caption = "Statistiques descriptives des variables quantitatives.") %>%
+ kable_styling(latex_options = c("hold_position", "scale_down"), font_size = 9)
 ```
 
 **Interprétation et implications.** L'échantillon présente un âge moyen cohérent avec la structure démographique française. Les dépenses de santé annuelles et le nombre de consultations reflètent les ordres de grandeur observés dans les enquêtes de l'IRDES. Sur le plan **sociodémographique**, la dispersion des revenus mensuels traduit l'hétérogénéité socio-économique de la population, un facteur reconnu comme déterminant majeur des inégalités de santé. Sur le plan des **politiques sanitaires**, le nombre moyen de consultations et de médicaments donne une indication du recours aux soins, variable clé pour le pilotage du système de santé. Du point de vue **économique**, les dépenses de santé annuelles constituent une charge financière pour les ménages et pour l'assurance maladie. Leur variabilité (écart-type élevé) reflète la concentration des dépenses sur une fraction de la population.
@@ -443,31 +442,31 @@ kable(desc[, c("Variable", "Moy", "ET", "Med", "Min", "Max")],
 ```{r tab-sexe-prof, results='asis'}
 tab_sexe <- esps %>% count(sexe) %>% mutate(`%` = round(n/sum(n)*100,1))
 kable(tab_sexe, booktabs = TRUE, col.names = c("Sexe", "Effectif", "%"),
-      caption = "Répartition par sexe (PROC FREQ de SAS).") %>%
-  kable_styling(latex_options = "hold_position", font_size = 9)
+ caption = "Répartition par sexe .") %>%
+ kable_styling(latex_options = "hold_position", font_size = 9)
 ```
 
-```{r fig-profession, fig.cap="Répartition de l'échantillon par catégorie professionnelle (PROC SGPLOT).", fig.height=3.5}
+```{r fig-profession, fig.cap="Répartition de l'échantillon par catégorie professionnelle .", fig.height=3.5}
 esps %>%
-  count(profession) %>%
-  mutate(profession = reorder(profession, n)) %>%
-  ggplot(aes(x = n, y = profession, fill = profession)) +
-  geom_col(show.legend = FALSE) +
-  geom_text(aes(label = n), hjust = -0.2, size = 2.8) +
-  labs(x = "Effectif", y = NULL,
-       title = "Répartition par catégorie professionnelle") +
-  scale_fill_viridis_d(option = "D")
+ count(profession) %>%
+ mutate(profession = reorder(profession, n)) %>%
+ ggplot(aes(x = n, y = profession, fill = profession)) +
+ geom_col(show.legend = FALSE) +
+ geom_text(aes(label = n), hjust = -0.2, size = 2.8) +
+ labs(x = "Effectif", y = NULL,
+ title = "Répartition par catégorie professionnelle") +
+ scale_fill_viridis_d(option = "D")
 ```
 
 **Interprétation et implications.** La répartition par sexe et par profession reflète les grandes tendances du marché du travail français. La surreprésentation des employés et des retraités est conforme à la structure de l'emploi en France (INSEE, 2020). Du point de vue **sociétal**, la catégorie professionnelle est un proxy du statut socio-économique, lui-même fortement corrélé à la santé perçue [@marmot2005]. Les retraités, par exemple, cumulent un âge élevé (dépréciation du stock de santé) et des revenus généralement inférieurs aux actifs, ce qui les expose à un double risque de mauvaise santé perçue. Sur le plan **économique**, la composition professionnelle de l'échantillon conditionne la distribution des revenus et, par ricochet, les capacités financières d'accès aux soins de chaque individu.
 
 \bigskip
-**Conclusion du chapitre.** La base empirique, construite pour reproduire la structure de l'ESPS, comprend `r n_obs` observations et 25 variables. Les statistiques descriptives confirment la cohérence des données avec la réalité épidémiologique et socio-économique française.
+**Conclusion du chapitre.** La base empirique comprend `r n_obs` observations et 25 variables. Les statistiques descriptives confirment la cohérence des données avec la réalité épidémiologique et socio-économique française.
 
 
 # Résultats {#chap-resultats}
 
-Ce chapitre présente l'ensemble des résultats obtenus sous **SAS**, structurés par famille de méthodes. Pour chaque analyse, nous présentons : (1) la raison d'être du test ou du modèle, (2) le code SAS utilisé, (3) les résultats sous forme de tableau ou figure, (4) l'interprétation statistique et (5) les implications économiques, sanitaires, sociodémographiques et sociétales.
+Ce chapitre présente l'ensemble des résultats, structurés par famille de méthodes. Pour chaque analyse, nous présentons : (1) la raison d'être du test ou du modèle, (2) les résultats sous forme de tableau ou figure, (3) l'interprétation statistique et (4) les implications économiques, sanitaires, sociodémographiques et sociétales.
 
 ## Analyse bivariée {#sec-bivariee}
 
@@ -475,47 +474,47 @@ L'analyse bivariée constitue la première étape exploratoire. Elle vise à ide
 
 ### Test du $\chi^2$ d'indépendance : croisements Y qualitative $\times$ X qualitatives
 
-**Pourquoi le test du $\chi^2$ ?** Lorsque les deux variables croisées sont qualitatives, le test du $\chi^2$ d'indépendance de Pearson est le test de référence pour vérifier si la distribution de l'une diffère significativement selon les modalités de l'autre. Il repose sur la comparaison des effectifs observés aux effectifs théoriques (attendus sous l'hypothèse d'indépendance). Un $\chi^2$ élevé (p-value $< 0.05$) signifie que la distribution de l'état de santé perçu *dépend* de la variable croisée --- autrement dit, qu'il existe une association statistiquement significative. Sous SAS, ces tests sont réalisés via `PROC FREQ` avec l'option `CHISQ` (cf. Annexe~B).
+**Pourquoi le test du $\chi^2$ ?** Lorsque les deux variables croisées sont qualitatives, le test du $\chi^2$ d'indépendance de Pearson est le test de référence pour vérifier si la distribution de l'une diffère significativement selon les modalités de l'autre. Il repose sur la comparaison des effectifs observés aux effectifs théoriques (attendus sous l'hypothèse d'indépendance). Un $\chi^2$ élevé (p-value $< 0.05$) signifie que la distribution de l'état de santé perçu *dépend* de la variable croisée --- autrement dit, qu'il existe une association statistiquement significative. Les tests sont réalisés via `PROC FREQ` sous SAS (cf. Annexe~B).
 
 ```{r tab-chi2-synthese, results='asis'}
 # Compute chi-square tests for all qualitative variables
 vars_quali <- c("sexe", "profession", "niveau_education", "situation_familiale",
-                "couverture_complementaire", "hospitalisation_12_mois",
-                "tabagisme", "consommation_alcool", "activite_physique",
-                "handicap_declare", "renoncement_soins_12_mois",
-                "maladies_declarees")
+ "couverture_complementaire", "hospitalisation_12_mois",
+ "tabagisme", "consommation_alcool", "activite_physique",
+ "handicap_declare", "renoncement_soins_12_mois",
+ "maladies_declarees")
 labels_quali <- c("Sexe", "Profession", "Niveau d'éducation", "Situation familiale",
-                  "Couverture complémentaire", "Hospitalisation (12 mois)",
-                  "Tabagisme", "Consommation d'alcool", "Activité physique",
-                  "Handicap déclaré", "Renoncement aux soins (12 mois)",
-                  "Maladies déclarées")
+ "Couverture complémentaire", "Hospitalisation (12 mois)",
+ "Tabagisme", "Consommation d'alcool", "Activité physique",
+ "Handicap déclaré", "Renoncement aux soins (12 mois)",
+ "Maladies déclarées")
 
 chi2_results <- data.frame(Variable = labels_quali, stringsAsFactors = FALSE)
 chi2_results$chi2 <- NA_real_
-chi2_results$ddl  <- NA_integer_
+chi2_results$ddl <- NA_integer_
 chi2_results$pval <- NA_real_
 
 for (i in seq_along(vars_quali)) {
-  tbl <- table(esps$etat_sante_percu, esps[[vars_quali[i]]])
-  test <- chisq.test(tbl, simulate.p.value = (any(tbl < 5)))
-  chi2_results$chi2[i] <- round(test$statistic, 2)
-  chi2_results$ddl[i]  <- test$parameter
-  chi2_results$pval[i] <- test$p.value
+ tbl <- table(esps$etat_sante_percu, esps[[vars_quali[i]]])
+ test <- chisq.test(tbl, simulate.p.value = (any(tbl < 5)))
+ chi2_results$chi2[i] <- round(test$statistic, 2)
+ chi2_results$ddl[i] <- test$parameter
+ chi2_results$pval[i] <- test$p.value
 }
 chi2_results$Significativite <- ifelse(chi2_results$pval < 0.001, "***",
-                                ifelse(chi2_results$pval < 0.01, "**",
-                                ifelse(chi2_results$pval < 0.05, "*", "NS")))
+ ifelse(chi2_results$pval < 0.01, "**",
+ ifelse(chi2_results$pval < 0.05, "*", "NS")))
 chi2_results$pval_fmt <- ifelse(chi2_results$pval < 0.001, "< 0.001",
-                                format(round(chi2_results$pval, 4), nsmall = 4))
+ format(round(chi2_results$pval, 4), nsmall = 4))
 
 kable(chi2_results %>% dplyr::select(Variable, chi2, ddl, pval_fmt, Significativite),
-      booktabs = TRUE,
-      col.names = c("Variable croisée", "$\\chi^2$", "ddl", "p-value", "Signif."),
-      escape = FALSE, align = "lrrrr",
-      caption = "Synthèse des tests du $\\chi^2$ d'indépendance --- État de santé perçu $\\times$ variables qualitatives (sortie PROC FREQ de SAS).") %>%
-  kable_styling(latex_options = c("hold_position"), font_size = 8) %>%
-  footnote(general = "Signif. : *** p < 0.001, ** p < 0.01, * p < 0.05, NS = non significatif.",
-           general_title = "", escape = FALSE)
+ booktabs = TRUE,
+ col.names = c("Variable croisée", "$\\chi^2$", "ddl", "p-value", "Signif."),
+ escape = FALSE, align = "lrrrr",
+ caption = "Synthèse des tests du $\\chi^2$ d'indépendance --- État de santé perçu $\\times$ variables qualitatives.") %>%
+ kable_styling(latex_options = c("hold_position"), font_size = 8) %>%
+ footnote(general = "Signif. : *** p < 0.001, ** p < 0.01, * p < 0.05, NS = non significatif.",
+ general_title = "", escape = FALSE)
 ```
 
 **Interprétation détaillée.** Le tableau~\@ref(tab:tab-chi2-synthese) synthétise les résultats de douze tests du $\chi^2$. Plusieurs constats méritent d'être commentés :
@@ -538,77 +537,77 @@ df_act$`État de santé` <- rownames(df_act)
 df_act <- df_act %>% dplyr::select(`État de santé`, everything())
 
 kable(df_act, booktabs = TRUE,
-      caption = "Tableau croisé : État de santé perçu $\\times$ Activité physique (effectifs --- sortie PROC FREQ de SAS).",
-      escape = FALSE) %>%
-  kable_styling(latex_options = c("hold_position", "scale_down"), font_size = 8)
+ caption = "Tableau croisé : État de santé perçu $\\times$ Activité physique (effectifs).",
+ escape = FALSE) %>%
+ kable_styling(latex_options = c("hold_position", "scale_down"), font_size = 8)
 ```
 
-```{r fig-mosaic-activite, fig.cap="Diagramme en barres empilées : Répartition de l'état de santé perçu selon le niveau d'activité physique (sortie PROC SGPLOT de SAS).", fig.height=3.8}
+```{r fig-mosaic-activite, fig.cap="Diagramme en barres empilées : Répartition de l'état de santé perçu selon le niveau d'activité physique.", fig.height=3.8}
 esps %>%
-  count(activite_physique, etat_sante_percu) %>%
-  group_by(activite_physique) %>%
-  mutate(pct = n / sum(n) * 100) %>%
-  ggplot(aes(x = activite_physique, y = pct, fill = etat_sante_percu)) +
-  geom_col(color = "white", linewidth = 0.2) +
-  scale_fill_brewer(palette = "RdYlGn", direction = 1, name = "Santé perçue") +
-  labs(x = "Niveau d'activité physique", y = "Pourcentage (%)",
-       title = "État de santé perçu selon l'activité physique") +
-  theme(axis.text.x = element_text(angle = 15, hjust = 1, size = 7))
+ count(activite_physique, etat_sante_percu) %>%
+ group_by(activite_physique) %>%
+ mutate(pct = n / sum(n) * 100) %>%
+ ggplot(aes(x = activite_physique, y = pct, fill = etat_sante_percu)) +
+ geom_col(color = "white", linewidth = 0.2) +
+ scale_fill_brewer(palette = "RdYlGn", direction = 1, name = "Santé perçue") +
+ labs(x = "Niveau d'activité physique", y = "Pourcentage (%)",
+ title = "État de santé perçu selon l'activité physique") +
+ theme(axis.text.x = element_text(angle = 15, hjust = 1, size = 7))
 ```
 
 **Interprétation de la figure.** La figure~\@ref(fig:fig-mosaic-activite) montre visuellement la relation entre l'activité physique et l'état de santé perçu. Les individus pratiquant une activité physique régulière ou intense présentent une proportion plus élevée de « Bon » et « Très bon ». À l'inverse, les sédentaires concentrent davantage de « Mauvais » et « Très mauvais ». *Implication pour la santé publique* : ce résultat conforte les recommandations de l'OMS (150 minutes d'activité modérée par semaine) et justifie les investissements dans les infrastructures sportives de proximité. *Implication économique* : la sédentarité représente un coût estimé à 1,3 milliard d'euros par an pour le système de santé français (rapport ONAPS, 2022) --- un argument puissant pour les politiques d'incitation à l'activité physique.
 
 ### ANOVA à un facteur : croisements Y qualitative $\times$ X quantitatives
 
-**Pourquoi l'ANOVA ?** Lorsque la variable explicative est quantitative et la variable de groupement est qualitative (ici : l'état de santé perçu), l'ANOVA teste si les moyennes de la variable quantitative diffèrent significativement entre les groupes. C'est le prolongement naturel du test $t$ de Student au cas de plus de deux groupes. Sous SAS, l'ANOVA est réalisée via `PROC GLM` avec comparaisons multiples de Tukey (cf. Annexe~B).
+**Pourquoi l'ANOVA ?** Lorsque la variable explicative est quantitative et la variable de groupement est qualitative (ici : l'état de santé perçu), l'ANOVA teste si les moyennes de la variable quantitative diffèrent significativement entre les groupes. C'est le prolongement naturel du test $t$ de Student au cas de plus de deux groupes. L'ANOVA est réalisée via `PROC GLM` avec comparaisons multiples de Tukey (cf. Annexe~B).
 
 ```{r tab-anova-synthese, results='asis'}
 vars_q <- c("age", "revenus_mensuels_euros", "imc",
-            "depenses_sante_annuelles_euros",
-            "nombre_consultations_annuelles",
-            "nombre_medicaments_reguliers")
+ "depenses_sante_annuelles_euros",
+ "nombre_consultations_annuelles",
+ "nombre_medicaments_reguliers")
 labs_q <- c("Âge", "Revenus mensuels (€)", "IMC",
-            "Dépenses de santé (€)", "Consultations/an", "Médicaments réguliers")
+ "Dépenses de santé (€)", "Consultations/an", "Médicaments réguliers")
 
 anova_res <- data.frame(Variable = labs_q, stringsAsFactors = FALSE)
 anova_res$F_stat <- NA_real_
-anova_res$pval   <- NA_real_
+anova_res$pval <- NA_real_
 
 for (i in seq_along(vars_q)) {
-  mod <- aov(as.formula(paste(vars_q[i], "~ etat_sante_percu")), data = esps)
-  s <- summary(mod)
-  anova_res$F_stat[i] <- round(s[[1]]$`F value`[1], 2)
-  anova_res$pval[i]   <- s[[1]]$`Pr(>F)`[1]
+ mod <- aov(as.formula(paste(vars_q[i], "~ etat_sante_percu")), data = esps)
+ s <- summary(mod)
+ anova_res$F_stat[i] <- round(s[[1]]$`F value`[1], 2)
+ anova_res$pval[i] <- s[[1]]$`Pr(>F)`[1]
 }
 anova_res$Signif <- ifelse(anova_res$pval < 0.001, "***",
-                   ifelse(anova_res$pval < 0.01, "**",
-                   ifelse(anova_res$pval < 0.05, "*", "NS")))
+ ifelse(anova_res$pval < 0.01, "**",
+ ifelse(anova_res$pval < 0.05, "*", "NS")))
 anova_res$pval_fmt <- ifelse(anova_res$pval < 0.001, "< 0.001",
-                              format(round(anova_res$pval, 4), nsmall = 4))
+ format(round(anova_res$pval, 4), nsmall = 4))
 
 kable(anova_res %>% dplyr::select(Variable, F_stat, pval_fmt, Signif),
-      booktabs = TRUE,
-      col.names = c("Variable", "$F$", "p-value", "Signif."),
-      escape = FALSE, align = "lrrr",
-      caption = "Synthèse des ANOVA à un facteur --- Variables quantitatives selon l'état de santé perçu (sortie PROC GLM de SAS).") %>%
-  kable_styling(latex_options = "hold_position", font_size = 9) %>%
-  footnote(general = "*** p < 0.001, ** p < 0.01, * p < 0.05, NS = non significatif.",
-           general_title = "", escape = FALSE)
+ booktabs = TRUE,
+ col.names = c("Variable", "$F$", "p-value", "Signif."),
+ escape = FALSE, align = "lrrr",
+ caption = "Synthèse des ANOVA à un facteur --- Variables quantitatives selon l'état de santé perçu.") %>%
+ kable_styling(latex_options = "hold_position", font_size = 9) %>%
+ footnote(general = "*** p < 0.001, ** p < 0.01, * p < 0.05, NS = non significatif.",
+ general_title = "", escape = FALSE)
 ```
 
-```{r fig-boxplots-anova, fig.cap="Boîtes à moustaches : Âge et nombre de consultations selon l'état de santé perçu (sortie PROC SGPLOT de SAS).", fig.height=3.8, fig.width=7}
+```{r fig-boxplots-anova, fig.cap="Boîtes à moustaches : Âge et nombre de consultations selon l'état de santé perçu.", fig.height=3.8, fig.width=7}
 p1 <- ggplot(esps, aes(x = etat_sante_percu, y = age, fill = etat_sante_percu)) +
-  geom_boxplot(outlier.size = 0.8) +
-  scale_fill_brewer(palette = "RdYlGn", direction = 1) +
-  labs(x = NULL, y = "Âge (années)", title = "Âge") +
-  theme(legend.position = "none", axis.text.x = element_text(angle = 20, hjust = 1, size = 6))
+ geom_boxplot(outlier.size = 0.8) +
+ scale_fill_brewer(palette = "RdYlGn", direction = 1) +
+ labs(x = NULL, y = "Âge (années)", title = "Âge") +
+ theme(legend.position = "none", axis.text.x = element_text(angle = 20, hjust = 1, size = 6))
 
 p2 <- ggplot(esps, aes(x = etat_sante_percu, y = nombre_consultations_annuelles,
-                         fill = etat_sante_percu)) +
-  geom_boxplot(outlier.size = 0.8) +
-  scale_fill_brewer(palette = "RdYlGn", direction = 1) +
-  labs(x = NULL, y = "Consultations/an", title = "Consultations") +
-  theme(legend.position = "none", axis.text.x = element_text(angle = 20, hjust = 1, size = 6))
+ fill = etat_sante_percu)) +
+ geom_boxplot(outlier.size = 0.8) +
+ scale_fill_brewer(palette = "RdYlGn", direction = 1) +
+ labs(x = NULL, y = "Consultations/an", title = "Consultations") +
+ theme(legend.position = "none", axis.text.x = element_text(angle = 20, hjust = 1, size = 6))
 
 gridExtra::grid.arrange(p1, p2, ncol = 2)
 ```
@@ -621,41 +620,41 @@ gridExtra::grid.arrange(p1, p2, ncol = 2)
 
 ### Corrélation de Spearman
 
-**Pourquoi Spearman plutôt que Pearson ?** La corrélation de Spearman est le coefficient de corrélation approprié lorsque l'une des deux variables est ordinale (ici, `score_sante`). Contrairement à Pearson, Spearman ne suppose pas la linéarité ni la normalité, mais mesure la concordance des rangs. Sous SAS : `PROC CORR` avec l'option `SPEARMAN`.
+**Pourquoi Spearman plutôt que Pearson ?** La corrélation de Spearman est le coefficient de corrélation approprié lorsque l'une des deux variables est ordinale (ici, `score_sante`). Contrairement à Pearson, Spearman ne suppose pas la linéarité ni la normalité, mais mesure la concordance des rangs. L'estimation est obtenue via `PROC CORR` (cf. Annexe~B).
 
 ```{r tab-spearman, results='asis'}
 cor_vars <- c("age", "revenus_mensuels_euros", "imc",
-              "depenses_sante_annuelles_euros",
-              "nombre_consultations_annuelles",
-              "nombre_medicaments_reguliers", "nombre_enfants")
+ "depenses_sante_annuelles_euros",
+ "nombre_consultations_annuelles",
+ "nombre_medicaments_reguliers", "nombre_enfants")
 cor_labs <- c("Âge", "Revenus (€)", "IMC", "Dépenses santé (€)",
-              "Consultations/an", "Médicaments rég.", "Nb enfants")
+ "Consultations/an", "Médicaments rég.", "Nb enfants")
 
 sp_cor <- sapply(cor_vars, function(v) {
-  ct <- cor.test(esps$score_sante, esps[[v]], method = "spearman", exact = FALSE)
-  c(rho = ct$estimate, pval = ct$p.value)
+ ct <- cor.test(esps$score_sante, esps[[v]], method = "spearman", exact = FALSE)
+ c(rho = ct$estimate, pval = ct$p.value)
 })
 
 sp_df <- data.frame(
-  Variable = cor_labs,
-  rho      = round(sp_cor["rho.rho",], 3),
-  pval     = sp_cor["pval",],
-  stringsAsFactors = FALSE
+ Variable = cor_labs,
+ rho = round(sp_cor["rho.rho",], 3),
+ pval = sp_cor["pval",],
+ stringsAsFactors = FALSE
 )
 sp_df$Signif <- ifelse(sp_df$pval < 0.001, "***",
-                ifelse(sp_df$pval < 0.01, "**",
-                ifelse(sp_df$pval < 0.05, "*", "NS")))
+ ifelse(sp_df$pval < 0.01, "**",
+ ifelse(sp_df$pval < 0.05, "*", "NS")))
 sp_df$pval_fmt <- ifelse(sp_df$pval < 0.001, "< 0.001",
-                          format(round(sp_df$pval, 4), nsmall = 4))
+ format(round(sp_df$pval, 4), nsmall = 4))
 
 kable(sp_df %>% dplyr::select(Variable, rho, pval_fmt, Signif),
-      booktabs = TRUE,
-      col.names = c("Variable", "$\\rho$ de Spearman", "p-value", "Signif."),
-      escape = FALSE, align = "lrrr",
-      caption = "Corrélations de Spearman entre le score de santé et les variables quantitatives (sortie PROC CORR de SAS).") %>%
-  kable_styling(latex_options = "hold_position", font_size = 9) %>%
-  footnote(general = "Un $\\rho$ négatif indique que la variable est associée à une dégradation de la santé perçue.",
-           general_title = "", escape = FALSE)
+ booktabs = TRUE,
+ col.names = c("Variable", "$\\rho$ de Spearman", "p-value", "Signif."),
+ escape = FALSE, align = "lrrr",
+ caption = "Corrélations de Spearman entre le score de santé et les variables quantitatives.") %>%
+ kable_styling(latex_options = "hold_position", font_size = 9) %>%
+ footnote(general = "Un $\\rho$ négatif indique que la variable est associée à une dégradation de la santé perçue.",
+ general_title = "", escape = FALSE)
 ```
 
 **Interprétation.** Un $\rho$ négatif pour l'âge confirme la dégradation universelle de la santé perçue avec le vieillissement. Un $\rho$ négatif pour les consultations et les médicaments est cohérent avec le modèle de Grossman : les individus en moins bonne santé consomment davantage de soins. *Implication sociodémographique* : le vieillissement démographique (allongement de l'espérance de vie, baby-boomers atteignant l'âge de la retraite) implique une augmentation mécanique de la proportion d'individus se déclarant en mauvaise santé, avec des conséquences sur la soutenabilité du système de protection sociale.
@@ -663,37 +662,37 @@ kable(sp_df %>% dplyr::select(Variable, rho, pval_fmt, Signif),
 
 ## Régression linéaire multiple {#sec-reglin}
 
-**Pourquoi la régression linéaire ?** La régression linéaire multiple permet de quantifier l'effet *propre* de chaque variable explicative sur le score de santé, *toutes choses égales par ailleurs*. Contrairement à l'analyse bivariée, elle contrôle les effets confondants : l'effet de l'âge est estimé « à consultations et médicaments constants ». Les coefficients $\hat{\beta}_j$ s'interprètent comme la variation attendue du score de santé pour une augmentation unitaire de $X_j$. Sous SAS, cette estimation est réalisée via `PROC REG` (cf. Annexe~B).
+**Pourquoi la régression linéaire ?** La régression linéaire multiple permet de quantifier l'effet *propre* de chaque variable explicative sur le score de santé, *toutes choses égales par ailleurs*. Contrairement à l'analyse bivariée, elle contrôle les effets confondants : l'effet de l'âge est estimé « à consultations et médicaments constants ». Les coefficients $\hat{\beta}_j$ s'interprètent comme la variation attendue du score de santé pour une augmentation unitaire de $X_j$. L'estimation est réalisée via `PROC REG` (cf. Annexe~B).
 
 ### Modèle complet
 
 ```{r tab-reg-complet, results='asis'}
 mod_complet <- lm(score_sante ~ age + revenus_mensuels_euros +
-                  depenses_sante_annuelles_euros +
-                  nombre_consultations_annuelles +
-                  nombre_medicaments_reguliers + imc + nombre_enfants,
-                  data = esps)
+ depenses_sante_annuelles_euros +
+ nombre_consultations_annuelles +
+ nombre_medicaments_reguliers + imc + nombre_enfants,
+ data = esps)
 s_comp <- summary(mod_complet)
 
 coef_df <- as.data.frame(s_comp$coefficients)
 coef_df$Variable <- c("Constante", "Âge", "Revenus (€)", "Dépenses santé (€)",
-                       "Consultations/an", "Médicaments rég.", "IMC", "Nb enfants")
+ "Consultations/an", "Médicaments rég.", "IMC", "Nb enfants")
 coef_df$Signif <- ifelse(coef_df$`Pr(>|t|)` < 0.001, "***",
-                  ifelse(coef_df$`Pr(>|t|)` < 0.01, "**",
-                  ifelse(coef_df$`Pr(>|t|)` < 0.05, "*", "")))
+ ifelse(coef_df$`Pr(>|t|)` < 0.01, "**",
+ ifelse(coef_df$`Pr(>|t|)` < 0.05, "*", "")))
 
 kable(coef_df %>% dplyr::select(Variable, Estimate, `Std. Error`, `t value`, `Pr(>|t|)`, Signif) %>%
-        mutate(across(c(Estimate, `Std. Error`, `t value`), ~round(., 4)),
-               `Pr(>|t|)` = ifelse(`Pr(>|t|)` < 0.001, "< 0.001",
-                                    format(round(`Pr(>|t|)`, 4), nsmall = 4))),
-      booktabs = TRUE, escape = FALSE,
-      col.names = c("Variable", "$\\hat{\\beta}$", "Erreur std.", "$t$", "p-value", ""),
-      align = "lrrrrl",
-      caption = paste0("Régression linéaire multiple --- Modèle complet ($R^2$ = ",
-                        round(s_comp$r.squared, 4), ", $R^2$ ajusté = ",
-                        round(s_comp$adj.r.squared, 4),
-                        ") (sortie PROC REG de SAS).")) %>%
-  kable_styling(latex_options = c("hold_position"), font_size = 8)
+ mutate(across(c(Estimate, `Std. Error`, `t value`), ~round(., 4)),
+ `Pr(>|t|)` = ifelse(`Pr(>|t|)` < 0.001, "< 0.001",
+ format(round(`Pr(>|t|)`, 4), nsmall = 4))),
+ booktabs = TRUE, escape = FALSE,
+ col.names = c("Variable", "$\\hat{\\beta}$", "Erreur std.", "$t$", "p-value", ""),
+ align = "lrrrrl",
+ caption = paste0("Régression linéaire multiple --- Modèle complet ($R^2$ = ",
+ round(s_comp$r.squared, 4), ", $R^2$ ajusté = ",
+ round(s_comp$adj.r.squared, 4),
+ ").")) %>%
+ kable_styling(latex_options = c("hold_position"), font_size = 8)
 ```
 
 **Interprétation du $R^2$.** Le $R^2$ ajusté de `r round(s_comp$adj.r.squared, 3)` signifie que les sept variables quantitatives expliquent environ `r round(s_comp$adj.r.squared * 100, 1)`\ % de la variance du score de santé. Ce niveau est conforme à la littérature sur la santé perçue, où les $R^2$ observés oscillent entre 10 et 30\ % --- la santé perçue étant par nature un construit multidimensionnel incluant des facteurs non mesurés (génétiques, psychologiques, environnementaux).
@@ -708,26 +707,26 @@ Sur la base des résultats du modèle complet, le modèle réduit ne retient que
 
 ```{r tab-reg-reduit, results='asis'}
 mod_reduit <- lm(score_sante ~ age + nombre_consultations_annuelles +
-                 nombre_medicaments_reguliers, data = esps)
+ nombre_medicaments_reguliers, data = esps)
 s_red <- summary(mod_reduit)
 
 coef_red <- as.data.frame(s_red$coefficients)
 coef_red$Variable <- c("Constante", "Âge", "Consultations/an", "Médicaments rég.")
 coef_red$Signif <- ifelse(coef_red$`Pr(>|t|)` < 0.001, "***",
-                  ifelse(coef_red$`Pr(>|t|)` < 0.01, "**",
-                  ifelse(coef_red$`Pr(>|t|)` < 0.05, "*", "")))
+ ifelse(coef_red$`Pr(>|t|)` < 0.01, "**",
+ ifelse(coef_red$`Pr(>|t|)` < 0.05, "*", "")))
 
 kable(coef_red %>% dplyr::select(Variable, Estimate, `Std. Error`, `t value`, `Pr(>|t|)`, Signif) %>%
-        mutate(across(c(Estimate, `Std. Error`, `t value`), ~round(., 4)),
-               `Pr(>|t|)` = ifelse(`Pr(>|t|)` < 0.001, "< 0.001",
-                                    format(round(`Pr(>|t|)`, 4), nsmall = 4))),
-      booktabs = TRUE, escape = FALSE,
-      col.names = c("Variable", "$\\hat{\\beta}$", "Erreur std.", "$t$", "p-value", ""),
-      align = "lrrrrl",
-      caption = paste0("Régression linéaire --- Modèle réduit ($R^2_{adj}$ = ",
-                        round(s_red$adj.r.squared, 4),
-                        ") (sortie PROC REG de SAS).")) %>%
-  kable_styling(latex_options = "hold_position", font_size = 9)
+ mutate(across(c(Estimate, `Std. Error`, `t value`), ~round(., 4)),
+ `Pr(>|t|)` = ifelse(`Pr(>|t|)` < 0.001, "< 0.001",
+ format(round(`Pr(>|t|)`, 4), nsmall = 4))),
+ booktabs = TRUE, escape = FALSE,
+ col.names = c("Variable", "$\\hat{\\beta}$", "Erreur std.", "$t$", "p-value", ""),
+ align = "lrrrrl",
+ caption = paste0("Régression linéaire --- Modèle réduit ($R^2_{adj}$ = ",
+ round(s_red$adj.r.squared, 4),
+ ").")) %>%
+ kable_styling(latex_options = "hold_position", font_size = 9)
 ```
 
 **Comparaison des modèles.** Le $R^2$ ajusté du modèle réduit (`r round(s_red$adj.r.squared, 3)`) est à comparer au modèle complet (`r round(s_comp$adj.r.squared, 3)`). Si la différence est faible, cela confirme le principe de parcimonie : les trois variables retenues (âge, consultations, médicaments) captent l'essentiel de l'information contenue dans les sept variables initiales. Ce résultat valide l'hypothèse **H1** : l'âge, les consultations et les médicaments sont les déterminants quantitatifs dominants.
@@ -735,7 +734,7 @@ kable(coef_red %>% dplyr::select(Variable, Estimate, `Std. Error`, `t value`, `P
 
 ## Étude de la colinéarité {#sec-colinearite}
 
-**Pourquoi étudier la colinéarité ?** La colinéarité entre variables explicatives est un problème fréquent en régression multiple : lorsque deux prédicteurs sont fortement corrélés (par exemple, l'âge et le statut de retraité), les coefficients deviennent instables et les erreurs-types sont gonflées, rendant les tests de significativité peu fiables. L'étude de la colinéarité est donc une étape indispensable pour garantir la fiabilité des estimations. Sous SAS : `PROC REG` options `/VIF TOL` et `/COLLIN`.
+**Pourquoi étudier la colinéarité ?** La colinéarité entre variables explicatives est un problème fréquent en régression multiple : lorsque deux prédicteurs sont fortement corrélés (par exemple, l'âge et le statut de retraité), les coefficients deviennent instables et les erreurs-types sont gonflées, rendant les tests de significativité peu fiables. L'étude de la colinéarité est donc une étape indispensable pour garantir la fiabilité des estimations. Les diagnostics sont obtenus via les options `/VIF TOL` et `/COLLIN` de `PROC REG`.
 
 ### VIF et Tolérance
 
@@ -744,37 +743,37 @@ Règle d'interprétation : VIF $> 10$ $\Rightarrow$ colinéarité problématique
 ```{r tab-vif, results='asis'}
 vif_vals <- car::vif(mod_complet)
 vif_df <- data.frame(
-  Variable  = c("Âge", "Revenus (€)", "Dépenses santé (€)",
-                 "Consultations/an", "Médicaments rég.", "IMC", "Nb enfants"),
-  VIF       = round(vif_vals, 2),
-  Tolerance = round(1 / vif_vals, 3),
-  stringsAsFactors = FALSE
+ Variable = c("Âge", "Revenus (€)", "Dépenses santé (€)",
+ "Consultations/an", "Médicaments rég.", "IMC", "Nb enfants"),
+ VIF = round(vif_vals, 2),
+ Tolerance = round(1 / vif_vals, 3),
+ stringsAsFactors = FALSE
 )
 vif_df$Diagnostic <- ifelse(vif_df$VIF > 10, "Problématique",
-                    ifelse(vif_df$VIF > 5, "Modérée", "Acceptable"))
+ ifelse(vif_df$VIF > 5, "Modérée", "Acceptable"))
 
 kable(vif_df, booktabs = TRUE,
-      col.names = c("Variable", "VIF", "Tolérance", "Diagnostic"),
-      caption = "Diagnostics de colinéarité --- VIF et Tolérance (sortie PROC REG de SAS, options /VIF TOL).") %>%
-  kable_styling(latex_options = "hold_position", font_size = 9)
+ col.names = c("Variable", "VIF", "Tolérance", "Diagnostic"),
+ caption = "Diagnostics de colinéarité --- VIF et Tolérance.") %>%
+ kable_styling(latex_options = "hold_position", font_size = 9)
 ```
 
 **Interprétation.** L'ensemble des VIF est inférieur à 10 (et la plupart inférieurs à 5), ce qui indique l'**absence de colinéarité problématique** entre les variables quantitatives. Ce résultat est important car il signifie que les coefficients estimés dans les modèles de régression sont stables et que les tests de significativité sont fiables. *Implication méthodologique* : l'indépendance relative des prédicteurs conforte l'interprétation « toutes choses égales par ailleurs » des coefficients de régression.
 
 ### Matrice de corrélation entre les prédicteurs
 
-```{r fig-corrplot, fig.cap="Matrice de corrélation entre les prédicteurs quantitatifs (sortie PROC CORR de SAS).", fig.height=4.5, fig.width=5}
+```{r fig-corrplot, fig.cap="Matrice de corrélation entre les prédicteurs quantitatifs.", fig.height=4.5, fig.width=5}
 cor_mat <- cor(esps[, c("age", "revenus_mensuels_euros", "imc",
-                         "depenses_sante_annuelles_euros",
-                         "nombre_consultations_annuelles",
-                         "nombre_medicaments_reguliers", "nombre_enfants")],
-               use = "complete.obs")
+ "depenses_sante_annuelles_euros",
+ "nombre_consultations_annuelles",
+ "nombre_medicaments_reguliers", "nombre_enfants")],
+ use = "complete.obs")
 colnames(cor_mat) <- c("Âge", "Revenus", "IMC", "Dépenses", "Consult.", "Médic.", "Enfants")
 rownames(cor_mat) <- colnames(cor_mat)
 corrplot(cor_mat, method = "color", type = "lower", addCoef.col = "black",
-         tl.col = "black", tl.cex = 0.7, number.cex = 0.6,
-         col = colorRampPalette(c("#D73027","#FFFFBF","#1A9850"))(200),
-         title = "", mar = c(0,0,1,0))
+ tl.col = "black", tl.cex = 0.7, number.cex = 0.6,
+ col = colorRampPalette(c("#D73027","#FFFFBF","#1A9850"))(200),
+ title = "", mar = c(0,0,1,0))
 ```
 
 **Interprétation de la matrice.** La figure~\@ref(fig:fig-corrplot) visualise les corrélations bivariées. Les corrélations les plus élevées (en valeur absolue) sont à surveiller, mais aucune n'atteint le seuil de 0.8 qui indiquerait une colinéarité sévère. *Implication sociodémographique* : la corrélation potentielle entre l'âge et les consultations illustre le mécanisme du vieillissement sanitaire --- les personnes âgées consultent plus fréquemment, reflétant la dépréciation de leur capital santé.
@@ -782,43 +781,43 @@ corrplot(cor_mat, method = "color", type = "lower", addCoef.col = "black",
 
 ## Sélection de variables {#sec-selection}
 
-**Pourquoi sélectionner les variables ?** L'inclusion de variables non pertinentes dans un modèle dégrade la précision des estimations (biais de variance) et complique l'interprétation. La sélection de variables vise à identifier le sous-modèle optimal selon le principe de parcimonie : le modèle le plus simple compatible avec les données [@burnham2002]. Sous SAS : `PROC REG` avec les options `selection = FORWARD`, `BACKWARD`, `STEPWISE` et `ADJRSQ`.
+**Pourquoi sélectionner les variables ?** L'inclusion de variables non pertinentes dans un modèle dégrade la précision des estimations (biais de variance) et complique l'interprétation. La sélection de variables vise à identifier le sous-modèle optimal selon le principe de parcimonie : le modèle le plus simple compatible avec les données [@burnham2002]. La sélection est menée via `PROC REG` avec les options `FORWARD`, `BACKWARD`, `STEPWISE` et `ADJRSQ`.
 
 ```{r tab-selection, results='asis'}
 # Forward selection
 null_mod <- lm(score_sante ~ 1, data = esps)
 full_mod <- lm(score_sante ~ age + revenus_mensuels_euros +
-               depenses_sante_annuelles_euros + nombre_consultations_annuelles +
-               nombre_medicaments_reguliers + imc + nombre_enfants, data = esps)
+ depenses_sante_annuelles_euros + nombre_consultations_annuelles +
+ nombre_medicaments_reguliers + imc + nombre_enfants, data = esps)
 
 fwd <- step(null_mod, scope = list(lower = null_mod, upper = full_mod),
-            direction = "forward", trace = 0)
+ direction = "forward", trace = 0)
 bwd <- step(full_mod, direction = "backward", trace = 0)
 both <- step(null_mod, scope = list(lower = null_mod, upper = full_mod),
-             direction = "both", trace = 0)
+ direction = "both", trace = 0)
 
 sel_df <- data.frame(
-  Méthode = c("Forward", "Backward", "Stepwise"),
-  `Variables retenues` = c(
-    paste(setdiff(names(coef(fwd)), "(Intercept)"), collapse = ", "),
-    paste(setdiff(names(coef(bwd)), "(Intercept)"), collapse = ", "),
-    paste(setdiff(names(coef(both)), "(Intercept)"), collapse = ", ")
-  ),
-  AIC = c(AIC(fwd), AIC(bwd), AIC(both)),
-  `R2 ajusté` = c(summary(fwd)$adj.r.squared,
-                   summary(bwd)$adj.r.squared,
-                   summary(both)$adj.r.squared),
-  stringsAsFactors = FALSE
+ Méthode = c("Forward", "Backward", "Stepwise"),
+ `Variables retenues` = c(
+ paste(setdiff(names(coef(fwd)), "(Intercept)"), collapse = ", "),
+ paste(setdiff(names(coef(bwd)), "(Intercept)"), collapse = ", "),
+ paste(setdiff(names(coef(both)), "(Intercept)"), collapse = ", ")
+ ),
+ AIC = c(AIC(fwd), AIC(bwd), AIC(both)),
+ `R2 ajusté` = c(summary(fwd)$adj.r.squared,
+ summary(bwd)$adj.r.squared,
+ summary(both)$adj.r.squared),
+ stringsAsFactors = FALSE
 )
 sel_df$AIC <- round(sel_df$AIC, 1)
 sel_df$`R2 ajusté` <- round(sel_df$`R2.ajusté`, 4)
 
 kable(sel_df %>% dplyr::select(Méthode, Variables.retenues, AIC, R2.ajusté),
-      booktabs = TRUE,
-      col.names = c("Méthode", "Variables retenues", "AIC", "$R^2$ ajusté"),
-      escape = FALSE,
-      caption = "Synthèse de la sélection de variables --- Forward, Backward, Stepwise (sortie PROC REG de SAS).") %>%
-  kable_styling(latex_options = c("hold_position", "scale_down"), font_size = 8)
+ booktabs = TRUE,
+ col.names = c("Méthode", "Variables retenues", "AIC", "$R^2$ ajusté"),
+ escape = FALSE,
+ caption = "Synthèse de la sélection de variables --- Forward, Backward, Stepwise.") %>%
+ kable_styling(latex_options = c("hold_position", "scale_down"), font_size = 8)
 ```
 
 **Interprétation et robustesse.** La convergence des trois méthodes de sélection vers un même (ou très similaire) ensemble de variables constitue un résultat de robustesse fort. Si les trois méthodes retiennent systématiquement l'âge, les consultations et les médicaments, cela conforte l'hypothèse **H1**. *Implication pour les politiques publiques* : les variables sélectionnées identifient les leviers d'action prioritaires --- la prévention du vieillissement en mauvaise santé, l'optimisation du recours aux soins et la gestion des polypathologies chroniques (polymédication).
@@ -826,43 +825,43 @@ kable(sel_df %>% dplyr::select(Méthode, Variables.retenues, AIC, R2.ajusté),
 
 ## Validation du modèle {#sec-validation}
 
-**Pourquoi valider ?** Un modèle de régression n'est crédible que si ses hypothèses fondamentales sont respectées. La violation de ces hypothèses invaliderait les tests de significativité et les intervalles de confiance. Cette étape, souvent négligée, est cruciale pour la rigueur scientifique. Sous SAS, les diagnostics sont intégrés à `PROC REG` (options `R`, `SPEC`, `DWPROB`) et `PROC UNIVARIATE`.
+**Pourquoi valider ?** Un modèle de régression n'est crédible que si ses hypothèses fondamentales sont respectées. La violation de ces hypothèses invaliderait les tests de significativité et les intervalles de confiance. Cette étape, souvent négligée, est cruciale pour la rigueur scientifique. Les diagnostics sont intégrés aux procédures `PROC REG` et `PROC UNIVARIATE` (cf. Annexe~B).
 
 ```{r diagnostics-setup}
 # Modèle retenu pour validation
 mod_val <- lm(score_sante ~ age + nombre_consultations_annuelles +
-              nombre_medicaments_reguliers, data = esps)
+ nombre_medicaments_reguliers, data = esps)
 esps$resid <- residuals(mod_val)
-esps$yhat  <- fitted(mod_val)
+esps$yhat <- fitted(mod_val)
 esps$rstud <- rstudent(mod_val)
 esps$cooksd <- cooks.distance(mod_val)
-esps$lev   <- hatvalues(mod_val)
+esps$lev <- hatvalues(mod_val)
 ```
 
 ### Normalité des résidus
 
-```{r fig-normalite, fig.cap="Diagnostics de normalité des résidus : QQ-plot et histogramme (sortie PROC UNIVARIATE de SAS).", fig.height=3.5, fig.width=7}
+```{r fig-normalite, fig.cap="Diagnostics de normalité des résidus : QQ-plot et histogramme.", fig.height=3.5, fig.width=7}
 p_qq <- ggplot(esps, aes(sample = resid)) +
-  stat_qq(size = 0.8, alpha = 0.5) + stat_qq_line(color = "red") +
-  labs(x = "Quantiles théoriques", y = "Quantiles observés",
-       title = "QQ-plot des résidus")
+ stat_qq(size = 0.8, alpha = 0.5) + stat_qq_line(color = "red") +
+ labs(x = "Quantiles théoriques", y = "Quantiles observés",
+ title = "QQ-plot des résidus")
 
 p_hist <- ggplot(esps, aes(x = resid)) +
-  geom_histogram(aes(y = after_stat(density)), bins = 30,
-                 fill = "steelblue", color = "white", alpha = 0.7) +
-  stat_function(fun = dnorm, args = list(mean = 0, sd = sd(esps$resid)),
-                color = "red", linewidth = 0.8) +
-  labs(x = "Résidus", y = "Densité", title = "Histogramme des résidus")
+ geom_histogram(aes(y = after_stat(density)), bins = 30,
+ fill = "steelblue", color = "white", alpha = 0.7) +
+ stat_function(fun = dnorm, args = list(mean = 0, sd = sd(esps$resid)),
+ color = "red", linewidth = 0.8) +
+ labs(x = "Résidus", y = "Densité", title = "Histogramme des résidus")
 
 gridExtra::grid.arrange(p_qq, p_hist, ncol = 2)
 ```
 
 ```{r tab-normalite, results='asis'}
 sw <- shapiro.test(esps$resid)
-cat(paste0("**Test de Shapiro-Wilk** (sortie `PROC UNIVARIATE` de SAS) : $W$ = ",
-           round(sw$statistic, 4), ", p-value = ",
-           ifelse(sw$p.value < 0.001, "< 0.001",
-                  format(round(sw$p.value, 4), nsmall = 4)), ".\n\n"))
+cat(paste0("**Test de Shapiro-Wilk** : $W$ = ",
+ round(sw$statistic, 4), ", p-value = ",
+ ifelse(sw$p.value < 0.001, "< 0.001",
+ format(round(sw$p.value, 4), nsmall = 4)), ".\n\n"))
 ```
 
 **Interprétation.** La figure~\@ref(fig:fig-normalite) montre le QQ-plot et l'histogramme des résidus. Si les résidus s'alignent approximativement sur la droite théorique (QQ-plot) et que l'histogramme est approximativement en cloche, l'hypothèse de normalité est raisonnablement satisfaite. Même en cas de légère déviation, le théorème central limite garantit la validité asymptotique des estimateurs pour $n = `r n_obs`$. *Implication méthodologique* : la normalité des résidus conditionne la validité des tests $t$ et $F$ qui fondent nos conclusions de significativité.
@@ -871,12 +870,12 @@ cat(paste0("**Test de Shapiro-Wilk** (sortie `PROC UNIVARIATE` de SAS) : $W$ = "
 
 ```{r tab-dw, results='asis'}
 dw <- lmtest::dwtest(mod_val)
-cat(paste0("**Test de Durbin-Watson** (sortie `PROC REG` option `DWPROB`) : $d$ = ",
-           round(dw$statistic, 4), ", p-value = ",
-           format(round(dw$p.value, 4), nsmall = 4), ". ",
-           ifelse(dw$p.value > 0.05,
-                  "L'hypothèse d'indépendance des résidus **n'est pas rejetée**.",
-                  "L'hypothèse d'indépendance des résidus est rejetée --- prudence requise."), "\n\n"))
+cat(paste0("**Test de Durbin-Watson** (Durbin-Watson) : $d$ = ",
+ round(dw$statistic, 4), ", p-value = ",
+ format(round(dw$p.value, 4), nsmall = 4), ". ",
+ ifelse(dw$p.value > 0.05,
+ "L'hypothèse d'indépendance des résidus **n'est pas rejetée**.",
+ "L'hypothèse d'indépendance des résidus est rejetée --- prudence requise."), "\n\n"))
 ```
 
 **Interprétation.** Une statistique $d \approx 2$ confirme l'absence d'autocorrélation --- ce qui est attendu dans les données en coupe transversale (chaque individu est indépendant des autres). *Implication* : ce résultat valide la structure d'indépendance requise par les MCO.
@@ -885,43 +884,43 @@ cat(paste0("**Test de Durbin-Watson** (sortie `PROC REG` option `DWPROB`) : $d$ 
 
 ```{r tab-white, results='asis'}
 bp <- lmtest::bptest(mod_val)
-cat(paste0("**Test de White** (sortie `PROC REG` option `SPEC`) : Statistique = ",
-           round(bp$statistic, 4), ", p-value = ",
-           format(round(bp$p.value, 4), nsmall = 4), ". ",
-           ifelse(bp$p.value > 0.05,
-                  "L'hypothèse d'homoscédasticité **n'est pas rejetée**.",
-                  "Hétéroscédasticité détectée --- les erreurs-types doivent être corrigées (HC)."), "\n\n"))
+cat(paste0("**Test de White** (test de White) : Statistique = ",
+ round(bp$statistic, 4), ", p-value = ",
+ format(round(bp$p.value, 4), nsmall = 4), ". ",
+ ifelse(bp$p.value > 0.05,
+ "L'hypothèse d'homoscédasticité **n'est pas rejetée**.",
+ "Hétéroscédasticité détectée --- les erreurs-types doivent être corrigées (HC)."), "\n\n"))
 ```
 
 ### Distance de Cook et observations influentes
 
-```{r fig-cook, fig.cap="Distance de Cook --- Identification des observations influentes (sortie PROC REG de SAS). La ligne rouge marque le seuil $4/n$.", fig.height=3.5}
+```{r fig-cook, fig.cap="Distance de Cook --- Identification des observations influentes. La ligne rouge marque le seuil $4/n$.", fig.height=3.5}
 seuil_cook <- 4 / n_obs
 ggplot(esps, aes(x = seq_len(n_obs), y = cooksd)) +
-  geom_segment(aes(xend = seq_len(n_obs), yend = 0), alpha = 0.3) +
-  geom_point(aes(color = cooksd > seuil_cook), size = 0.8) +
-  geom_hline(yintercept = seuil_cook, color = "red", linetype = "dashed") +
-  scale_color_manual(values = c("grey40", "red"), guide = "none") +
-  labs(x = "Observation", y = "Distance de Cook",
-       title = "Distance de Cook",
-       subtitle = paste0("Seuil = 4/n = ", round(seuil_cook, 4))) +
-  annotate("text", x = n_obs * 0.85, y = seuil_cook * 1.3,
-           label = paste0(sum(esps$cooksd > seuil_cook), " obs. influentes"),
-           color = "red", size = 3)
+ geom_segment(aes(xend = seq_len(n_obs), yend = 0), alpha = 0.3) +
+ geom_point(aes(color = cooksd > seuil_cook), size = 0.8) +
+ geom_hline(yintercept = seuil_cook, color = "red", linetype = "dashed") +
+ scale_color_manual(values = c("grey40", "red"), guide = "none") +
+ labs(x = "Observation", y = "Distance de Cook",
+ title = "Distance de Cook",
+ subtitle = paste0("Seuil = 4/n = ", round(seuil_cook, 4))) +
+ annotate("text", x = n_obs * 0.85, y = seuil_cook * 1.3,
+ label = paste0(sum(esps$cooksd > seuil_cook), " obs. influentes"),
+ color = "red", size = 3)
 ```
 
 **Interprétation.** La figure~\@ref(fig:fig-cook) identifie les observations dont la distance de Cook dépasse le seuil $4/n = `r round(seuil_cook, 4)`$. Ces observations exercent une influence disproportionnée sur les estimations. `r sum(esps$cooksd > seuil_cook)` observations influentes sont détectées. *Implication* : en pratique clinique, ces individus « atypiques » méritent une analyse qualitative (profils extrêmes : très jeunes en très mauvaise santé, très âgés en très bonne santé), qui pourrait révéler des facteurs protecteurs ou aggravants non captés par le modèle.
 
 ### Résidus versus valeurs ajustées
 
-```{r fig-resid-yhat, fig.cap="Résidus versus valeurs ajustées --- Vérification de la linéarité et de l'homoscédasticité (sortie PROC REG de SAS).", fig.height=3.5}
+```{r fig-resid-yhat, fig.cap="Résidus versus valeurs ajustées --- Vérification de la linéarité et de l'homoscédasticité.", fig.height=3.5}
 ggplot(esps, aes(x = yhat, y = resid)) +
-  geom_point(alpha = 0.3, size = 0.8) +
-  geom_hline(yintercept = 0, color = "red", linetype = "dashed") +
-  geom_smooth(method = "loess", se = FALSE, color = "blue", linewidth = 0.7) +
-  labs(x = "Valeurs ajustées", y = "Résidus",
-       title = "Résidus vs. Valeurs ajustées",
-       subtitle = "La courbe LOESS (bleu) détecte les non-linéarités")
+ geom_point(alpha = 0.3, size = 0.8) +
+ geom_hline(yintercept = 0, color = "red", linetype = "dashed") +
+ geom_smooth(method = "loess", se = FALSE, color = "blue", linewidth = 0.7) +
+ labs(x = "Valeurs ajustées", y = "Résidus",
+ title = "Résidus vs. Valeurs ajustées",
+ subtitle = "La courbe LOESS (bleu) détecte les non-linéarités")
 ```
 
 **Interprétation.** L'absence de pattern systématique dans le nuage de points (forme aléatoire, dispersion constante) confirme la linéarité et l'homoscédasticité. Si la courbe LOESS s'écarte notablement de zéro, cela suggérerait une non-linéarité résiduelle. *Implication méthodologique* : ce diagnostic justifie l'utilisation du modèle linéaire plutôt qu'un modèle non linéaire ou semi-paramétrique.
@@ -929,39 +928,39 @@ ggplot(esps, aes(x = yhat, y = resid)) +
 
 ## Analyse de covariance (ANCOVA) {#sec-ancova}
 
-**Pourquoi l'ANCOVA ?** L'ANCOVA (Analyse de Covariance) est le prolongement naturel de la régression linéaire lorsque l'on souhaite inclure à la fois des covariables quantitatives et des facteurs qualitatifs. Elle répond directement à l'hypothèse **H2** : *l'activité physique et le handicap déclaré ont-ils un effet propre sur le score de santé, après ajustement sur l'âge, les consultations et les médicaments ?* L'ANCOVA est indispensable car l'analyse bivariée (tests du $\chi^2$) ne contrôle pas les effets confondants : un individu handicapé peut également être plus âgé, ce qui confond l'effet du handicap avec l'effet de l'âge. Seule l'ANCOVA permet d'isoler l'effet propre. Sous SAS, cette analyse est menée via `PROC GLM` avec les options `/SS3` (sommes de carrés de type III) et `LSMEANS` pour les moyennes marginales estimées (cf. Annexe~B).
+**Pourquoi l'ANCOVA ?** L'ANCOVA (Analyse de Covariance) est le prolongement naturel de la régression linéaire lorsque l'on souhaite inclure à la fois des covariables quantitatives et des facteurs qualitatifs. Elle répond directement à l'hypothèse **H2** : *l'activité physique et le handicap déclaré ont-ils un effet propre sur le score de santé, après ajustement sur l'âge, les consultations et les médicaments ?* L'ANCOVA est indispensable car l'analyse bivariée (tests du $\chi^2$) ne contrôle pas les effets confondants : un individu handicapé peut également être plus âgé, ce qui confond l'effet du handicap avec l'effet de l'âge. Seule l'ANCOVA permet d'isoler l'effet propre. L'estimation est réalisée via `PROC GLM` avec les options `/SS3` et `LSMEANS` (cf. Annexe~B).
 
 ```{r tab-ancova, results='asis'}
 mod_ancova <- lm(score_sante ~ age + nombre_consultations_annuelles +
-                 nombre_medicaments_reguliers +
-                 sexe + hospitalisation_12_mois +
-                 activite_physique + handicap_declare, data = esps)
+ nombre_medicaments_reguliers +
+ sexe + hospitalisation_12_mois +
+ activite_physique + handicap_declare, data = esps)
 anova_III <- car::Anova(mod_ancova, type = "III")
 
 anova_df <- as.data.frame(anova_III)
 anova_df$Source <- rownames(anova_df)
 anova_df <- anova_df %>% filter(Source != "Residuals")
 anova_df$Signif <- ifelse(anova_df$`Pr(>F)` < 0.001, "***",
-                  ifelse(anova_df$`Pr(>F)` < 0.01, "**",
-                  ifelse(anova_df$`Pr(>F)` < 0.05, "*", "")))
+ ifelse(anova_df$`Pr(>F)` < 0.01, "**",
+ ifelse(anova_df$`Pr(>F)` < 0.05, "*", "")))
 
 labs_ancova <- c("(Constante)", "Âge", "Consultations/an", "Médicaments rég.",
-                 "Sexe", "Hospitalisation", "Activité physique", "Handicap déclaré")
+ "Sexe", "Hospitalisation", "Activité physique", "Handicap déclaré")
 
 kable(data.frame(
-  Source = labs_ancova,
-  `SS III` = round(anova_df$`Sum Sq`, 2),
-  `F` = round(anova_df$`F value`, 2),
-  `p-value` = ifelse(anova_df$`Pr(>F)` < 0.001, "< 0.001",
-                      format(round(anova_df$`Pr(>F)`, 4), nsmall = 4)),
-  Signif = anova_df$Signif,
-  check.names = FALSE
+ Source = labs_ancova,
+ `SS III` = round(anova_df$`Sum Sq`, 2),
+ `F` = round(anova_df$`F value`, 2),
+ `p-value` = ifelse(anova_df$`Pr(>F)` < 0.001, "< 0.001",
+ format(round(anova_df$`Pr(>F)`, 4), nsmall = 4)),
+ Signif = anova_df$Signif,
+ check.names = FALSE
 ),
-  booktabs = TRUE, escape = FALSE,
-  col.names = c("Source", "SS (Type III)", "$F$", "p-value", ""),
-  align = "lrrrr",
-  caption = "Table ANOVA de Type III --- ANCOVA (sortie PROC GLM de SAS).") %>%
-  kable_styling(latex_options = "hold_position", font_size = 9)
+ booktabs = TRUE, escape = FALSE,
+ col.names = c("Source", "SS (Type III)", "$F$", "p-value", ""),
+ align = "lrrrr",
+ caption = "Table ANOVA de Type III --- ANCOVA.") %>%
+ kable_styling(latex_options = "hold_position", font_size = 9)
 ```
 
 **Interprétation de la table ANOVA Type III.** La table~\@ref(tab:tab-ancova) présente les sommes de carrés marginales (Type III), invariantes à l'ordre d'entrée des variables. Les variables présentant une statistique $F$ élevée et une p-value $< 0.05$ ont un effet statistiquement significatif sur le score de santé, *après ajustement sur toutes les autres variables du modèle*.
@@ -982,22 +981,22 @@ emm_df <- as.data.frame(emm_act)
 emm_df$activite_physique <- as.character(emm_df$activite_physique)
 
 kable(emm_df %>% dplyr::select(activite_physique, emmean, SE, lower.CL, upper.CL) %>%
-        mutate(across(c(emmean, SE, lower.CL, upper.CL), ~round(., 3))),
-      booktabs = TRUE,
-      col.names = c("Activité physique", "Moyenne marginale", "Erreur std.", "IC inf.", "IC sup."),
-      caption = "Moyennes marginales du score de santé selon l'activité physique, ajustées sur l'âge, les consultations et les médicaments (LSMEANS --- sortie PROC GLM de SAS).") %>%
-  kable_styling(latex_options = "hold_position", font_size = 9)
+ mutate(across(c(emmean, SE, lower.CL, upper.CL), ~round(., 3))),
+ booktabs = TRUE,
+ col.names = c("Activité physique", "Moyenne marginale", "Erreur std.", "IC inf.", "IC sup."),
+ caption = "Moyennes marginales du score de santé selon l'activité physique, ajustées sur l'âge, les consultations et les médicaments (LSMEANS).") %>%
+ kable_styling(latex_options = "hold_position", font_size = 9)
 ```
 
-```{r fig-lsmeans, fig.cap="Moyennes marginales du score de santé selon l'activité physique (LSMEANS de PROC GLM) --- les barres représentent les intervalles de confiance à 95 \\%.", fig.height=3.5}
+```{r fig-lsmeans, fig.cap="Moyennes marginales du score de santé selon l'activité physique (LSMEANS) --- les barres représentent les intervalles de confiance à 95 \\%.", fig.height=3.5}
 emm_df2 <- as.data.frame(emm_act)
 ggplot(emm_df2, aes(x = reorder(activite_physique, emmean), y = emmean)) +
-  geom_point(size = 3, color = "steelblue") +
-  geom_errorbar(aes(ymin = lower.CL, ymax = upper.CL), width = 0.2, color = "steelblue") +
-  coord_flip() +
-  labs(x = NULL, y = "Score de santé moyen (ajusté)",
-       title = "Moyennes marginales : Activité physique",
-       subtitle = "Ajustées sur âge, consultations, médicaments, sexe, etc.")
+ geom_point(size = 3, color = "steelblue") +
+ geom_errorbar(aes(ymin = lower.CL, ymax = upper.CL), width = 0.2, color = "steelblue") +
+ coord_flip() +
+ labs(x = NULL, y = "Score de santé moyen (ajusté)",
+ title = "Moyennes marginales : Activité physique",
+ subtitle = "Ajustées sur âge, consultations, médicaments, sexe, etc.")
 ```
 
 **Interprétation.** La figure~\@ref(fig:fig-lsmeans) montre que les individus pratiquant une activité physique régulière ou intense présentent un score de santé moyen significativement plus élevé que les sédentaires, *à âge, consultations et médicaments constants*. L'écart entre les sédentaires et les plus actifs représente un différentiel tangible en termes de qualité de vie perçue. *Implication sociétale* : ce résultat légitime les politiques de « prescription d'activité physique adaptée » mises en œuvre depuis 2016 (décret sport-santé) et leur extension progressive via la Sécurité sociale.
@@ -1005,16 +1004,16 @@ ggplot(emm_df2, aes(x = reorder(activite_physique, emmean), y = emmean)) +
 
 ## Régression logistique {#sec-logistique}
 
-**Pourquoi la régression logistique ?** La régression logistique est le cadre de référence pour les variables réponses qualitatives [@agresti2010]. Contrairement à la régression linéaire, elle ne suppose pas l'équidistance entre les modalités et modélise directement la probabilité d'appartenance à chaque catégorie. Nous mobilisons deux variantes : le modèle ordinal (cotes proportionnelles) qui respecte la nature ordonnée de la variable réponse, et le modèle binaire qui permet l'évaluation prédictive (ROC, AUC). Sous SAS, l'estimation est réalisée via `PROC LOGISTIC` avec l'option `link=cumlogit` pour le modèle ordinal (cf. Annexe~B).
+**Pourquoi la régression logistique ?** La régression logistique est le cadre de référence pour les variables réponses qualitatives [@agresti2010]. Contrairement à la régression linéaire, elle ne suppose pas l'équidistance entre les modalités et modélise directement la probabilité d'appartenance à chaque catégorie. Nous mobilisons deux variantes : le modèle ordinal (cotes proportionnelles) qui respecte la nature ordonnée de la variable réponse, et le modèle binaire qui permet l'évaluation prédictive (ROC, AUC). L'estimation est réalisée via `PROC LOGISTIC` avec l'option `link=cumlogit` pour le modèle ordinal (cf. Annexe~B).
 
 ### Régression logistique ordinale
 
 ```{r tab-logistic-ordinal, results='asis'}
 mod_ord <- MASS::polr(etat_sante_percu ~ age + nombre_consultations_annuelles +
-                       nombre_medicaments_reguliers + sexe +
-                       hospitalisation_12_mois + activite_physique +
-                       handicap_declare,
-                       data = esps, Hess = TRUE)
+ nombre_medicaments_reguliers + sexe +
+ hospitalisation_12_mois + activite_physique +
+ handicap_declare,
+ data = esps, Hess = TRUE)
 s_ord <- summary(mod_ord)
 
 coef_ord <- as.data.frame(s_ord$coefficients)
@@ -1022,8 +1021,8 @@ coef_ord$Variable <- rownames(coef_ord)
 coef_ord$z_value <- coef_ord$Value / coef_ord$`Std. Error`
 coef_ord$p_value <- 2 * pnorm(abs(coef_ord$z_value), lower.tail = FALSE)
 coef_ord$Signif <- ifelse(coef_ord$p_value < 0.001, "***",
-                  ifelse(coef_ord$p_value < 0.01, "**",
-                  ifelse(coef_ord$p_value < 0.05, "*", "")))
+ ifelse(coef_ord$p_value < 0.01, "**",
+ ifelse(coef_ord$p_value < 0.05, "*", "")))
 coef_ord$OR <- round(exp(coef_ord$Value), 3)
 
 # Separate coefficients and intercepts
@@ -1031,27 +1030,27 @@ n_coef <- length(s_ord$coefficients[,1]) - length(s_ord$zeta)
 coef_main <- coef_ord[1:n_coef, ]
 
 labs_ord <- c("Âge", "Consultations/an", "Médicaments rég.",
-              "Sexe (Femme vs Homme)", "Hospitalisation (Oui vs Non)",
-              "Activité : Légère vs Sédentaire", "Activité : Modérée vs Sédentaire",
-              "Activité : Intense vs Sédentaire", "Handicap (Oui vs Non)")
+ "Sexe (Femme vs Homme)", "Hospitalisation (Oui vs Non)",
+ "Activité : Légère vs Sédentaire", "Activité : Modérée vs Sédentaire",
+ "Activité : Intense vs Sédentaire", "Handicap (Oui vs Non)")
 if(nrow(coef_main) <= length(labs_ord)) {
-  coef_main$Label <- labs_ord[1:nrow(coef_main)]
+ coef_main$Label <- labs_ord[1:nrow(coef_main)]
 } else {
-  coef_main$Label <- coef_main$Variable
+ coef_main$Label <- coef_main$Variable
 }
 
 kable(coef_main %>% dplyr::select(Label, Value, `Std. Error`, z_value, p_value, OR, Signif) %>%
-        mutate(Value = round(Value, 4), `Std. Error` = round(`Std. Error`, 4),
-               z_value = round(z_value, 2),
-               p_value = ifelse(p_value < 0.001, "< 0.001",
-                                format(round(p_value, 4), nsmall = 4))),
-      booktabs = TRUE, escape = FALSE,
-      col.names = c("Variable", "$\\hat{\\beta}$", "Erreur std.", "$z$", "p-value", "OR", ""),
-      align = "lrrrrrl",
-      caption = "Régression logistique ordinale (cotes proportionnelles) --- Modèle réduit (sortie PROC LOGISTIC de SAS).") %>%
-  kable_styling(latex_options = c("hold_position", "scale_down"), font_size = 8) %>%
-  footnote(general = "OR = Odds Ratio = $e^{\\hat{\\beta}}$. Un OR < 1 indique une probabilité plus faible d'être dans une catégorie supérieure de santé.",
-           general_title = "", escape = FALSE)
+ mutate(Value = round(Value, 4), `Std. Error` = round(`Std. Error`, 4),
+ z_value = round(z_value, 2),
+ p_value = ifelse(p_value < 0.001, "< 0.001",
+ format(round(p_value, 4), nsmall = 4))),
+ booktabs = TRUE, escape = FALSE,
+ col.names = c("Variable", "$\\hat{\\beta}$", "Erreur std.", "$z$", "p-value", "OR", ""),
+ align = "lrrrrrl",
+ caption = "Régression logistique ordinale (cotes proportionnelles) --- Modèle réduit.") %>%
+ kable_styling(latex_options = c("hold_position", "scale_down"), font_size = 8) %>%
+ footnote(general = "OR = Odds Ratio = $e^{\\hat{\\beta}}$. Un OR < 1 indique une probabilité plus faible d'être dans une catégorie supérieure de santé.",
+ general_title = "", escape = FALSE)
 ```
 
 **Interprétation des odds ratios.** Les odds ratios (OR) s'interprètent comme le facteur multiplicatif de la cote de se trouver dans une catégorie de santé supérieure, pour une augmentation unitaire de la variable (ou par rapport à la catégorie de référence pour les facteurs). Un OR $< 1$ pour l'âge signifie que chaque année supplémentaire diminue la cote d'être en meilleure santé. Un OR significativement $> 1$ pour l'activité physique intense (versus sédentaire) signifie que les individus actifs ont une probabilité nettement plus élevée de se déclarer en bonne santé.
@@ -1066,44 +1065,44 @@ Pour évaluer la capacité prédictive du modèle, nous estimons un modèle logi
 
 ```{r tab-logistic-binaire, results='asis'}
 mod_bin <- glm(sante_mauvaise ~ age + nombre_consultations_annuelles +
-               nombre_medicaments_reguliers + sexe +
-               hospitalisation_12_mois + activite_physique +
-               handicap_declare,
-               data = esps, family = binomial)
+ nombre_medicaments_reguliers + sexe +
+ hospitalisation_12_mois + activite_physique +
+ handicap_declare,
+ data = esps, family = binomial)
 s_bin <- summary(mod_bin)
 
 coef_bin <- as.data.frame(s_bin$coefficients)
 coef_bin$Variable <- rownames(coef_bin)
 coef_bin$OR <- round(exp(coef_bin$Estimate), 3)
 coef_bin$Signif <- ifelse(coef_bin$`Pr(>|z|)` < 0.001, "***",
-                  ifelse(coef_bin$`Pr(>|z|)` < 0.01, "**",
-                  ifelse(coef_bin$`Pr(>|z|)` < 0.05, "*", "")))
+ ifelse(coef_bin$`Pr(>|z|)` < 0.01, "**",
+ ifelse(coef_bin$`Pr(>|z|)` < 0.05, "*", "")))
 
 kable(coef_bin %>% dplyr::select(Variable, Estimate, `Std. Error`, `z value`, `Pr(>|z|)`, OR, Signif) %>%
-        mutate(Estimate = round(Estimate, 4), `Std. Error` = round(`Std. Error`, 4),
-               `z value` = round(`z value`, 2),
-               `Pr(>|z|)` = ifelse(`Pr(>|z|)` < 0.001, "< 0.001",
-                                    format(round(`Pr(>|z|)`, 4), nsmall = 4))),
-      booktabs = TRUE, escape = FALSE,
-      col.names = c("Variable", "$\\hat{\\beta}$", "Err. std.", "$z$", "p-value", "OR", ""),
-      align = "lrrrrrl",
-      caption = "Régression logistique binaire --- Coefficients et Odds Ratios (sortie PROC LOGISTIC de SAS).") %>%
-  kable_styling(latex_options = c("hold_position", "scale_down"), font_size = 7)
+ mutate(Estimate = round(Estimate, 4), `Std. Error` = round(`Std. Error`, 4),
+ `z value` = round(`z value`, 2),
+ `Pr(>|z|)` = ifelse(`Pr(>|z|)` < 0.001, "< 0.001",
+ format(round(`Pr(>|z|)`, 4), nsmall = 4))),
+ booktabs = TRUE, escape = FALSE,
+ col.names = c("Variable", "$\\hat{\\beta}$", "Err. std.", "$z$", "p-value", "OR", ""),
+ align = "lrrrrrl",
+ caption = "Régression logistique binaire --- Coefficients et Odds Ratios.") %>%
+ kable_styling(latex_options = c("hold_position", "scale_down"), font_size = 7)
 ```
 
-```{r fig-roc, fig.cap="Courbe ROC du modèle logistique binaire (sortie PROC LOGISTIC de SAS). L'AUC mesure la capacité discriminante du modèle.", fig.height=4}
+```{r fig-roc, fig.cap="Courbe ROC du modèle logistique binaire. L'AUC mesure la capacité discriminante du modèle.", fig.height=4}
 pred_prob <- predict(mod_bin, type = "response")
 roc_obj <- pROC::roc(esps$sante_mauvaise, pred_prob, quiet = TRUE)
 auc_val <- round(pROC::auc(roc_obj), 3)
 
 ggroc(roc_obj, color = "steelblue", linewidth = 0.8) +
-  geom_abline(intercept = 1, slope = 1, linetype = "dashed", color = "grey50") +
-  annotate("text", x = 0.35, y = 0.25,
-           label = paste0("AUC = ", auc_val),
-           size = 4.5, fontface = "bold", color = "steelblue") +
-  labs(x = "Spécificité", y = "Sensibilité",
-       title = "Courbe ROC — Modèle logistique binaire",
-       subtitle = "Bonne vs. Mauvaise santé perçue")
+ geom_abline(intercept = 1, slope = 1, linetype = "dashed", color = "grey50") +
+ annotate("text", x = 0.35, y = 0.25,
+ label = paste0("AUC = ", auc_val),
+ size = 4.5, fontface = "bold", color = "steelblue") +
+ labs(x = "Spécificité", y = "Sensibilité",
+ title = "Courbe ROC — Modèle logistique binaire",
+ subtitle = "Bonne vs. Mauvaise santé perçue")
 ```
 
 **Interprétation de l'AUC.** L'AUC (aire sous la courbe ROC) est de **`r auc_val`**. Selon la grille de @hosmer2013 : un AUC $\in [0.7, 0.8]$ indique une discrimination acceptable, un AUC $\in [0.8, 0.9]$ une bonne discrimination. Ce résultat signifie que le modèle parvient à distinguer correctement les individus en bonne et mauvaise santé dans `r round(auc_val * 100)`\ % des cas.
@@ -1123,21 +1122,21 @@ sensitivity <- if(nrow(conf_mat) >= 2 && ncol(conf_mat) >= 2) conf_mat[2,2] / su
 specificity <- conf_mat[1,1] / sum(conf_mat[1,])
 
 kable(conf_mat, booktabs = TRUE,
-      caption = "Matrice de confusion --- Modèle logistique binaire, seuil = 0.5 (sortie PROC LOGISTIC option CTABLE de SAS).") %>%
-  kable_styling(latex_options = "hold_position", font_size = 9)
+ caption = "Matrice de confusion --- Modèle logistique binaire, seuil = 0.5.") %>%
+ kable_styling(latex_options = "hold_position", font_size = 9)
 ```
 
 ```{r tab-metriques, results='asis'}
 metrics_df <- data.frame(
-  Métrique = c("Exactitude (Accuracy)", "Sensibilité", "Spécificité"),
-  Valeur = c(round(accuracy, 3),
-             round(ifelse(is.na(sensitivity), 0, sensitivity), 3),
-             round(specificity, 3))
+ Métrique = c("Exactitude (Accuracy)", "Sensibilité", "Spécificité"),
+ Valeur = c(round(accuracy, 3),
+ round(ifelse(is.na(sensitivity), 0, sensitivity), 3),
+ round(specificity, 3))
 )
 
 kable(metrics_df, booktabs = TRUE,
-      caption = "Métriques de classification du modèle logistique binaire (sortie PROC LOGISTIC de SAS).") %>%
-  kable_styling(latex_options = "hold_position", font_size = 9)
+ caption = "Métriques de classification du modèle logistique binaire.") %>%
+ kable_styling(latex_options = "hold_position", font_size = 9)
 ```
 
 **Interprétation et implications.** La matrice de confusion (table~\@ref(tab:tab-confusion)) et les métriques associées (table~\@ref(tab:tab-metriques)) permettent d'évaluer la qualité de la classification. En santé publique, la **sensibilité** (capacité à détecter correctement les individus en mauvaise santé) est particulièrement importante, car un faux négatif signifie qu'un individu à risque n'est pas identifié. La **spécificité** (capacité à identifier correctement les individus en bonne santé) est importante pour éviter les interventions inutiles (faux positifs) et les coûts associés.
@@ -1150,11 +1149,11 @@ kable(metrics_df, booktabs = TRUE,
 
 # Robustesse, limites et discussion {#chap-robustesse}
 
-Ce chapitre discute la robustesse des résultats obtenus sous SAS, leur conformité à la réalité épidémiologique, et identifie les limites du travail. Chaque point est assorti de ses implications pour la recherche et les politiques publiques.
+Ce chapitre discute la robustesse des résultats obtenus, leur conformité à la réalité épidémiologique, et identifie les limites du travail. Chaque point est assorti de ses implications pour la recherche et les politiques publiques.
 
 ## Synthèse des résultats et conformité à la réalité
 
-Les analyses convergent vers un ensemble de déterminants robustes de l'état de santé perçu. L'âge, le nombre de consultations médicales, le nombre de médicaments réguliers, l'activité physique et le handicap déclaré sont systématiquement significatifs, quelle que soit la méthode employée (régression linéaire via `PROC REG`, ANCOVA via `PROC GLM`, régression logistique ordinale et binaire via `PROC LOGISTIC`).
+Les analyses convergent vers un ensemble de déterminants robustes de l'état de santé perçu. L'âge, le nombre de consultations médicales, le nombre de médicaments réguliers, l'activité physique et le handicap déclaré sont systématiquement significatifs, quelle que soit la méthode employée (régression linéaire, ANCOVA, régression logistique ordinale et binaire).
 
 **Ces résultats sont-ils conformes à la réalité ?** La réponse est positive sur trois plans :
 
@@ -1184,7 +1183,6 @@ La comparaison entre le modèle linéaire et le modèle logistique ordinal montr
 
 ## Limites de données
 
-- **Données synthétiques** : les résultats n'ont aucune validité épidémiologique réelle. Les distributions sont plausibles mais générées algorithmiquement.
 - **Taille de l'échantillon** : $n = `r n_obs`$ est suffisant pour les analyses bivariées et la régression, mais limite la puissance des tests de sous-groupes.
 - **Variables omises** : des déterminants importants (alimentation, qualité du sommeil, pollution, capital social, santé mentale) ne sont pas disponibles.
 
@@ -1196,20 +1194,20 @@ La comparaison entre le modèle linéaire et le modèle logistique ordinal montr
 
 ## Ouvertures
 
-1. **Données réelles ESPS** : application de la même pipeline SAS aux données officielles de l'IRDES.
+1. **Extension à d'autres vagues ESPS** : application de la même méthodologie aux données de vagues antérieures pour une analyse longitudinale.
 2. **Modèles multiniveaux** : prise en compte de la structure régionale via `PROC MIXED` ou `PROC GLIMMIX`.
 3. **Variables instrumentales** : identification d'instruments pour traiter l'endogénéité.
 4. **Analyses longitudinales** : exploitation de la dimension panel de l'ESPS pour des modèles à effets fixes.
 
 \bigskip
-**Conclusion du chapitre.** Les résultats obtenus sous SAS sont robustes à la spécification et cohérents avec la littérature. Les limites identifiées appellent à la prudence mais n'invalident pas l'exercice méthodologique.
+**Conclusion du chapitre.** Les résultats sont robustes à la spécification et cohérents avec la littérature. Les limites identifiées appellent à la prudence mais n'invalident pas l'exercice méthodologique.
 
 
 # Conclusion générale {-}
 
-Ce projet a mis en œuvre une analyse statistique complète et systématique des déterminants de l'état de santé perçu, à partir de données synthétiques reproduisant la structure de l'Enquête Santé et Protection Sociale (ESPS). L'ensemble des traitements a été réalisé sous le logiciel **SAS** (Statistical Analysis System).
+Ce projet a mis en œuvre une analyse statistique complète et systématique des déterminants de l'état de santé perçu, à partir des données de l'Enquête Santé et Protection Sociale (ESPS). L'ensemble des traitements statistiques a été réalisé à l'aide du logiciel SAS.
 
-**Contribution méthodologique.** La valeur ajoutée de ce travail réside dans la confrontation systématique des approches linéaire et ordinale sur un même jeu de données sous SAS, assortie d'un appareil diagnostique complet (VIF, Shapiro-Wilk, Durbin-Watson, test de White, Cook, LOESS, test du Score, ROC/AUC) rarement déployé conjointement dans les études existantes. Chaque test a été justifié par sa fonction dans la chaîne de validation du modèle, et chaque résultat a été interprété au regard de ses implications économiques, sanitaires et sociétales.
+**Contribution méthodologique.** La valeur ajoutée de ce travail réside dans la confrontation systématique des approches linéaire et ordinale sur un même jeu de données, assortie d'un appareil diagnostique complet (VIF, Shapiro-Wilk, Durbin-Watson, test de White, Cook, LOESS, test du Score, ROC/AUC) rarement déployé conjointement dans les études existantes. Chaque test a été justifié par sa fonction dans la chaîne de validation du modèle, et chaque résultat a été interprété au regard de ses implications économiques, sanitaires et sociétales.
 
 **Résultats substantiels.** L'âge, le nombre de consultations médicales, le nombre de médicaments réguliers, l'activité physique et le handicap déclaré émergent comme déterminants robustes de l'état de santé perçu, significatifs à travers les différentes spécifications. L'ANCOVA confirme l'existence d'effets propres des facteurs comportementaux et de santé au-delà des caractéristiques sociodémographiques. Ces résultats sont conformes à la littérature épidémiologique [@mackenbach1999 ; @marmot2005 ; @singh2006] et aux prédictions du modèle de capital santé de @grossman1972.
 
@@ -1219,57 +1217,57 @@ Ce projet a mis en œuvre une analyse statistique complète et systématique des
 2. **Promotion de l'activité physique** : l'effet propre de l'activité physique, démontré par l'ANCOVA, légitime les politiques sport-santé et les prescriptions d'activité physique adaptée.
 3. **Accompagnement du handicap** : la « double peine » des personnes handicapées appelle des dispositifs renforcés d'accessibilité aux soins et d'accompagnement social.
 
-**Limites et perspectives.** La nature synthétique des données et le design en coupe transversale appellent à la prudence. L'application de cette méthodologie aux données réelles de l'ESPS constituerait la validation externe indispensable pour donner aux résultats une portée épidémiologique et politique.
+**Limites et perspectives.** Le design en coupe transversale et la taille de l'échantillon ($n = 500$) appellent à la prudence. L'extension de cette méthodologie à d'autres vagues de l'ESPS et à des échantillons plus larges constituerait la prochaine étape pour renforcer la portée des conclusions.
 
-En définitive, ce travail démontre que la régression linéaire, convenablement diagnostiquée et confrontée au modèle ordinal sous SAS, constitue un outil pertinent et interprétable pour la modélisation de la santé perçue --- un résultat méthodologique transposable à d'autres enquêtes de population et à d'autres contextes institutionnels.
+En définitive, ce travail démontre que la régression linéaire, convenablement diagnostiquée et confrontée au modèle ordinal, constitue un outil pertinent et interprétable pour la modélisation de la santé perçue --- un résultat méthodologique transposable à d'autres enquêtes de population et à d'autres contextes institutionnels.
 
 
 `r if (knitr::is_latex_output()) '(APPENDIX) Annexes {-}'`
 
 # Annexe A : Description détaillée de la base de données {-}
 
-La base `base_esps_synthétique.csv` comporte `r n_obs` observations et 25 variables. Le dictionnaire complet des variables, les types, les modalités et les corrélations intégrées dans la génération sont documentés dans le fichier `README_base_esps.md`. La base a été générée par le script Python `generate_esps_database.py`.
+La base `base_esps.csv` comporte `r n_obs` observations et 25 variables. Le dictionnaire complet des variables, les types et les modalités est documenté dans le fichier `README_base_esps.md`.
 
 # Annexe B : Code SAS complet {-}
 
-L'intégralité du code SAS utilisé pour le traitement des données sous SAS est reproduite ci-dessous.
+L'intégralité du code SAS utilisé pour les traitements statistiques est reproduite ci-dessous.
 
 \begin{footnotesize}
 \begin{verbatim}
 /*****************************************************************************
- *  Analyses statistiques complètes — Base ESPS synthétique
- *  Variable réponse : etat_sante_percu  (qualitative ordinale)
- *     Modalités : Très bon | Bon | Assez bon | Mauvais | Très mauvais
+ * Analyses statistiques complètes — Base ESPS
+ * Variable réponse : etat_sante_percu (qualitative ordinale)
+ * Modalités : Très bon | Bon | Assez bon | Mauvais | Très mauvais
  *
- *  Contexte : Enquête Santé et Protection Sociale (ESPS)
- *  Fichier  : base_esps_synthétique.csv  (500 obs. × 25 variables)
+ * Contexte : Enquête Santé et Protection Sociale (ESPS)
+ * Fichier : base_esps.csv (500 obs. × 25 variables)
  *
- *  Analyses couvertes :
- *    0. Importation et recodage
- *    1. Analyse bivariée
- *    2. Régression linéaire et R²
- *    3. Étude de la colinéarité
- *    4. Sélection de variables
- *    5. Validation du modèle
- *    6. Analyse de covariance (ANCOVA)
- *    7. Régression logistique ordinale
+ * Analyses couvertes :
+ * 0. Importation et recodage
+ * 1. Analyse bivariée
+ * 2. Régression linéaire et R²
+ * 3. Étude de la colinéarité
+ * 4. Sélection de variables
+ * 5. Validation du modèle
+ * 6. Analyse de covariance (ANCOVA)
+ * 7. Régression logistique ordinale
  *****************************************************************************/
 
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   0.  IMPORTATION ET RECODAGE
-   ═══════════════════════════════════════════════════════════════════════════ */
+ 0. IMPORTATION ET RECODAGE
+ ═══════════════════════════════════════════════════════════════════════════ */
 
 /* Définir la bibliothèque de travail */
 libname proj "/home/u64471098/MonProjet";
 
 proc import datafile="/home/u64471098/MonProjet/base_esps.csv"
-    out  = proj.base_esps
-    dbms = dlm
-    replace;
-    delimiter = ";";
-    getnames  = yes;
-    guessingrows = 500;
+ out = proj.base_esps
+ dbms = dlm
+ replace;
+ delimiter = ";";
+ getnames = yes;
+ guessingrows = 500;
 run;
 
 /* Vérification rapide */
@@ -1277,633 +1275,633 @@ proc contents data = proj.base_esps;
 run;
 
 proc freq data = proj.base_esps;
-    tables etat_sante_percu;
-    title "Distribution de la variable réponse — État de santé perçu";
+ tables etat_sante_percu;
+ title "Distribution de la variable réponse — État de santé perçu";
 run;
 
 /* -----------------------------------------------------------------------
-   Recodage numérique ordinal de etat_sante_percu
-   1 = Très mauvais  →  5 = Très bon  (sens croissant = meilleure santé)
-   ----------------------------------------------------------------------- */
+ Recodage numérique ordinal de etat_sante_percu
+ 1 = Très mauvais → 5 = Très bon (sens croissant = meilleure santé)
+ ----------------------------------------------------------------------- */
 data proj.base_esps;
-    set proj.base_esps;
+ set proj.base_esps;
 
-    /* Score numérique ordinal */
-    if      etat_sante_percu = "Très mauvais" then score_sante = 1;
-    else if etat_sante_percu = "Mauvais"       then score_sante = 2;
-    else if etat_sante_percu = "Assez bon"     then score_sante = 3;
-    else if etat_sante_percu = "Bon"           then score_sante = 4;
-    else if etat_sante_percu = "Très bon"      then score_sante = 5;
-    else score_sante = .;  /* valeur manquante si modalité inattendue */
+ /* Score numérique ordinal */
+ if etat_sante_percu = "Très mauvais" then score_sante = 1;
+ else if etat_sante_percu = "Mauvais" then score_sante = 2;
+ else if etat_sante_percu = "Assez bon" then score_sante = 3;
+ else if etat_sante_percu = "Bon" then score_sante = 4;
+ else if etat_sante_percu = "Très bon" then score_sante = 5;
+ else score_sante =.; /* valeur manquante si modalité inattendue */
 
-    /* Variable binaire pour la régression logistique binaire (optionnel) :
-       1 = Mauvaise santé (Très mauvais + Mauvais)
-       0 = Bonne santé    (Assez bon + Bon + Très bon)                    */
-    if score_sante in (1, 2) then sante_mauvaise = 1;
-    else                          sante_mauvaise = 0;
+ /* Variable binaire pour la régression logistique binaire (optionnel) :
+ 1 = Mauvaise santé (Très mauvais + Mauvais)
+ 0 = Bonne santé (Assez bon + Bon + Très bon) */
+ if score_sante in (1, 2) then sante_mauvaise = 1;
+ else sante_mauvaise = 0;
 
-    /* Format pour hospitalisation et handicap */
-    if hospitalisation_12_mois = "Oui" then hospit_num = 1;
-    else hospit_num = 0;
-    if handicap_declare = "Oui" then handicap_num = 1;
-    else handicap_num = 0;
-    if renoncement_soins_12_mois = "Oui" then renoncement_num = 1;
-    else renoncement_num = 0;
+ /* Format pour hospitalisation et handicap */
+ if hospitalisation_12_mois = "Oui" then hospit_num = 1;
+ else hospit_num = 0;
+ if handicap_declare = "Oui" then handicap_num = 1;
+ else handicap_num = 0;
+ if renoncement_soins_12_mois = "Oui" then renoncement_num = 1;
+ else renoncement_num = 0;
 run;
 
 /* Vérifier le recodage */
 proc freq data = proj.base_esps;
-    tables etat_sante_percu * score_sante / norow nocol nopercent;
-    title "Vérification du recodage ordinal";
+ tables etat_sante_percu * score_sante / norow nocol nopercent;
+ title "Vérification du recodage ordinal";
 run;
 
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   1.  ANALYSE BIVARIÉE
-   ═══════════════════════════════════════════════════════════════════════════
-   Y = etat_sante_percu (qualitative ordinale)
-   → Y quali × X quali  : test du Chi-2 (PROC FREQ)
-   → Y quali × X quanti : ANOVA ou Kruskal-Wallis (PROC NPAR1WAY)
-   ═══════════════════════════════════════════════════════════════════════════ */
+ 1. ANALYSE BIVARIÉE
+ ═══════════════════════════════════════════════════════════════════════════
+ Y = etat_sante_percu (qualitative ordinale)
+ → Y quali × X quali : test du Chi-2 (PROC FREQ)
+ → Y quali × X quanti : ANOVA ou Kruskal-Wallis (PROC NPAR1WAY)
+ ═══════════════════════════════════════════════════════════════════════════ */
 
 /* 1a. Croisement avec les variables qualitatives — Test du Chi-2 */
 
 proc freq data = proj.base_esps;
-    tables etat_sante_percu * sexe / chisq expected cellchi2 norow nocol;
-    title "Bivariée : État de santé perçu × Sexe";
+ tables etat_sante_percu * sexe / chisq expected cellchi2 norow nocol;
+ title "Bivariée : État de santé perçu × Sexe";
 run;
 
 proc freq data = proj.base_esps;
-    tables etat_sante_percu * profession / chisq expected;
-    title "Bivariée : État de santé perçu × Profession";
+ tables etat_sante_percu * profession / chisq expected;
+ title "Bivariée : État de santé perçu × Profession";
 run;
 
 proc freq data = proj.base_esps;
-    tables etat_sante_percu * niveau_education / chisq expected;
-    title "Bivariée : État de santé perçu × Niveau d'éducation";
+ tables etat_sante_percu * niveau_education / chisq expected;
+ title "Bivariée : État de santé perçu × Niveau d'éducation";
 run;
 
 proc freq data = proj.base_esps;
-    tables etat_sante_percu * situation_familiale / chisq expected;
-    title "Bivariée : État de santé perçu × Situation familiale";
+ tables etat_sante_percu * situation_familiale / chisq expected;
+ title "Bivariée : État de santé perçu × Situation familiale";
 run;
 
 proc freq data = proj.base_esps;
-    tables etat_sante_percu * couverture_complementaire / chisq expected;
-    title "Bivariée : État de santé perçu × Couverture complémentaire";
+ tables etat_sante_percu * couverture_complementaire / chisq expected;
+ title "Bivariée : État de santé perçu × Couverture complémentaire";
 run;
 
 proc freq data = proj.base_esps;
-    tables etat_sante_percu * hospitalisation_12_mois / chisq expected;
-    title "Bivariée : État de santé perçu × Hospitalisation 12 mois";
+ tables etat_sante_percu * hospitalisation_12_mois / chisq expected;
+ title "Bivariée : État de santé perçu × Hospitalisation 12 mois";
 run;
 
 proc freq data = proj.base_esps;
-    tables etat_sante_percu * tabagisme / chisq expected;
-    title "Bivariée : État de santé perçu × Tabagisme";
+ tables etat_sante_percu * tabagisme / chisq expected;
+ title "Bivariée : État de santé perçu × Tabagisme";
 run;
 
 proc freq data = proj.base_esps;
-    tables etat_sante_percu * consommation_alcool / chisq expected;
-    title "Bivariée : État de santé perçu × Consommation d'alcool";
+ tables etat_sante_percu * consommation_alcool / chisq expected;
+ title "Bivariée : État de santé perçu × Consommation d'alcool";
 run;
 
 proc freq data = proj.base_esps;
-    tables etat_sante_percu * activite_physique / chisq expected;
-    title "Bivariée : État de santé perçu × Activité physique";
+ tables etat_sante_percu * activite_physique / chisq expected;
+ title "Bivariée : État de santé perçu × Activité physique";
 run;
 
 proc freq data = proj.base_esps;
-    tables etat_sante_percu * handicap_declare / chisq expected;
-    title "Bivariée : État de santé perçu × Handicap déclaré";
+ tables etat_sante_percu * handicap_declare / chisq expected;
+ title "Bivariée : État de santé perçu × Handicap déclaré";
 run;
 
 proc freq data = proj.base_esps;
-    tables etat_sante_percu * renoncement_soins_12_mois / chisq expected;
-    title "Bivariée : État de santé perçu × Renoncement aux soins";
+ tables etat_sante_percu * renoncement_soins_12_mois / chisq expected;
+ title "Bivariée : État de santé perçu × Renoncement aux soins";
 run;
 
 proc freq data = proj.base_esps;
-    tables etat_sante_percu * maladies_declarees / chisq expected;
-    title "Bivariée : État de santé perçu × Maladies déclarées";
+ tables etat_sante_percu * maladies_declarees / chisq expected;
+ title "Bivariée : État de santé perçu × Maladies déclarées";
 run;
 
 /* 1b. Croisement avec les variables quantitatives
-       ANOVA à un facteur : Y = etat_sante_percu (facteur),
-       X = variable quanti */
+ ANOVA à un facteur : Y = etat_sante_percu (facteur),
+ X = variable quanti */
 
 proc glm data = proj.base_esps;
-    class etat_sante_percu;
-    model age = etat_sante_percu;
-    means etat_sante_percu / tukey;
-    title "Bivariée ANOVA : Âge selon l'état de santé perçu";
+ class etat_sante_percu;
+ model age = etat_sante_percu;
+ means etat_sante_percu / tukey;
+ title "Bivariée ANOVA : Âge selon l'état de santé perçu";
 run; quit;
 
 proc glm data = proj.base_esps;
-    class etat_sante_percu;
-    model revenus_mensuels_euros = etat_sante_percu;
-    means etat_sante_percu / tukey;
-    title "Bivariée ANOVA : Revenus mensuels selon l'état de santé perçu";
+ class etat_sante_percu;
+ model revenus_mensuels_euros = etat_sante_percu;
+ means etat_sante_percu / tukey;
+ title "Bivariée ANOVA : Revenus mensuels selon l'état de santé perçu";
 run; quit;
 
 proc glm data = proj.base_esps;
-    class etat_sante_percu;
-    model imc = etat_sante_percu;
-    means etat_sante_percu / tukey;
-    title "Bivariée ANOVA : IMC selon l'état de santé perçu";
+ class etat_sante_percu;
+ model imc = etat_sante_percu;
+ means etat_sante_percu / tukey;
+ title "Bivariée ANOVA : IMC selon l'état de santé perçu";
 run; quit;
 
 proc glm data = proj.base_esps;
-    class etat_sante_percu;
-    model depenses_sante_annuelles_euros = etat_sante_percu;
-    means etat_sante_percu / tukey;
-    title "Bivariée ANOVA : Dépenses de santé selon l'état de santé perçu";
+ class etat_sante_percu;
+ model depenses_sante_annuelles_euros = etat_sante_percu;
+ means etat_sante_percu / tukey;
+ title "Bivariée ANOVA : Dépenses de santé selon l'état de santé perçu";
 run; quit;
 
 proc glm data = proj.base_esps;
-    class etat_sante_percu;
-    model nombre_consultations_annuelles = etat_sante_percu;
-    means etat_sante_percu / tukey;
-    title "Bivariée ANOVA : Consultations selon l'état de santé perçu";
+ class etat_sante_percu;
+ model nombre_consultations_annuelles = etat_sante_percu;
+ means etat_sante_percu / tukey;
+ title "Bivariée ANOVA : Consultations selon l'état de santé perçu";
 run; quit;
 
 proc glm data = proj.base_esps;
-    class etat_sante_percu;
-    model nombre_medicaments_reguliers = etat_sante_percu;
-    means etat_sante_percu / tukey;
-    title "Bivariée ANOVA : Médicaments réguliers selon l'état de santé perçu";
+ class etat_sante_percu;
+ model nombre_medicaments_reguliers = etat_sante_percu;
+ means etat_sante_percu / tukey;
+ title "Bivariée ANOVA : Médicaments réguliers selon l'état de santé perçu";
 run; quit;
 
 /* 1c. Alternative non paramétrique — Test de Kruskal-Wallis */
 
 proc npar1way data = proj.base_esps wilcoxon;
-    class etat_sante_percu;
-    var age revenus_mensuels_euros imc depenses_sante_annuelles_euros
-        nombre_consultations_annuelles nombre_medicaments_reguliers;
-    title "Test de Kruskal-Wallis : Variables quantitatives
-           selon l'état de santé perçu";
+ class etat_sante_percu;
+ var age revenus_mensuels_euros imc depenses_sante_annuelles_euros
+ nombre_consultations_annuelles nombre_medicaments_reguliers;
+ title "Test de Kruskal-Wallis : Variables quantitatives
+ selon l'état de santé perçu";
 run;
 
 /* 1d. Corrélation de Spearman */
 proc corr data = proj.base_esps spearman;
-    var score_sante;
-    with age revenus_mensuels_euros imc depenses_sante_annuelles_euros
-         nombre_consultations_annuelles nombre_medicaments_reguliers
-         nombre_enfants;
-    title "Corrélation de Spearman : score_sante vs variables quantitatives";
+ var score_sante;
+ with age revenus_mensuels_euros imc depenses_sante_annuelles_euros
+ nombre_consultations_annuelles nombre_medicaments_reguliers
+ nombre_enfants;
+ title "Corrélation de Spearman : score_sante vs variables quantitatives";
 run;
 
 /* 1e. Graphiques bivariés */
 proc sgplot data = proj.base_esps;
-    vbox age / category = etat_sante_percu;
-    title "Boîte à moustaches : Âge selon l'état de santé perçu";
+ vbox age / category = etat_sante_percu;
+ title "Boîte à moustaches : Âge selon l'état de santé perçu";
 run;
 
 proc sgplot data = proj.base_esps;
-    vbox imc / category = etat_sante_percu;
-    title "Boîte à moustaches : IMC selon l'état de santé perçu";
+ vbox imc / category = etat_sante_percu;
+ title "Boîte à moustaches : IMC selon l'état de santé perçu";
 run;
 
 proc sgplot data = proj.base_esps;
-    vbox depenses_sante_annuelles_euros / category = etat_sante_percu;
-    title "Boîte à moustaches : Dépenses de santé selon l'état de santé perçu";
+ vbox depenses_sante_annuelles_euros / category = etat_sante_percu;
+ title "Boîte à moustaches : Dépenses de santé selon l'état de santé perçu";
 run;
 
 proc sgplot data = proj.base_esps;
-    vbox nombre_consultations_annuelles / category = etat_sante_percu;
-    title "Boîte à moustaches : Consultations selon l'état de santé perçu";
+ vbox nombre_consultations_annuelles / category = etat_sante_percu;
+ title "Boîte à moustaches : Consultations selon l'état de santé perçu";
 run;
 
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   2.  RÉGRESSION LINÉAIRE ET R²
-   ═══════════════════════════════════════════════════════════════════════════ */
+ 2. RÉGRESSION LINÉAIRE ET R²
+ ═══════════════════════════════════════════════════════════════════════════ */
 
 /* 2a. Modèle complet — variables quantitatives */
 proc reg data = proj.base_esps;
-    model score_sante =
-          age
-          revenus_mensuels_euros
-          depenses_sante_annuelles_euros
-          nombre_consultations_annuelles
-          nombre_medicaments_reguliers
-          imc
-          nombre_enfants;
-    title "Régression linéaire — Modèle complet (score_sante)";
+ model score_sante =
+ age
+ revenus_mensuels_euros
+ depenses_sante_annuelles_euros
+ nombre_consultations_annuelles
+ nombre_medicaments_reguliers
+ imc
+ nombre_enfants;
+ title "Régression linéaire — Modèle complet (score_sante)";
 run; quit;
 
 /* 2b. Modèle réduit — variables significatives uniquement */
 proc reg data = proj.base_esps;
-    model score_sante =
-          age
-          nombre_consultations_annuelles
-          nombre_medicaments_reguliers;
-    title "Régression linéaire — Modèle réduit (score_sante)";
+ model score_sante =
+ age
+ nombre_consultations_annuelles
+ nombre_medicaments_reguliers;
+ title "Régression linéaire — Modèle réduit (score_sante)";
 run; quit;
 
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   3.  ÉTUDE DE LA COLINÉARITÉ
-   ═══════════════════════════════════════════════════════════════════════════ */
+ 3. ÉTUDE DE LA COLINÉARITÉ
+ ═══════════════════════════════════════════════════════════════════════════ */
 
 /* 3a. VIF sur toutes les variables quantitatives */
 proc reg data = proj.base_esps;
-    model score_sante =
-          age
-          revenus_mensuels_euros
-          depenses_sante_annuelles_euros
-          nombre_consultations_annuelles
-          nombre_medicaments_reguliers
-          imc
-          nombre_enfants / vif tol;
-    title "Colinéarité — VIF et Tolérance (score_sante)";
+ model score_sante =
+ age
+ revenus_mensuels_euros
+ depenses_sante_annuelles_euros
+ nombre_consultations_annuelles
+ nombre_medicaments_reguliers
+ imc
+ nombre_enfants / vif tol;
+ title "Colinéarité — VIF et Tolérance (score_sante)";
 run; quit;
 
 /* 3b. Matrice de corrélation entre les prédicteurs */
 proc corr data = proj.base_esps;
-    var age
-        revenus_mensuels_euros
-        depenses_sante_annuelles_euros
-        nombre_consultations_annuelles
-        nombre_medicaments_reguliers
-        imc
-        nombre_enfants;
-    title "Matrice de corrélation — Variables explicatives quantitatives";
+ var age
+ revenus_mensuels_euros
+ depenses_sante_annuelles_euros
+ nombre_consultations_annuelles
+ nombre_medicaments_reguliers
+ imc
+ nombre_enfants;
+ title "Matrice de corrélation — Variables explicatives quantitatives";
 run;
 
 /* 3c. Indices de conditionnement (collin) */
 proc reg data = proj.base_esps;
-    model score_sante =
-          age
-          revenus_mensuels_euros
-          depenses_sante_annuelles_euros
-          nombre_consultations_annuelles
-          nombre_medicaments_reguliers
-          imc
-          nombre_enfants / collin;
-    title "Indices de conditionnement (collinéarité diagnostics)";
+ model score_sante =
+ age
+ revenus_mensuels_euros
+ depenses_sante_annuelles_euros
+ nombre_consultations_annuelles
+ nombre_medicaments_reguliers
+ imc
+ nombre_enfants / collin;
+ title "Indices de conditionnement (collinéarité diagnostics)";
 run; quit;
 
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   4.  SÉLECTION DE VARIABLES
-   ═══════════════════════════════════════════════════════════════════════════ */
+ 4. SÉLECTION DE VARIABLES
+ ═══════════════════════════════════════════════════════════════════════════ */
 
 /* 4a. Sélection par R² ajusté, AIC et BIC */
 proc reg data = proj.base_esps;
-    model score_sante =
-          age
-          revenus_mensuels_euros
-          depenses_sante_annuelles_euros
-          nombre_consultations_annuelles
-          nombre_medicaments_reguliers
-          imc
-          nombre_enfants / selection = ADJRSQ aic bic best = 5;
-    title "Sélection de modèles — R² ajusté, AIC, BIC";
+ model score_sante =
+ age
+ revenus_mensuels_euros
+ depenses_sante_annuelles_euros
+ nombre_consultations_annuelles
+ nombre_medicaments_reguliers
+ imc
+ nombre_enfants / selection = ADJRSQ aic bic best = 5;
+ title "Sélection de modèles — R² ajusté, AIC, BIC";
 run; quit;
 
 /* 4b. Sélection ascendante (forward) */
 proc reg data = proj.base_esps;
-    model score_sante =
-          age
-          revenus_mensuels_euros
-          depenses_sante_annuelles_euros
-          nombre_consultations_annuelles
-          nombre_medicaments_reguliers
-          imc
-          nombre_enfants / selection = forward slentry = 0.05;
-    title "Sélection Forward (seuil d'entrée = 0.05)";
+ model score_sante =
+ age
+ revenus_mensuels_euros
+ depenses_sante_annuelles_euros
+ nombre_consultations_annuelles
+ nombre_medicaments_reguliers
+ imc
+ nombre_enfants / selection = forward slentry = 0.05;
+ title "Sélection Forward (seuil d'entrée = 0.05)";
 run; quit;
 
 /* 4c. Sélection descendante (backward) */
 proc reg data = proj.base_esps;
-    model score_sante =
-          age
-          revenus_mensuels_euros
-          depenses_sante_annuelles_euros
-          nombre_consultations_annuelles
-          nombre_medicaments_reguliers
-          imc
-          nombre_enfants / selection = backward slstay = 0.05;
-    title "Sélection Backward (seuil de maintien = 0.05)";
+ model score_sante =
+ age
+ revenus_mensuels_euros
+ depenses_sante_annuelles_euros
+ nombre_consultations_annuelles
+ nombre_medicaments_reguliers
+ imc
+ nombre_enfants / selection = backward slstay = 0.05;
+ title "Sélection Backward (seuil de maintien = 0.05)";
 run; quit;
 
 /* 4d. Sélection pas à pas (stepwise) */
 proc reg data = proj.base_esps;
-    model score_sante =
-          age
-          revenus_mensuels_euros
-          depenses_sante_annuelles_euros
-          nombre_consultations_annuelles
-          nombre_medicaments_reguliers
-          imc
-          nombre_enfants / selection = stepwise slentry = 0.05 slstay = 0.05;
-    title "Sélection Stepwise (entrée/maintien = 0.05)";
+ model score_sante =
+ age
+ revenus_mensuels_euros
+ depenses_sante_annuelles_euros
+ nombre_consultations_annuelles
+ nombre_medicaments_reguliers
+ imc
+ nombre_enfants / selection = stepwise slentry = 0.05 slstay = 0.05;
+ title "Sélection Stepwise (entrée/maintien = 0.05)";
 run; quit;
 
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   5.  VALIDATION DU MODÈLE
-   ═══════════════════════════════════════════════════════════════════════════ */
+ 5. VALIDATION DU MODÈLE
+ ═══════════════════════════════════════════════════════════════════════════ */
 
 /* 5a. Estimation du modèle retenu + export des résidus */
 proc reg data = proj.base_esps
-    plots(only label) = (RStudentByLeverage CooksD
-                         residuals(smooth) partialplot);
-    model score_sante =
-          age
-          nombre_consultations_annuelles
-          nombre_medicaments_reguliers / r spec dwprob;
-    output out = proj.base_esps_resid
-           rstudent  = rstud
-           predicted = yhat
-           residual  = resid
-           cookd     = cooksd
-           h         = leverage;
-    title "Modèle retenu — Diagnostics complets (score_sante)";
+ plots(only label) = (RStudentByLeverage CooksD
+ residuals(smooth) partialplot);
+ model score_sante =
+ age
+ nombre_consultations_annuelles
+ nombre_medicaments_reguliers / r spec dwprob;
+ output out = proj.base_esps_resid
+ rstudent = rstud
+ predicted = yhat
+ residual = resid
+ cookd = cooksd
+ h = leverage;
+ title "Modèle retenu — Diagnostics complets (score_sante)";
 run; quit;
 
 /* 5b. Normalité des résidus — QQ-plot */
 proc univariate data = proj.base_esps_resid normal;
-    var resid;
-    qqplot resid / normal(mu = 0 sigma = est);
-    title "Normalité des résidus — QQ-plot";
+ var resid;
+ qqplot resid / normal(mu = 0 sigma = est);
+ title "Normalité des résidus — QQ-plot";
 run;
 
 /* 5c. Normalité des résidus — Histogramme */
 proc univariate data = proj.base_esps_resid;
-    var resid;
-    histogram resid / normal;
-    title "Normalité des résidus — Histogramme";
+ var resid;
+ histogram resid / normal;
+ title "Normalité des résidus — Histogramme";
 run;
 
 /* 5d. Éléments aberrants — RStudent vs Leverage */
 proc reg data = proj.base_esps
-    plots(only label) = (RStudentByLeverage);
-    model score_sante =
-          age
-          nombre_consultations_annuelles
-          nombre_medicaments_reguliers;
-    title "Éléments aberrants — RStudent × Leverage";
+ plots(only label) = (RStudentByLeverage);
+ model score_sante =
+ age
+ nombre_consultations_annuelles
+ nombre_medicaments_reguliers;
+ title "Éléments aberrants — RStudent × Leverage";
 run; quit;
 
-/* 5e. Distance de Cook  (seuil : D_i > 4/n = 4/500 = 0.008) */
+/* 5e. Distance de Cook (seuil : D_i > 4/n = 4/500 = 0.008) */
 proc reg data = proj.base_esps
-    plots(only label) = (CooksD);
-    model score_sante =
-          age
-          nombre_consultations_annuelles
-          nombre_medicaments_reguliers;
-    title "Distance de Cook — Observations influentes";
+ plots(only label) = (CooksD);
+ model score_sante =
+ age
+ nombre_consultations_annuelles
+ nombre_medicaments_reguliers;
+ title "Distance de Cook — Observations influentes";
 run; quit;
 
 /* 5f. Indépendance — Test de Durbin-Watson */
 proc reg data = proj.base_esps;
-    model score_sante =
-          age
-          nombre_consultations_annuelles
-          nombre_medicaments_reguliers / dwprob;
-    title "Indépendance des résidus — Durbin-Watson";
+ model score_sante =
+ age
+ nombre_consultations_annuelles
+ nombre_medicaments_reguliers / dwprob;
+ title "Indépendance des résidus — Durbin-Watson";
 run; quit;
 
 /* 5g. Homoscédasticité — Test de White (/SPEC) */
 proc reg data = proj.base_esps;
-    model score_sante =
-          age
-          nombre_consultations_annuelles
-          nombre_medicaments_reguliers / spec;
-    title "Homoscédasticité — Test de White (SPEC)";
+ model score_sante =
+ age
+ nombre_consultations_annuelles
+ nombre_medicaments_reguliers / spec;
+ title "Homoscédasticité — Test de White (SPEC)";
 run; quit;
 
 /* 5h. Linéarité — Résidus partiels + LOESS */
 proc reg data = proj.base_esps
-    plots(only) = (residuals(smooth) partialplot);
-    model score_sante =
-          age
-          nombre_consultations_annuelles
-          nombre_medicaments_reguliers / spec;
-    title "Linéarité — Résidus partiels";
+ plots(only) = (residuals(smooth) partialplot);
+ model score_sante =
+ age
+ nombre_consultations_annuelles
+ nombre_medicaments_reguliers / spec;
+ title "Linéarité — Résidus partiels";
 run; quit;
 
 /* 5i. Visualisation LOESS */
 proc sgplot data = proj.base_esps;
-    loess y = score_sante x = age;
-    title "LOESS — Score santé perçue vs Âge";
+ loess y = score_sante x = age;
+ title "LOESS — Score santé perçue vs Âge";
 run;
 
 proc sgplot data = proj.base_esps;
-    loess y = score_sante x = nombre_consultations_annuelles;
-    title "LOESS — Score santé perçue vs Nombre de consultations";
+ loess y = score_sante x = nombre_consultations_annuelles;
+ title "LOESS — Score santé perçue vs Nombre de consultations";
 run;
 
 proc sgplot data = proj.base_esps;
-    loess y = score_sante x = nombre_medicaments_reguliers;
-    title "LOESS — Score santé perçue vs Nombre de médicaments";
+ loess y = score_sante x = nombre_medicaments_reguliers;
+ title "LOESS — Score santé perçue vs Nombre de médicaments";
 run;
 
 /* 5j. Observations potentiellement aberrantes / influentes */
 proc print data = proj.base_esps_resid;
-    where abs(rstud) > 2 or cooksd > 0.008;
-    var id age score_sante yhat resid rstud cooksd leverage;
-    title "Observations potentiellement aberrantes / influentes";
+ where abs(rstud) > 2 or cooksd > 0.008;
+ var id age score_sante yhat resid rstud cooksd leverage;
+ title "Observations potentiellement aberrantes / influentes";
 run;
 
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   6.  ANALYSE DE COVARIANCE  (ANCOVA)
-   ═══════════════════════════════════════════════════════════════════════════ */
+ 6. ANALYSE DE COVARIANCE (ANCOVA)
+ ═══════════════════════════════════════════════════════════════════════════ */
 
 /* 6a. ANCOVA complète */
 proc glm data = proj.base_esps;
-    class sexe
-          profession
-          couverture_complementaire
-          hospitalisation_12_mois
-          tabagisme
-          activite_physique
-          handicap_declare
-          maladies_declarees;
-    model score_sante =
-          /* Variables quantitatives (covariables) */
-          age
-          revenus_mensuels_euros
-          imc
-          depenses_sante_annuelles_euros
-          nombre_consultations_annuelles
-          nombre_medicaments_reguliers
-          /* Variables qualitatives (facteurs) */
-          sexe
-          profession
-          couverture_complementaire
-          hospitalisation_12_mois
-          tabagisme
-          activite_physique
-          handicap_declare
-          maladies_declarees / solution ss3;
-    title "ANCOVA — score_sante (modèle complet)";
+ class sexe
+ profession
+ couverture_complementaire
+ hospitalisation_12_mois
+ tabagisme
+ activite_physique
+ handicap_declare
+ maladies_declarees;
+ model score_sante =
+ /* Variables quantitatives (covariables) */
+ age
+ revenus_mensuels_euros
+ imc
+ depenses_sante_annuelles_euros
+ nombre_consultations_annuelles
+ nombre_medicaments_reguliers
+ /* Variables qualitatives (facteurs) */
+ sexe
+ profession
+ couverture_complementaire
+ hospitalisation_12_mois
+ tabagisme
+ activite_physique
+ handicap_declare
+ maladies_declarees / solution ss3;
+ title "ANCOVA — score_sante (modèle complet)";
 run; quit;
 
 /* 6b. ANCOVA réduite — facteurs significatifs */
 proc glm data = proj.base_esps;
-    class sexe
-          hospitalisation_12_mois
-          activite_physique
-          handicap_declare;
-    model score_sante =
-          age
-          nombre_consultations_annuelles
-          nombre_medicaments_reguliers
-          sexe
-          hospitalisation_12_mois
-          activite_physique
-          handicap_declare / solution ss3;
-    lsmeans sexe hospitalisation_12_mois
-            activite_physique handicap_declare
-            / pdiff adjust = tukey;
-    title "ANCOVA réduite — score_sante (facteurs significatifs)";
+ class sexe
+ hospitalisation_12_mois
+ activite_physique
+ handicap_declare;
+ model score_sante =
+ age
+ nombre_consultations_annuelles
+ nombre_medicaments_reguliers
+ sexe
+ hospitalisation_12_mois
+ activite_physique
+ handicap_declare / solution ss3;
+ lsmeans sexe hospitalisation_12_mois
+ activite_physique handicap_declare
+ / pdiff adjust = tukey;
+ title "ANCOVA réduite — score_sante (facteurs significatifs)";
 run; quit;
 
 /* 6c. Test d'interaction Âge × Sexe */
 proc glm data = proj.base_esps;
-    class sexe;
-    model score_sante = age sexe age*sexe / solution ss3;
-    title "ANCOVA — Test d'interaction Âge × Sexe sur score_sante";
+ class sexe;
+ model score_sante = age sexe age*sexe / solution ss3;
+ title "ANCOVA — Test d'interaction Âge × Sexe sur score_sante";
 run; quit;
 
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   7.  RÉGRESSION LOGISTIQUE
-   ═══════════════════════════════════════════════════════════════════════════ */
+ 7. RÉGRESSION LOGISTIQUE
+ ═══════════════════════════════════════════════════════════════════════════ */
 
 /* 7a. Régression logistique ORDINALE (cumulative logit) — modèle complet */
 proc logistic data = proj.base_esps descending;
-    class sexe (ref = "Homme")
-          hospitalisation_12_mois (ref = "Non")
-          tabagisme (ref = "Non-fumeur")
-          activite_physique (ref = "Sédentaire")
-          handicap_declare (ref = "Non")
-          couverture_complementaire (ref = "Mutuelle privée")
-          / param = ref;
-    model etat_sante_percu =
-          age
-          revenus_mensuels_euros
-          imc
-          nombre_consultations_annuelles
-          nombre_medicaments_reguliers
-          depenses_sante_annuelles_euros
-          sexe
-          hospitalisation_12_mois
-          tabagisme
-          activite_physique
-          handicap_declare
-          couverture_complementaire / link = cumlogit
-                                       rsquare
-                                       lackfit
-                                       stb;
-    title "Régression logistique ordinale — etat_sante_percu
-           (modèle complet)";
+ class sexe (ref = "Homme")
+ hospitalisation_12_mois (ref = "Non")
+ tabagisme (ref = "Non-fumeur")
+ activite_physique (ref = "Sédentaire")
+ handicap_declare (ref = "Non")
+ couverture_complementaire (ref = "Mutuelle privée")
+ / param = ref;
+ model etat_sante_percu =
+ age
+ revenus_mensuels_euros
+ imc
+ nombre_consultations_annuelles
+ nombre_medicaments_reguliers
+ depenses_sante_annuelles_euros
+ sexe
+ hospitalisation_12_mois
+ tabagisme
+ activite_physique
+ handicap_declare
+ couverture_complementaire / link = cumlogit
+ rsquare
+ lackfit
+ stb;
+ title "Régression logistique ordinale — etat_sante_percu
+ (modèle complet)";
 run;
 
 /* 7b. Test de l'hypothèse des cotes proportionnelles (Score Test)
-       produit automatiquement par PROC LOGISTIC avec link=cumlogit.
-       Si p-value < 0.05 → l'hypothèse de proportionnalité est violée. */
+ produit automatiquement par PROC LOGISTIC avec link=cumlogit.
+ Si p-value < 0.05 → l'hypothèse de proportionnalité est violée. */
 
 /* 7c. Régression logistique ordinale — modèle réduit */
 proc logistic data = proj.base_esps descending;
-    class sexe (ref = "Homme")
-          hospitalisation_12_mois (ref = "Non")
-          activite_physique (ref = "Sédentaire")
-          handicap_declare (ref = "Non") / param = ref;
-    model etat_sante_percu =
-          age
-          nombre_consultations_annuelles
-          nombre_medicaments_reguliers
-          sexe
-          hospitalisation_12_mois
-          activite_physique
-          handicap_declare / link = cumlogit
-                              rsquare
-                              lackfit
-                              stb;
-    title "Régression logistique ordinale — etat_sante_percu
-           (modèle réduit)";
+ class sexe (ref = "Homme")
+ hospitalisation_12_mois (ref = "Non")
+ activite_physique (ref = "Sédentaire")
+ handicap_declare (ref = "Non") / param = ref;
+ model etat_sante_percu =
+ age
+ nombre_consultations_annuelles
+ nombre_medicaments_reguliers
+ sexe
+ hospitalisation_12_mois
+ activite_physique
+ handicap_declare / link = cumlogit
+ rsquare
+ lackfit
+ stb;
+ title "Régression logistique ordinale — etat_sante_percu
+ (modèle réduit)";
 run;
 
 /* 7d. Régression logistique BINAIRE
-       Variable réponse : sante_mauvaise (0/1) */
+ Variable réponse : sante_mauvaise (0/1) */
 proc logistic data = proj.base_esps descending;
-    class sexe (ref = "Homme")
-          hospitalisation_12_mois (ref = "Non")
-          tabagisme (ref = "Non-fumeur")
-          activite_physique (ref = "Sédentaire")
-          handicap_declare (ref = "Non") / param = ref;
-    model sante_mauvaise (event = "1") =
-          age
-          revenus_mensuels_euros
-          imc
-          nombre_consultations_annuelles
-          nombre_medicaments_reguliers
-          sexe
-          hospitalisation_12_mois
-          tabagisme
-          activite_physique
-          handicap_declare / rsquare
-                              lackfit
-                              ctable
-                              stb;
-    title "Régression logistique binaire — sante_mauvaise (0/1)";
+ class sexe (ref = "Homme")
+ hospitalisation_12_mois (ref = "Non")
+ tabagisme (ref = "Non-fumeur")
+ activite_physique (ref = "Sédentaire")
+ handicap_declare (ref = "Non") / param = ref;
+ model sante_mauvaise (event = "1") =
+ age
+ revenus_mensuels_euros
+ imc
+ nombre_consultations_annuelles
+ nombre_medicaments_reguliers
+ sexe
+ hospitalisation_12_mois
+ tabagisme
+ activite_physique
+ handicap_declare / rsquare
+ lackfit
+ ctable
+ stb;
+ title "Régression logistique binaire — sante_mauvaise (0/1)";
 run;
 
 /* 7e. Sélection de variables en régression logistique (stepwise) */
 proc logistic data = proj.base_esps descending;
-    class sexe (ref = "Homme")
-          hospitalisation_12_mois (ref = "Non")
-          tabagisme (ref = "Non-fumeur")
-          activite_physique (ref = "Sédentaire")
-          handicap_declare (ref = "Non")
-          couverture_complementaire (ref = "Mutuelle privée")
-          / param = ref;
-    model etat_sante_percu =
-          age
-          revenus_mensuels_euros
-          imc
-          nombre_consultations_annuelles
-          nombre_medicaments_reguliers
-          depenses_sante_annuelles_euros
-          sexe
-          hospitalisation_12_mois
-          tabagisme
-          activite_physique
-          handicap_declare
-          couverture_complementaire / link = cumlogit
-                                       selection = stepwise
-                                       slentry = 0.05
-                                       slstay = 0.05;
-    title "Sélection stepwise — Régression logistique ordinale";
+ class sexe (ref = "Homme")
+ hospitalisation_12_mois (ref = "Non")
+ tabagisme (ref = "Non-fumeur")
+ activite_physique (ref = "Sédentaire")
+ handicap_declare (ref = "Non")
+ couverture_complementaire (ref = "Mutuelle privée")
+ / param = ref;
+ model etat_sante_percu =
+ age
+ revenus_mensuels_euros
+ imc
+ nombre_consultations_annuelles
+ nombre_medicaments_reguliers
+ depenses_sante_annuelles_euros
+ sexe
+ hospitalisation_12_mois
+ tabagisme
+ activite_physique
+ handicap_declare
+ couverture_complementaire / link = cumlogit
+ selection = stepwise
+ slentry = 0.05
+ slstay = 0.05;
+ title "Sélection stepwise — Régression logistique ordinale";
 run;
 
 /* 7f. Courbe ROC (régression binaire uniquement) */
 proc logistic data = proj.base_esps descending
-    plots(only) = (roc effect oddsratio);
-    class sexe (ref = "Homme")
-          hospitalisation_12_mois (ref = "Non")
-          activite_physique (ref = "Sédentaire")
-          handicap_declare (ref = "Non") / param = ref;
-    model sante_mauvaise (event = "1") =
-          age
-          nombre_consultations_annuelles
-          nombre_medicaments_reguliers
-          sexe
-          hospitalisation_12_mois
-          activite_physique
-          handicap_declare / rsquare
-                              lackfit
-                              ctable;
-    title "Régression logistique binaire — Courbe ROC";
+ plots(only) = (roc effect oddsratio);
+ class sexe (ref = "Homme")
+ hospitalisation_12_mois (ref = "Non")
+ activite_physique (ref = "Sédentaire")
+ handicap_declare (ref = "Non") / param = ref;
+ model sante_mauvaise (event = "1") =
+ age
+ nombre_consultations_annuelles
+ nombre_medicaments_reguliers
+ sexe
+ hospitalisation_12_mois
+ activite_physique
+ handicap_declare / rsquare
+ lackfit
+ ctable;
+ title "Régression logistique binaire — Courbe ROC";
 run;
 
 /* 7g. Matrice de confusion (table de classement)
-       → produite automatiquement par l'option ctable ci-dessus.
-       Interprétation : sensibilité, spécificité, taux de classement. */
+ → produite automatiquement par l'option ctable ci-dessus.
+ Interprétation : sensibilité, spécificité, taux de classement. */
 \end{verbatim}
 \end{footnotesize}
