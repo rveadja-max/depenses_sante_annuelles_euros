@@ -1301,7 +1301,95 @@ En définitive, ce travail démontre que la régression linéaire, convenablemen
 
 # Annexe A : Description détaillée de la base de données {-}
 
-La base `base_esps.csv` comporte `r n_obs` observations et 25 variables. Le dictionnaire complet des variables, les types et les modalités est documenté dans le fichier `README_base_esps.md`.
+La base `base_esps.csv` comporte `r n_obs` observations et 25 variables. Le dictionnaire complet des variables est présenté ci-dessous.
+
+## Référence méthodologique {-}
+
+\begin{tabular}{@{} l p{10cm} @{}}
+\toprule
+\textbf{Élément} & \textbf{Détail} \\
+\midrule
+Source & IRDES --- Enquête Santé et Protection Sociale (ESPS) \\
+Méthodologie & Enquête en coupe transversale (\textit{cross-sectional survey}) \\
+Unité statistique & Individu résidant en France métropolitaine \\
+Fichier & \texttt{base\_esps.csv} \\
+Encodage & UTF-8 \\
+Séparateur & Point-virgule (\texttt{;}) \\
+Observations & 500 individus \\
+Variables & 25 \\
+\bottomrule
+\end{tabular}
+
+\medskip
+
+\noindent\textit{Note} : les données sont \textbf{calibrées sur les statistiques publiées de l'ESPS} et ne proviennent pas de l'ESPS réelle. Elles reproduisent fidèlement la structure et les distributions plausibles des variables de l'enquête de référence.
+
+## Dictionnaire des variables {-}
+
+\begingroup
+\scriptsize
+\begin{longtable}{@{} c l l p{3.8cm} p{5.5cm} @{}}
+\toprule
+\textbf{\#} & \textbf{Variable} & \textbf{Type} & \textbf{Description} & \textbf{Modalités / Unité} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{\#} & \textbf{Variable} & \textbf{Type} & \textbf{Description} & \textbf{Modalités / Unité} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+1  & \texttt{id}                             & Identifiant  & Identifiant unique de l'individu                     & Entier (1 $\rightarrow$ 500) \\
+2  & \texttt{age}                            & Quantitative & Âge de l'individu                                    & 18 -- 95 ans \\
+3  & \texttt{sexe}                           & Qualitative  & Sexe                                                 & Homme, Femme \\
+4  & \texttt{profession}                     & Qualitative  & Catégorie socioprofessionnelle                       & Agriculteur, Artisan/Commerçant, Cadre supérieur, Profession intermédiaire, Employé, Ouvrier, Retraité, Sans activité professionnelle, Étudiant \\
+5  & \texttt{niveau\_education}              & Qualitative  & Niveau de diplôme le plus élevé                      & Sans diplôme, CAP/BEP, Baccalauréat, Bac+2, Bac+3/Licence, Bac+5/Master, Doctorat \\
+6  & \texttt{situation\_familiale}           & Qualitative  & Situation matrimoniale                               & Célibataire, Marié(e), Pacsé(e), Divorcé(e), Veuf/Veuve \\
+7  & \texttt{nombre\_enfants}                & Quantitative & Nombre d'enfants à charge                            & 0 -- 5 \\
+8  & \texttt{region}                         & Qualitative  & Région de résidence                                  & 13 régions métropolitaines \\
+9  & \texttt{type\_commune}                  & Qualitative  & Taille de la commune de résidence                    & Rurale, Urbaine petite, Urbaine moyenne, Métropole \\
+10 & \texttt{revenus\_mensuels\_euros}       & Quantitative & Revenus mensuels nets (€)                            & Distribution gaussienne centrée selon la profession \\
+11 & \texttt{statut\_assurance}              & Qualitative  & Régime d'assurance maladie obligatoire               & Régime général, MSA, RSI/SSI, Régime spécial, Autre régime \\
+12 & \texttt{couverture\_complementaire}     & Qualitative  & Type de couverture complémentaire santé              & Mutuelle privée, CSS, Assurance privée, Aucune complémentaire \\
+13 & \texttt{depenses\_sante\_annuelles\_euros} & Quantitative & Dépenses de santé annuelles (€)                   & Corrélées positivement à l'âge \\
+14 & \texttt{nombre\_consultations\_annuelles} & Quantitative & Nombre de consultations médicales sur 12 mois      & 0 -- 30 \\
+15 & \texttt{nombre\_medicaments\_reguliers} & Quantitative & Nombre de médicaments pris régulièrement             & Corrélé à l'âge \\
+16 & \texttt{hospitalisation\_12\_mois}      & Qualitative  & Hospitalisation au cours des 12 derniers mois        & Oui, Non \\
+17 & \texttt{etat\_sante\_percu}             & Qualitative  & Auto-évaluation de l'état de santé                   & Très bon, Bon, Assez bon, Mauvais, Très mauvais \\
+18 & \texttt{maladies\_declarees}            & Qualitative  & Maladie chronique principale déclarée                & Aucune, Diabète, Hypertension, Asthme, Dépression, Lombalgie chronique, Arthrose, Cardiopathie, Cancer (rémission), Maladie respiratoire chronique, Trouble anxieux, Migraine chronique, Obésité morbide \\
+19 & \texttt{imc}                            & Quantitative & Indice de masse corporelle                           & 15.0 -- 50.0 (moyenne $\approx$ 25.5) \\
+20 & \texttt{tabagisme}                      & Qualitative  & Statut tabagique                                     & Non-fumeur, Ancien fumeur, Fumeur occasionnel, Fumeur quotidien \\
+21 & \texttt{consommation\_alcool}           & Qualitative  & Fréquence de consommation d'alcool                   & Jamais, Occasionnelle, Régulière, Quotidienne \\
+22 & \texttt{activite\_physique}             & Qualitative  & Niveau d'activité physique                           & Sédentaire, Activité légère, Activité modérée, Activité intense \\
+23 & \texttt{handicap\_declare}              & Qualitative  & Handicap ou limitation déclaré(e)                    & Oui, Non \\
+24 & \texttt{renoncement\_soins\_12\_mois}   & Qualitative  & Renoncement à des soins pour raisons financières     & Oui, Non \\
+25 & \texttt{satisfaction\_systeme\_soins}    & Qualitative  & Satisfaction vis-à-vis du système de soins           & Très satisfait, Satisfait, Peu satisfait, Pas du tout satisfait \\
+\end{longtable}
+\endgroup
+
+## Répartition des types de variables {-}
+
+\begin{tabular}{@{} l c p{11cm} @{}}
+\toprule
+\textbf{Type} & \textbf{Nombre} & \textbf{Variables} \\
+\midrule
+Identifiant   & 1  & \texttt{id} \\
+Quantitatives & 7  & \texttt{age}, \texttt{nombre\_enfants}, \texttt{revenus\_mensuels\_euros}, \texttt{depenses\_sante\_annuelles\_euros}, \texttt{nombre\_consultations\_annuelles}, \texttt{nombre\_medicaments\_reguliers}, \texttt{imc} \\
+Qualitatives  & 17 & \texttt{sexe}, \texttt{profession}, \texttt{niveau\_education}, \texttt{situation\_familiale}, \texttt{region}, \texttt{type\_commune}, \texttt{statut\_assurance}, \texttt{couverture\_complementaire}, \texttt{hospitalisation\_12\_mois}, \texttt{etat\_sante\_percu}, \texttt{maladies\_declarees}, \texttt{tabagisme}, \texttt{consommation\_alcool}, \texttt{activite\_physique}, \texttt{handicap\_declare}, \texttt{renoncement\_soins\_12\_mois}, \texttt{satisfaction\_systeme\_soins} \\
+\bottomrule
+\end{tabular}
+
+## Corrélations intégrées dans la génération {-}
+
+Pour renforcer le réalisme des données, le script de génération (\texttt{generate\_esps\_database.py}) intègre les corrélations suivantes :
+
+- **Profession $\leftrightarrow$ Âge** : les retraités sont majoritairement $\geq$ 65 ans ; les étudiants $\leq$ 25 ans.
+- **Revenus $\leftrightarrow$ Profession** : les cadres ont des revenus plus élevés que les ouvriers.
+- **Dépenses de santé $\leftrightarrow$ Âge** : les dépenses augmentent avec l'âge.
+- **Consultations $\leftrightarrow$ Âge** : le nombre de consultations croît avec l'âge.
+- **État de santé perçu $\leftrightarrow$ Âge** : dégradation perçue avec l'avancée en âge.
+- **Handicap $\leftrightarrow$ Âge** : probabilité de handicap déclaré croissante avec l'âge.
+- **Renoncement aux soins $\leftrightarrow$ Revenus** : le renoncement est plus fréquent chez les bas revenus.
 
 # Annexe B : Code SAS complet {-}
 
