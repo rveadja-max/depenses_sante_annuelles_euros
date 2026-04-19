@@ -79,9 +79,16 @@ $endif$
 % Le compteur citnum (défini dans memoirerecherche.cls) est incrémenté pour
 % chaque entrée imprimée dans la bibliographie ; \total{citnum} sur la page
 % de titre affichera la valeur finale (disponible dès le second passage LaTeX).
+\newcounter{citnum}
 \AtEveryBibitem{\stepcounter{citnum}}
 
 % --- Coloration syntaxique Pandoc ---------------------------------------------
+% Pré-définir l'environnement Shaded (requis par les macros de coloration
+% Pandoc qui utilisent \renewenvironment) et la couleur shadecolor.
+\usepackage{tcolorbox}
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
 $if(highlighting-macros)$
 $highlighting-macros$
 $endif$

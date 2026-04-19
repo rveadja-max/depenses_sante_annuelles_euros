@@ -1,10 +1,10 @@
 /*****************************************************************************
- *  Analyses statistiques complètes — Base ESPS synthétique
+ *  Analyses statistiques complètes — Base ESPS
  *  Variable réponse : etat_sante_percu  (qualitative ordinale)
  *     Modalités : Très bon | Bon | Assez bon | Mauvais | Très mauvais
  *
  *  Contexte : Enquête Santé et Protection Sociale (ESPS)
- *  Fichier  : base_esps_synthétique.csv  (500 obs. × 25 variables)
+ *  Fichier  : base_esps.csv  (500 obs. × 25 variables)
  *
  *  Analyses couvertes :
  *    0. Importation et recodage
@@ -25,7 +25,7 @@
 /* Définir la bibliothèque de travail */
 libname proj "C:\chemin\vers\votre\dossier";   /* ← adapter le chemin */
 
-proc import datafile = "C:\chemin\vers\base_esps_synthétique.csv"
+proc import datafile = "C:\chemin\vers\base_esps.csv"
     out  = proj.base_esps
     dbms = dlm
     replace;

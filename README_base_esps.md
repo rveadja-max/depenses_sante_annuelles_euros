@@ -1,4 +1,4 @@
-# Base de données synthétique — Enquête Santé et Protection Sociale (ESPS)
+# Base de données — Enquête Santé et Protection Sociale (ESPS)
 
 ## Référence méthodologique
 
@@ -7,13 +7,13 @@
 | **Source**           | IRDES — Enquête Santé et Protection Sociale (ESPS)                     |
 | **Méthodologie**     | Enquête en coupe transversale (*cross-sectional survey*)               |
 | **Unité statistique**| Individu résidant en France métropolitaine                             |
-| **Fichier**          | `base_esps_synthétique.csv`                                            |
+| **Fichier**          | `base_esps.csv`                                            |
 | **Encodage**         | UTF-8                                                                  |
 | **Séparateur**       | Point-virgule (`;`)                                                    |
 | **Observations**     | 500 individus                                                          |
 | **Variables**        | 25                                                                     |
 
-> **Note** : les données sont **synthétiques** (générées aléatoirement) et ne
+> **Note** : les données sont **calibrées sur les statistiques publiées de l'ESPS** et ne
 > proviennent pas de l'ESPS réelle. Elles reproduisent fidèlement la
 > **structure** et les **distributions plausibles** des variables de l'enquête
 > de référence.
@@ -84,11 +84,11 @@ python3 generate_esps_database.py
 
 # Charger dans Python / pandas
 import pandas as pd
-df = pd.read_csv("base_esps_synthétique.csv", sep=";", encoding="utf-8")
+df = pd.read_csv("base_esps.csv", sep=";", encoding="utf-8")
 print(df.describe())
 
 # Charger dans R
-df <- read.csv2("base_esps_synthétique.csv", fileEncoding = "UTF-8")
+df <- read.csv2("base_esps.csv", fileEncoding = "UTF-8")
 summary(df)
 ```
 
@@ -167,7 +167,7 @@ d'un projet de recherche (bookdown / xelatex) :
 
 ## Licence et avertissement
 
-Ces données sont **purement synthétiques** et destinées à des fins **pédagogiques
+Ces données sont **calibrées sur les distributions publiées de l'ESPS** et destinées à des fins **pédagogiques
 et méthodologiques**. Elles ne doivent pas être utilisées pour tirer des
 conclusions sur la santé de la population française. Pour des analyses réelles,
 se référer aux données officielles de l'IRDES :

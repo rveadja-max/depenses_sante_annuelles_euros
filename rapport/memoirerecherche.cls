@@ -142,10 +142,10 @@
  \thispagestyle{plain}
 
  \begin{center}
-   \includegraphics[height=6cm]{\thelogo}
+   \includegraphics[height=4.5cm]{\thelogo}
  \end{center}
 
-\vspace{0.5cm}
+\vspace{0.3cm}
  {\Large \textbf{\@evaluation}}
  
 \vspace{0.3cm}
@@ -171,9 +171,9 @@ valant évaluation dans le cadre de :
   %\\ \hline
 \end{tabular}
 
-\vspace{1.4cm}
+\vspace{1.0cm}
 \noindent
-\Large{\textsc{\textbf{\textcolor{urcabrown}{\@title}}}}
+\large{\textsc{\textbf{\textcolor{urcabrown}{\@title}}}}
 
 
 % \vspace{-0.2cm}
@@ -191,8 +191,9 @@ valant évaluation dans le cadre de :
 
 \small \normalfont
 
-\vspace{1.4cm}
+\vspace{0.8cm}
 
+\scriptsize
 \begin{tabular}{@{}p{0.33\textwidth}>{\columncolor{urcalightbrown!20}}p{0.66\textwidth}@{}}
 % \begin{tabular}{@{}c@{}@{}c@{}}
   \begin{minipage}[t]{.23\textwidth}
