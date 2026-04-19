@@ -69,8 +69,8 @@ output:
  keep_tex: yes
  toc: yes
  toc_depth: 3
- lot: no
- lof: no
+ lot: yes
+ lof: yes
 
 bibliography: biblio-sante.bib
 link-citations: yes
@@ -143,6 +143,69 @@ esps$renoncement_num <- ifelse(esps$renoncement_soins_12_mois == "Oui", 1, 0)
 n_obs <- nrow(esps)
 ```
 
+\newpage
+
+\thispagestyle{empty}
+\vspace*{\fill}
+\begin{flushright}
+\textit{«\ La santé est un état de complet bien-être physique,\\
+mental et social, et ne consiste pas seulement\\
+en une absence de maladie ou d'infirmité.\ »}
+
+\medskip
+--- Organisation mondiale de la santé, 1946
+\end{flushright}
+\vspace{1cm}
+\begin{center}
+\textit{Je dédie ce travail à ma famille et à tous ceux qui\\
+œuvrent pour la réduction des inégalités de santé.}
+\end{center}
+\vspace*{\fill}
+
+\newpage
+
+# Remerciements {-}
+
+Je tiens à exprimer ma profonde gratitude à **Charlotte Papelard**, responsable du module *Modèles linéaires --- Statistical Analysis System*, pour la qualité de son enseignement, ses conseils méthodologiques et l'exigence scientifique qu'elle a su transmettre tout au long de cette formation. Son accompagnement a été déterminant dans la conduite de ce projet.
+
+Mes remerciements vont également à l'ensemble des enseignants du Master *Statistique pour l'évaluation et la prévision* de l'Université de Reims Champagne-Ardenne, dont les enseignements ont fourni les fondements théoriques et pratiques mobilisés dans ce travail.
+
+Je remercie l'Institut de recherche et documentation en économie de la santé (IRDES) pour la mise à disposition des données de l'Enquête Santé et Protection Sociale (ESPS), sans lesquelles cette analyse n'aurait pu être réalisée.
+
+Enfin, je tiens à remercier ma famille et mes proches pour leur soutien constant et leurs encouragements tout au long de cette année universitaire.
+
+\newpage
+
+# Avant-propos {-}
+
+## Contexte et objectifs {-}
+
+En France, les inégalités sociales de santé constituent un enjeu majeur de santé publique. La Direction de la recherche, des études, de l'évaluation et des statistiques (DREES) rapporte que 8,2\ \% des adultes déclarent un état de santé « mauvais » ou « très mauvais », un chiffre qui atteint 19\ \% parmi les ménages du premier quintile de revenus. Ce gradient social, documenté par la Commission de l'OMS sur les déterminants sociaux de la santé (2008), soulève une question fondamentale : quels facteurs sociodémographiques, économiques et comportementaux déterminent la perception individuelle de l'état de santé, et comment les hiérarchiser de façon robuste ?
+
+Le présent projet met en œuvre une analyse statistique complète des déterminants de l'état de santé perçu en France métropolitaine, à partir de données issues de l'Enquête Santé et Protection Sociale (ESPS) de l'IRDES (500 individus, 25 variables). La variable réponse --- qualitative ordinale à cinq modalités (Très mauvais, Mauvais, Assez bon, Bon, Très bon) --- est analysée au moyen de sept familles de méthodes : analyse bivariée, régression linéaire multiple, colinéarité, sélection de variables, validation complète, ANCOVA et régression logistique.
+
+## Plan du rapport {-}
+
+Ce rapport s'organise autour de sept chapitres. Chaque chapitre s'ouvre sur un énoncé introductif des différents points qui y sont abordés et se conclut par une synthèse.
+
+Le **chapitre 1** est une **introduction générale** qui présente le contexte, la problématique, les hypothèses de recherche et la stratégie méthodologique retenue.
+
+Le **chapitre 2** pose le **cadre conceptuel, théorique et analytique** en justifiant chaque choix méthodologique au regard de la littérature sur la santé perçue et les déterminants sociaux.
+
+Le **chapitre 3** propose une **revue de littérature** sur les déterminants de la santé perçue et les méthodes de régression appliquées à ce domaine, en identifiant la contribution spécifique de notre travail.
+
+Le **chapitre 4** détaille la **méthodologie** statistique retenue : design de recherche, spécification des modèles (régression linéaire, ANCOVA, logistique ordinale et binaire) et stratégie de validation.
+
+Le **chapitre 5** présente les **données et la construction de la base empirique** : sources, construction des variables et statistiques descriptives commentées.
+
+Le **chapitre 6** expose les **résultats** : analyses bivariées et multivariées, diagnostics de validation, régression logistique ordinale et binaire.
+
+Le **chapitre 7** discute la **robustesse, les limites et les perspectives** du travail, en confrontant systématiquement les résultats à la littérature épidémiologique.
+
+Le rapport se termine par une **conclusion générale** structurée en bilan et perspectives, suivie d'**annexes** comprenant le dictionnaire de données et le code SAS complet.
+
+\newpage
+
 # Sigles et acronymes {-}
 
 \begin{tabular}{@{} l @{\hspace{1.5em}} p{12cm} @{}}
@@ -176,7 +239,7 @@ VIF & \textit{Variance Inflation Factor} --- Facteur d'inflation de la variance 
 
 \newpage
 
-# Introduction générale {-}
+# Introduction générale {#chap-introduction}
 
 ## Accroche et contexte général
 
@@ -1202,8 +1265,11 @@ La comparaison entre le modèle linéaire et le modèle logistique ordinal montr
 \bigskip
 **Conclusion du chapitre.** Les résultats sont robustes à la spécification et cohérents avec la littérature. Les limites identifiées appellent à la prudence mais n'invalident pas l'exercice méthodologique.
 
+\newpage
 
 # Conclusion générale {-}
+
+## Bilan {-}
 
 Ce projet a mis en œuvre une analyse statistique complète et systématique des déterminants de l'état de santé perçu, à partir des données de l'Enquête Santé et Protection Sociale (ESPS). L'ensemble des traitements statistiques a été réalisé à l'aide du logiciel SAS.
 
@@ -1217,10 +1283,19 @@ Ce projet a mis en œuvre une analyse statistique complète et systématique des
 2. **Promotion de l'activité physique** : l'effet propre de l'activité physique, démontré par l'ANCOVA, légitime les politiques sport-santé et les prescriptions d'activité physique adaptée.
 3. **Accompagnement du handicap** : la « double peine » des personnes handicapées appelle des dispositifs renforcés d'accessibilité aux soins et d'accompagnement social.
 
-**Limites et perspectives.** Le design en coupe transversale et la taille de l'échantillon ($n = 500$) appellent à la prudence. L'extension de cette méthodologie à d'autres vagues de l'ESPS et à des échantillons plus larges constituerait la prochaine étape pour renforcer la portée des conclusions.
+## Perspectives {-}
+
+Le design en coupe transversale et la taille de l'échantillon ($n = 500$) appellent à la prudence. Plusieurs pistes d'approfondissement se dessinent :
+
+1. **Extension à d'autres vagues ESPS** : l'application de la même méthodologie aux données de vagues antérieures permettrait une analyse longitudinale des tendances.
+2. **Modèles multiniveaux** : la prise en compte de la structure régionale via `PROC MIXED` ou `PROC GLIMMIX` enrichirait l'analyse.
+3. **Variables instrumentales** : l'identification d'instruments pour traiter l'endogénéité des variables de recours aux soins renforcerait la portée causale des résultats.
+4. **Analyses longitudinales** : l'exploitation de la dimension panel de l'ESPS autoriserait des modèles à effets fixes.
 
 En définitive, ce travail démontre que la régression linéaire, convenablement diagnostiquée et confrontée au modèle ordinal, constitue un outil pertinent et interprétable pour la modélisation de la santé perçue --- un résultat méthodologique transposable à d'autres enquêtes de population et à d'autres contextes institutionnels.
 
+
+\newpage
 
 `r if (knitr::is_latex_output()) '(APPENDIX) Annexes {-}'`
 

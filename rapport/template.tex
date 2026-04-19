@@ -59,6 +59,25 @@ $endif$
 }
 \urlstyle{same}
 
+% --- Numérotation des sections en « Chapitre N » -----------------------------
+\renewcommand{\thesection}{\arabic{section}}
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+\renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}}
+
+% Redéfinir le format des sections numérotées : « Chapitre N. Titre » en page nouvelle
+\titleformat{\section}
+  {\newpage\color{urcabrown}\normalfont\Large\bfseries}
+  {\color{urcabrown}Chapitre~\thesection.}{1em}{}
+\titlespacing*{\section}
+  {0pt}{3.3ex}{3.3ex}
+
+% Format des sections non-numérotées (Remerciements, Avant-propos, Conclusion, Annexes...)
+\titleformat{name=\section,numberless}
+  {\color{urcabrown}\normalfont\Large\bfseries}
+  {}{0em}{}
+\titlespacing*{name=\section,numberless}
+  {0pt}{3.3ex}{3.3ex}
+
 % --- En-têtes / pieds de page -------------------------------------------------
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -153,6 +172,7 @@ $endif$
 % --- Liste des tables ---------------------------------------------------------
 $if(lot)$
 \listoftables
+\newpage
 $endif$
 
 % --- Liste des figures --------------------------------------------------------
