@@ -62,15 +62,15 @@ header-includes:
 
 output: 
  bookdown::pdf_book:
- latex_engine: xelatex
- template: template.tex
- citation_package: biblatex
- fig_caption: yes
- keep_tex: yes
- toc: yes
- toc_depth: 3
- lot: yes
- lof: yes
+  latex_engine: xelatex
+  template: template.tex
+  citation_package: biblatex
+  fig_caption: yes
+  keep_tex: yes
+  toc: yes
+  toc_depth: 3
+  lot: yes
+  lof: yes
 
 bibliography: biblio-sante.bib
 link-citations: yes
