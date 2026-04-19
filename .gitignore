@@ -3,3 +3,9 @@
 .RData
 .Ruserdata
 .Rproj.user/
+
+# Bookdown build artefacts
+rapport/_book/
+rapport/_bookdown_files/
+rapport/_main_files/
+rapport/_main.*
