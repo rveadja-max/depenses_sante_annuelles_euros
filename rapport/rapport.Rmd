@@ -1379,9 +1379,9 @@ Qualitatives  & 17 & \texttt{sexe}, \texttt{profession}, \texttt{niveau\_educati
 \bottomrule
 \end{tabular}
 
-## Corrélations intégrées dans la génération {-}
+## Corrélations intégrées {-}
 
-Pour renforcer le réalisme des données, le script de génération (\texttt{generate\_esps\_database.py}) intègre les corrélations suivantes :
+Pour renforcer le réalisme des données, nous avons intégré les corrélations suivantes :
 
 - **Profession $\leftrightarrow$ Âge** : les retraités sont majoritairement $\geq$ 65 ans ; les étudiants $\leq$ 25 ans.
 - **Revenus $\leftrightarrow$ Profession** : les cadres ont des revenus plus élevés que les ouvriers.
