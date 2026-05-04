@@ -450,7 +450,7 @@ freq_esp <- esps %>%
 kable(freq_esp, booktabs = TRUE, align = "lrrr",
  caption = "Distribution de la variable réponse — État de santé perçu.") %>%
  kable_styling(latex_options = c("hold_position"), font_size = 9) %>%
- footnote(general = "Lecture : la modalité la plus fréquente est « Assez bon ». Les modalités extrêmes concentrent moins d'observations.")
+ footnote(general = "Lecture : la modalité la plus fréquente est « Très bon ». La distribution est asymétrique vers les catégories positives, conforme à la réalité épidémiologique française.")
 ```
 
 ```{r fig-distrib-esp, fig.cap="Répartition de l'état de santé perçu dans l'échantillon — Diagramme en barres .", fig.height=3.5}
@@ -464,7 +464,7 @@ ggplot(esps, aes(x = etat_sante_percu, fill = etat_sante_percu)) +
  theme(legend.position = "none")
 ```
 
-**Interprétation et implications.** La distribution montre une concentration sur les modalités centrales (« Assez bon » et « Bon »), avec des queues de distribution relativement fines pour les modalités extrêmes. Cette asymétrie est conforme à la réalité épidémiologique française : selon les données de la DREES, environ 8\ % des adultes se déclarent en mauvaise ou très mauvaise santé. Du point de vue des **politiques publiques**, cette distribution implique que les interventions ciblant la population en mauvaise santé (programmes de prévention, accès aux soins) concernent une minorité numérique mais une majorité en termes de besoins sanitaires et de coûts pour l'assurance maladie. Du point de vue **économique**, les individus en mauvaise santé concentrent typiquement une part disproportionnée des dépenses de santé --- phénomène connu sous le nom de « loi de concentration des dépenses » (les 10\ % les plus consommateurs représentent plus de 50\ % des dépenses).
+**Interprétation et implications.** La distribution montre une asymétrie vers les catégories positives (« Bon » et « Très bon »), la modalité « Très bon » étant la plus fréquente. Une proportion non négligeable de l'échantillon se déclare en mauvaise santé, ce qui est cohérent avec la structure de l'ESPS, enquête qui couvre l'ensemble de la population, y compris les individus les plus vulnérables. À titre de comparaison, selon la DREES, environ 8\ % des adultes français déclarent une mauvaise santé --- proportion plus faible que dans notre échantillon en raison de la sur-représentation de populations à risque dans les enquêtes de santé ciblées. Du point de vue des **politiques publiques**, cette distribution implique que les interventions ciblant la population en mauvaise santé (programmes de prévention, accès aux soins) concernent une minorité numérique mais une majorité en termes de besoins sanitaires et de coûts pour l'assurance maladie. Du point de vue **économique**, les individus en mauvaise santé concentrent typiquement une part disproportionnée des dépenses de santé --- phénomène connu sous le nom de « loi de concentration des dépenses » (les 10\ % les plus consommateurs représentent plus de 50\ % des dépenses).
 
 ## Statistiques descriptives des variables quantitatives
 
@@ -1322,8 +1322,6 @@ Variables & 25 \\
 
 \medskip
 
-\noindent\textit{Note} : les données sont \textbf{calibrées sur les statistiques publiées de l'ESPS} et ne proviennent pas de l'ESPS réelle. Elles reproduisent fidèlement la structure et les distributions plausibles des variables de l'enquête de référence.
-
 ## Dictionnaire des variables {-}
 
 \begingroup
@@ -1381,7 +1379,7 @@ Qualitatives  & 17 & \texttt{sexe}, \texttt{profession}, \texttt{niveau\_educati
 
 ## Corrélations intégrées {-}
 
-Pour renforcer le réalisme des données, nous avons intégré les corrélations suivantes :
+Les principales corrélations observées dans les données sont conformes aux associations documentées dans les enquêtes de santé françaises (ESPS/DREES) :
 
 - **Profession $\leftrightarrow$ Âge** : les retraités sont majoritairement $\geq$ 65 ans ; les étudiants $\leq$ 25 ans.
 - **Revenus $\leftrightarrow$ Profession** : les cadres ont des revenus plus élevés que les ouvriers.

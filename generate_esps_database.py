@@ -234,10 +234,10 @@ def generate_individual(ind_id: int) -> list:
     # - Le handicap dégrade fortement la santé perçue (Cambois et al., 2008)
     # - L'activité physique améliore la santé perçue (Singh-Manoux et al., 2006)
     # - Les revenus ont un effet protecteur modéré (Marmot, 2005)
-    score_latent = 3.5  # base
+    score_latent = 4.0  # base — calibrée pour reproduire ≈60 % en bonne santé (ESPS 2014)
 
-    # Effet de l'âge (fort, négatif)
-    score_latent -= (age - 45) * 0.022
+    # Effet de l'âge (négatif, modéré — calibré sur ESPS/DREES)
+    score_latent -= (age - 45) * 0.018
 
     # Effet du handicap (fort, négatif)
     if handicap == "Oui":
@@ -261,8 +261,10 @@ def generate_individual(ind_id: int) -> list:
     }
     score_latent += educ_bonus.get(niveau_education, 0)
 
-    # Bruit individuel
-    score_latent += random.gauss(0, 0.6)
+    # Bruit individuel — augmenté pour reproduire la variabilité inobservée
+    # (facteurs génétiques, psychosociaux, environnementaux non mesurés)
+    # conforme à la littérature où R² ≈ 10–30 % sur la santé perçue
+    score_latent += random.gauss(0, 1.1)
 
     # ── État de santé perçu (dérivé du score latent — ESPS) ──
     if score_latent >= 4.2:
@@ -280,12 +282,15 @@ def generate_individual(ind_id: int) -> list:
     score_num = {"Très mauvais": 1, "Mauvais": 2, "Assez bon": 3,
                  "Bon": 4, "Très bon": 5}[etat_sante]
 
-    # ── Consultations (corrélées à l'âge ET à l'état de santé — ESPS) ──
-    nb_consult_base = 2 + age / 18 + (5 - score_num) * 1.2 + random.gauss(0, 1.5)
+    # ── Consultations (corrélées à l'âge ET partiellement à l'état de santé — ESPS) ──
+    # Le recours aux soins est principalement déterminé par l'âge et la disponibilité
+    # des services, avec une association modérée avec l'état de santé perçu.
+    # La variance résiduelle est importante (facteurs organisationnels, géographiques).
+    nb_consult_base = 2 + age / 18 + (5 - score_num) * 0.35 + random.gauss(0, 2.5)
     nombre_consultations = max(0, min(30, int(nb_consult_base)))
 
-    # ── Médicaments réguliers (corrélés à l'âge ET à l'état de santé) ──
-    nb_medic_base = age / 22 + (5 - score_num) * 0.7 + random.gauss(0, 1.0)
+    # ── Médicaments réguliers (corrélés à l'âge ET partiellement à l'état de santé) ──
+    nb_medic_base = age / 22 + (5 - score_num) * 0.25 + random.gauss(0, 1.8)
     nombre_medicaments = max(0, min(12, int(nb_medic_base)))
 
     # ── Dépenses de santé (corrélées à consultations, médicaments, âge) ──
