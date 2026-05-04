@@ -492,6 +492,9 @@ kable(freq_esp, booktabs = TRUE, align = "lrrr",
  footnote(general = "Lecture : la modalité la plus fréquente est « Très bon ». La distribution est asymétrique vers les catégories positives, conforme à la réalité épidémiologique française.")
 ```
 
+
+**Lecture du tableau~\@ref(tab:tab-distrib-esp) — en lien avec la problématique.** La distribution de la variable réponse `etat_sante_percu` révèle que la majorité de l'échantillon se déclare en bonne ou très bonne santé (modalités « Bon » et « Très bon »), conformément au profil épidémiologique français documenté par la DREES. Les pourcentages cumulés permettent de visualiser la part de la population se déclarant en « Assez bon » ou moins, c'est-à-dire la population potentiellement vulnérable sur le plan sanitaire. Cette distribution conditionne directement la puissance statistique des modèles aval : une modalité peu représentée (par exemple « Très mauvais ») sera difficile à modéliser avec précision, ce qui justifie le recours au score ordinal continu (1--5) en complément du modèle à cotes proportionnelles.
+
 ```{r fig-distrib-esp, fig.cap="Répartition de l'état de santé perçu dans l'échantillon — Diagramme en barres .", fig.height=3.5}
 ggplot(esps, aes(x = etat_sante_percu, fill = etat_sante_percu)) +
  geom_bar(color = "white", linewidth = 0.3) +
@@ -547,6 +550,9 @@ kable(tab_sexe, booktabs = TRUE, col.names = c("Sexe", "Effectif", "%"),
  caption = "Répartition par sexe .") %>%
  kable_styling(latex_options = "hold_position", font_size = 9)
 ```
+
+
+**Lecture du tableau~\@ref(tab:tab-sexe-prof) — en lien avec la problématique.** La répartition par sexe de l'échantillon est un premier indicateur du gradient de genre en santé perçue. La littérature épidémiologique française montre que les femmes déclarent plus souvent une santé médiocre que les hommes à âge comparable, tout en ayant une espérance de vie plus longue (*paradoxe santé--mortalité*, @marmot2005). Dans le cadre de notre problématique sur les déterminants de la santé perçue, le sexe sera donc contrôlé dans les modèles multivariés (ANCOVA, régression logistique) afin d'isoler les effets propres des autres variables (âge, consultations, activité physique).
 
 ```{r fig-profession, fig.cap="Répartition de l'échantillon par catégorie professionnelle .", fig.height=3.5}
 esps %>%
@@ -658,6 +664,9 @@ kable(df_act, booktabs = TRUE,
  kable_styling(latex_options = c("hold_position", "scale_down"), font_size = 8)
 ```
 
+
+**Lecture du tableau~\@ref(tab:tab-chi2-activite) — en lien avec la problématique.** Le tableau croisé effectifs × niveau d'activité physique révèle la structure brute de la relation avant toute pondération. En lecture verticale (par colonne), on peut vérifier si la proportion d'individus en « Bon » ou « Très bon » état de santé augmente avec le niveau d'activité physique. Ce gradient — si présent — constituerait une preuve *brute* de l'association, avant contrôle des effets confondants (âge, sexe, consultations) que l'ANCOVA introduira à l'Étape 3. La variable « activité physique » étant l'un des déterminants comportementaux centraux de notre problématique, ce tableau justifie son inclusion systématique dans tous les modèles multivariés.
+
 ```{r fig-mosaic-activite, fig.cap="Diagramme en barres empilées : Répartition de l'état de santé perçu selon le niveau d'activité physique.", fig.height=3.8}
 esps %>%
  count(activite_physique, etat_sante_percu) %>%
@@ -710,6 +719,9 @@ kable(anova_res %>% dplyr::select(Variable, F_stat, pval_fmt, Signif),
  footnote(general = "*** p < 0.001, ** p < 0.01, * p < 0.05, NS = non significatif.",
  general_title = "", escape = FALSE)
 ```
+
+
+**Lecture du tableau~\@ref(tab:tab-anova-synthese) — en lien avec la problématique.** Le tableau d'ANOVA synthétise, pour chaque variable quantitative, la statistique $F$ et la p-value du test d'égalité des moyennes entre les cinq groupes de santé perçue. Une statistique $F$ élevée et significative (*** ou **) signifie que la variable discrimine effectivement les groupes de santé. *En lien avec la problématique :* les variables les plus discriminantes sont les candidats prioritaires à l'inclusion dans le modèle de régression linéaire (Étape 2). L'âge et le nombre de consultations/médicaments figurent parmi les plus puissants selon la littérature [@grossman1972], ce que le tableau permet de vérifier empiriquement sur nos données. Les variables non significatives (NS) pourront être exclues de la régression multiple, conformément au principe de parcimonie.
 
 ```{r fig-boxplots-anova, fig.cap="Boîtes à moustaches : Âge et nombre de consultations selon l'état de santé perçu.", fig.height=3.8, fig.width=7}
 p1 <- ggplot(esps, aes(x = etat_sante_percu, y = age, fill = etat_sante_percu)) +
@@ -965,7 +977,8 @@ kable(sel_df %>% dplyr::select(Méthode, Variables.retenues, AIC, BIC, R2.ajust�
       col.names = c("Méthode", "Variables retenues", "AIC", "BIC", "$R^2$ ajusté"),
       escape = FALSE,
       caption = "Synthèse de la sélection de variables --- Forward, Backward, Stepwise avec AIC et BIC.") %>%
-  kable_styling(latex_options = c("hold_position", "scale_down"), font_size = 8) %>%
+  kable_styling(latex_options = c("hold_position"), font_size = 8) %>%
+  column_spec(2, width = "7cm") %>%
   footnote(general = "AIC pénalise $2k$ ; BIC pénalise $k \\ln(n)$ avec $n=500$, favorisant plus fortement la parcimonie. Une convergence AIC/BIC conforte le choix du modèle retenu.",
            general_title = "", escape = FALSE)
 ```
@@ -1005,6 +1018,9 @@ p_hist <- ggplot(esps, aes(x = resid)) +
 
 gridExtra::grid.arrange(p_qq, p_hist, ncol = 2)
 ```
+
+
+**Lecture de la figure~\@ref(fig:fig-normalite) — en lien avec la problématique.** Le QQ-plot compare les quantiles empiriques des résidus $\hat{\varepsilon}_i$ aux quantiles d'une loi normale théorique $\mathcal{N}(0,1)$. Si les points s'alignent sur la droite rouge, l'hypothèse $\varepsilon_i \sim \mathcal{N}(0,\sigma^2)$ est satisfaite. L'histogramme complète ce diagnostic en visualisant la distribution des résidus : une forme en cloche centrée sur zéro confirme la normalité. *En lien avec la problématique :* la validité de ce diagnostic conditionne la fiabilité des tests de significativité ($t$ et $F$) sur les coefficients $\hat{\beta}_j$, qui fondent nos conclusions sur les déterminants de la santé perçue. Le test de Shapiro-Wilk ci-dessous fournit la décision formelle.
 
 ```{r tab-normalite, results='asis'}
 sw <- shapiro.test(esps$resid)
@@ -1118,7 +1134,9 @@ kable(aic_bic_df %>% dplyr::select(Modèle, k, R2_adj, AIC, BIC, `Δ AIC`, `Δ B
       col.names = c("Modèle", "$k$", "$R^2_{adj}$", "AIC", "BIC", "$\\Delta$AIC", "$\\Delta$BIC", "Verdict"),
       align = "lrrrrrrr",
       caption = "Comparaison inter-modèles (famille linéaire) par AIC et BIC --- Étape 6.") %>%
-  kable_styling(latex_options = c("hold_position", "scale_down"), font_size = 8) %>%
+  kable_styling(latex_options = c("hold_position"), font_size = 8) %>%
+  column_spec(1, width = "5.5cm") %>%
+  column_spec(8, width = "3.5cm") %>%
   footnote(general = "$\\\\Delta$AIC = AIC$_i$ $-$ AIC$_{\\\\min}$. Un $\\\\Delta$AIC $> 2$ indique une perte d'information substantielle ; $> 10$ : modèle exclu [@burnham2002]. Même convention pour $\\\\Delta$BIC.",
            general_title = "", escape = FALSE)
 ```
@@ -1188,6 +1206,9 @@ kable(emm_df %>% dplyr::select(activite_physique, emmean, SE, lower.CL, upper.CL
  kable_styling(latex_options = "hold_position", font_size = 9)
 ```
 
+
+**Lecture du tableau~\@ref(tab:tab-lsmeans-activite) — en lien avec la problématique.** Les moyennes marginales estimées (LSMEANS) représentent le score de santé moyen *prédit* pour chaque modalité d'activité physique, **à valeurs moyennes des covariables** (âge = `r round(mean(esps$age),1)` ans, consultations = `r round(mean(esps$nombre_consultations_annuelles),1)`, médicaments = `r round(mean(esps$nombre_medicaments_reguliers),1)`). Les colonnes IC inf. / IC sup. délimitent l'intervalle de confiance à 95\ % de chaque moyenne marginale. *En lien avec la problématique :* si les intervalles de confiance de deux modalités (par exemple « Sédentaire » vs « Activité intense ») ne se chevauchent pas, l'écart de score de santé entre ces modalités est statistiquement significatif au seuil de 5\ %. Ce tableau fournit ainsi une quantification directement exploitable pour les politiques de santé publique : l'amplitude de l'effet comportemental sur la santé perçue, exprimée sur l'échelle 1--5 du score ordinal.
+
 ```{r fig-lsmeans, fig.cap="Moyennes marginales du score de santé selon l'activité physique (LSMEANS) --- les barres représentent les intervalles de confiance à 95 \\%.", fig.height=3.5}
 emm_df2 <- as.data.frame(emm_act)
 ggplot(emm_df2, aes(x = reorder(activite_physique, emmean), y = emmean)) +
@@ -1248,7 +1269,8 @@ kable(coef_main %>% dplyr::select(Label, Value, `Std. Error`, z_value, p_value, 
  col.names = c("Variable", "$\\hat{\\beta}$", "Erreur std.", "$z$", "p-value", "OR", ""),
  align = "lrrrrrl",
  caption = "Régression logistique ordinale (cotes proportionnelles) --- Modèle réduit.") %>%
- kable_styling(latex_options = c("hold_position", "scale_down"), font_size = 8) %>%
+ kable_styling(latex_options = c("hold_position"), font_size = 8) %>%
+ column_spec(1, width = "5.5cm") %>%
  footnote(general = "OR = Odds Ratio = $e^{\\hat{\\beta}}$. Un OR < 1 indique une probabilité plus faible d'être dans une catégorie supérieure de santé.",
  general_title = "", escape = FALSE)
 ```
@@ -1394,6 +1416,9 @@ kable(coef_bin %>% dplyr::select(Variable, Estimate, `Std. Error`, `z value`, `P
  kable_styling(latex_options = c("hold_position", "scale_down"), font_size = 7)
 ```
 
+
+**Lecture du tableau~\@ref(tab:tab-logistic-binaire) — en lien avec la problématique.** Le modèle logistique binaire estime la probabilité qu'un individu se déclare en mauvaise santé (`sante_mauvaise` = 1 si score $\leq 2$). Les coefficients $\hat{\beta}$ indiquent le sens de l'effet : un $\hat{\beta} > 0$ pour une variable augmente la probabilité de mauvaise santé perçue. Les odds ratios (OR = $e^{\hat{\beta}}$) quantifient le facteur multiplicatif de cette probabilité. *En lien avec la problématique :* la comparaison des OR entre modèles ordinal (tableau~\@ref(tab:tab-logistic-ordinal)) et binaire permet de vérifier la cohérence des conclusions : si les mêmes variables sont significatives et dans le même sens dans les deux spécifications, cela renforce la **robustesse des résultats** sur l'identification des déterminants de la santé perçue. La courbe ROC ci-dessous évalue la capacité prédictive globale du modèle.
+
 ```{r fig-roc, fig.cap="Courbe ROC du modèle logistique binaire. L'AUC mesure la capacité discriminante du modèle.", fig.height=4}
 pred_prob <- predict(mod_bin, type = "response")
 roc_obj <- pROC::roc(esps$sante_mauvaise, pred_prob, quiet = TRUE)
@@ -1429,6 +1454,9 @@ kable(conf_mat, booktabs = TRUE,
  caption = "Matrice de confusion --- Modèle logistique binaire, seuil = 0.5.") %>%
  kable_styling(latex_options = "hold_position", font_size = 9)
 ```
+
+
+**Lecture du tableau~\@ref(tab:tab-confusion) — en lien avec la problématique.** La matrice de confusion croise les valeurs observées (lignes) avec les valeurs prédites (colonnes) par le modèle logistique binaire au seuil 0.5. La diagonale principale (vrais positifs + vrais négatifs) représente les prédictions correctes. *En lien avec la problématique :* pour un outil de détection de la mauvaise santé perçue (utilisation potentielle par les caisses d'assurance maladie), la case **faux négatifs** (individu en mauvaise santé classé en bonne santé) est la plus critique : un individu vulnérable non détecté ne bénéficiera pas des programmes de prévention ciblée. Le tableau des métriques ci-dessous formalise ce diagnostic en distinguant exactitude, sensibilité et spécificité.
 
 ```{r tab-metriques, results='asis'}
 metrics_df <- data.frame(
