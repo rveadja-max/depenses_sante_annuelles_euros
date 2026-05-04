@@ -102,7 +102,7 @@ library(lmtest)
 library(scales)
 library(emmeans)
 library(gridExtra)
-library(e1071)
+library(e1071)          # Distribution statistics (skewness, kurtosis)
 
 # ── Thème graphique cohérent ──
 theme_sas <- theme_minimal(base_size = 10) +
@@ -537,7 +537,8 @@ kable(desc[, c("Variable", "Moy", "ET", "Med", "Min", "Max")],
  booktabs = TRUE, align = "lrrrrr",
  col.names = c("Variable", "Moyenne", "Écart-type", "Médiane", "Min", "Max"),
  caption = "Statistiques descriptives des variables quantitatives.") %>%
- kable_styling(latex_options = c("hold_position", "scale_down"), font_size = 9)
+ kable_styling(latex_options = c("hold_position"), font_size = 9) %>%
+ column_spec(1, width = "5cm")
 ```
 
 **Interprétation et implications.** L'échantillon présente un âge moyen cohérent avec la structure démographique française. Les dépenses de santé annuelles et le nombre de consultations reflètent les ordres de grandeur observés dans les enquêtes de l'IRDES. Sur le plan **sociodémographique**, la dispersion des revenus mensuels traduit l'hétérogénéité socio-économique de la population, un facteur reconnu comme déterminant majeur des inégalités de santé. Sur le plan des **politiques sanitaires**, le nombre moyen de consultations et de médicaments donne une indication du recours aux soins, variable clé pour le pilotage du système de santé. Du point de vue **économique**, les dépenses de santé annuelles constituent une charge financière pour les ménages et pour l'assurance maladie. Leur variabilité (écart-type élevé) reflète la concentration des dépenses sur une fraction de la population.
@@ -661,7 +662,8 @@ df_act <- df_act %>% dplyr::select(`État de santé`, everything())
 kable(df_act, booktabs = TRUE,
  caption = "Tableau croisé : État de santé perçu $\\times$ Activité physique (effectifs).",
  escape = FALSE) %>%
- kable_styling(latex_options = c("hold_position", "scale_down"), font_size = 8)
+ kable_styling(latex_options = c("hold_position"), font_size = 8) %>%
+ column_spec(1, width = "3cm")
 ```
 
 
@@ -1380,7 +1382,10 @@ h3_df <- data.frame(
 kable(h3_df, booktabs = TRUE, escape = FALSE,
       col.names = c("Critère", "M2 — Linéaire réduit", "M4 — Logistique ordinal"),
       caption = "Comparaison M2 vs M4 : test de l'hypothèse H3.") %>%
-  kable_styling(latex_options = c("hold_position", "scale_down"), font_size = 8)
+  kable_styling(latex_options = c("hold_position"), font_size = 8) %>%
+  column_spec(1, width = "3.5cm") %>%
+  column_spec(2, width = "4.5cm") %>%
+  column_spec(3, width = "4.5cm")
 ```
 
 **Verdict sur H3.** Si les deux modèles identifient les mêmes variables significatives, la **robustesse des conclusions** est confirmée : l'hypothèse d'équidistance du modèle linéaire n'a pas conduit à des erreurs d'inférence. H3 (*supériorité du modèle ordinal*) est **partiellement validée** : le modèle logistique ordinal est théoriquement plus rigoureux (pas d'hypothèse d'équidistance), mais la régression linéaire fournit des approximations satisfaisantes sur une échelle à 5 niveaux, conformément aux travaux de @wooldridge2015. Le modèle ordinal est préféré pour l'inférence causale ; le modèle linéaire est retenu pour sa parcimonie et son interprétabilité directe en termes de politiques publiques.
@@ -1413,7 +1418,8 @@ kable(coef_bin %>% dplyr::select(Variable, Estimate, `Std. Error`, `z value`, `P
  col.names = c("Variable", "$\\hat{\\beta}$", "Err. std.", "$z$", "p-value", "OR", ""),
  align = "lrrrrrl",
  caption = "Régression logistique binaire --- Coefficients et Odds Ratios.") %>%
- kable_styling(latex_options = c("hold_position", "scale_down"), font_size = 7)
+ kable_styling(latex_options = c("hold_position"), font_size = 7) %>%
+ column_spec(1, width = "5.5cm")
 ```
 
 
@@ -1593,7 +1599,8 @@ sens_df <- data.frame(
 kable(sens_df, booktabs = TRUE, escape = FALSE,
       col.names = c("Modèle", "$k$", "$R^2_{adj}$", "AIC", "$\\hat{\\beta}_{\\text{âge}}$"),
       caption = "Analyse de sensibilité --- robustesse du coefficient de l'âge à l'exclusion des variables potentiellement endogènes.") %>%
-  kable_styling(latex_options = c("hold_position", "scale_down"), font_size = 8)
+  kable_styling(latex_options = c("hold_position"), font_size = 8) %>%
+  column_spec(1, width = "7.5cm")
 ```
 
 **Interprétation.** Si le coefficient de l'âge ($\hat{\beta}_{\text{âge}}$) reste stable entre M2 et M2', cela indique que l'effet de l'âge est **robuste à l'omission des variables endogènes** --- un résultat important pour la confiance dans les conclusions. Une instabilité (changement de signe ou d'amplitude) signalerait en revanche que les consultations et médicaments capturent une part significative de l'effet de l'âge (médiation), ce qui devrait être discuté dans une analyse de médiation. La différence d'AIC entre M2 et M2' quantifie le coût informationnel de l'exclusion des variables endogènes : si M2' est nettement moins bien ajusté, les variables endogènes contiennent une information pertinente malgré leur endogénéité potentielle.
