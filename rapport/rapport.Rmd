@@ -13,7 +13,7 @@ author:
 date: "`r format(Sys.time(), '%d %B %Y')`"
 
 abstract: |
- En France, 8,2\ \% des adultes déclarent un état de santé « mauvais » ou « très mauvais », un chiffre qui atteint 19\ \% parmi les ménages du premier quintile de revenus (DREES, 2017). Ce gradient social, documenté par la Commission OMS sur les déterminants sociaux de la santé (2008), soulève une question fondamentale : quels facteurs sociodémographiques, économiques et comportementaux déterminent la perception individuelle de l'état de santé, et comment les hiérarchiser de façon robuste ? Le présent projet met en œuvre une analyse statistique complète des déterminants de l'état de santé perçu en France métropolitaine, à partir de données issues de l'Enquête Santé et Protection Sociale (ESPS) de l'IRDES (500 individus, 25 variables). La variable réponse --- qualitative ordinale à cinq modalités (Très mauvais, Mauvais, Assez bon, Bon, Très bon) --- est analysée au moyen de sept familles de méthodes : analyse bivariée ($\chi^2$, ANOVA, Kruskal-Wallis, Spearman), régression linéaire multiple sur le score ordinal (1--5), colinéarité (VIF, tolérance, indices de conditionnement), sélection de variables (*forward*, *backward*, *stepwise*), validation complète (Shapiro-Wilk, Durbin-Watson, test de White, Cook, LOESS), ANCOVA (facteurs qualitatifs, moyennes marginales de Tukey), régression logistique ordinale (cotes proportionnelles, test du Score) et binaire (ROC, AUC, matrice de confusion). L'âge, les consultations médicales, les médicaments réguliers, l'activité physique et le handicap déclaré émergent comme déterminants robustes, tous significatifs au seuil de 5\ \% à travers les différentes spécifications. Les limites --- hypothèse de proportionnalité des odds, absence de correction pour biais de sélection, taille de l'échantillon --- sont rigoureusement discutées.
+ En France, 8,2\ \% des adultes déclarent un état de santé « mauvais » ou « très mauvais », un chiffre qui atteint 19\ \% parmi les ménages du premier quintile de revenus (DREES, 2017). Ce gradient social, documenté par la Commission OMS sur les déterminants sociaux de la santé (2008), soulève une question fondamentale : quels facteurs sociodémographiques, économiques et comportementaux déterminent la perception individuelle de l'état de santé, et comment les hiérarchiser de façon robuste ? Le présent projet met en œuvre une analyse statistique complète des déterminants de l'état de santé perçu en France métropolitaine, à partir de données issues de l'Enquête Santé et Protection Sociale (ESPS) de l'IRDES (500 individus, 25 variables). La variable réponse --- qualitative ordinale à cinq modalités (Très mauvais, Mauvais, Assez bon, Bon, Très bon) --- est analysée au moyen de sept familles de méthodes : analyse bivariée ($\chi^2$ avec V de Cramér, ANOVA, Kruskal-Wallis, Spearman), régression linéaire multiple sur le score ordinal (1--5), colinéarité (VIF, tolérance, indices de conditionnement), sélection de variables (*forward*, *backward*, *stepwise*), validation complète (Shapiro-Wilk, Durbin-Watson, test de White avec correction HC3, Cook, LOESS), ANCOVA (facteurs qualitatifs, moyennes marginales de Tukey), régression logistique ordinale (cotes proportionnelles, test du Score, effets marginaux moyens) et binaire (ROC, AUC, validation croisée 10-fold, matrice de confusion). L'âge, les consultations médicales, les médicaments réguliers, l'activité physique et le handicap déclaré émergent comme déterminants robustes, tous significatifs au seuil de 5\ \% à travers les différentes spécifications. La table de concordance inter-familles valide l'hypothèse H3 de robustesse à la spécification. Les limites --- hypothèse de proportionnalité des odds, absence de pondération de sondage, base reconstituée pédagogiquement --- sont rigoureusement discutées.
 
 keywords: 
  - État de santé perçu
@@ -787,6 +787,8 @@ gridExtra::grid.arrange(p1, p2, ncol = 2)
 
 **Interprétation et implications.** Le tableau~\@ref(tab:tab-anova-synthese) et la figure~\@ref(fig:fig-boxplots-anova) révèlent que l'âge, les consultations et les médicaments sont les variables quantitatives les plus fortement discriminantes selon l'état de santé perçu. Ce résultat est conforme au **modèle de capital santé de Grossman** : avec l'âge, le stock de santé se déprécie, entraînant une hausse de la consommation médicale (consultations, médicaments) et une dégradation de la santé perçue.
 
+**Limite fondamentale de l'analyse exploratoire.** Ces résultats ne contrôlent **aucun effet confondant** : l'association âge--santé perçue peut être partiellement médiée par les consultations (les personnes âgées consultent plus) ou par le handicap (plus fréquent avec l'âge). Sans contrôle multivarié, il est impossible d'isoler l'effet *propre* de chaque variable. L'analyse exploratoire a donc pour seul objectif d'**identifier des pistes d'associations** à tester dans les modèles multivariés (sections~\@ref(sec-reglin) à \@ref(sec-logistique)), où les effets seront estimés *toutes choses égales par ailleurs*. Toute interprétation causale à ce stade serait prématurée.
+
 *Implication économique* : la forte association entre les consultations médicales et la santé perçue a des conséquences directes sur les dépenses de l'assurance maladie. En France, le coût moyen d'une consultation chez un médecin généraliste est de 26,50\ € (tarif conventionnel), et les individus en mauvaise santé consultent en moyenne plus fréquemment, ce qui alimente le mécanisme de concentration des dépenses.
 
 *Implication pour les politiques sanitaires* : le gradient âge--santé perçue justifie les politiques de prévention ciblées sur les seniors (plan « Bien vieillir », consultations de prévention gratuites après 70 ans). La corrélation médicaments--santé perçue souligne l'importance de la politique du médicament (déremboursements, génériques) dans la gestion des dépenses.
@@ -1358,6 +1360,72 @@ kable(coef_main %>% dplyr::select(Label, Value, `Std. Error`, z_value, p_value, 
 
 **Interprétation des odds ratios.** Les odds ratios (OR) s'interprètent comme le facteur multiplicatif de la cote de se trouver dans une catégorie de santé supérieure, pour une augmentation unitaire de la variable (ou par rapport à la catégorie de référence pour les facteurs). Un OR $< 1$ pour l'âge signifie que chaque année supplémentaire diminue la cote d'être en meilleure santé. Un OR significativement $> 1$ pour l'activité physique intense (versus sédentaire) signifie que les individus actifs ont une probabilité nettement plus élevée de se déclarer en bonne santé.
 
+### Effets marginaux moyens (Average Marginal Effects) {#sec-ame}
+
+**Pourquoi les effets marginaux sont-ils nécessaires ?** Les odds ratios mesurent des effets *multiplicatifs* sur la cote, difficiles à communiquer à des non-spécialistes et non comparables entre variables d'échelles différentes. Les **effets marginaux moyens** (*Average Marginal Effects*, AME) expriment l'effet d'une variation unitaire de $X_j$ sur la **probabilité** d'appartenir à chaque catégorie de santé, en moyenne sur l'ensemble des individus. Ils constituent la mesure standard d'importance relative dans les modèles non linéaires [@greene2012] et répondent directement à la question : *d'un point de vue probabiliste, quel déterminant a l'impact le plus fort sur la santé perçue ?*
+
+```{r tab-ame, results='asis'}
+# Effets marginaux moyens (AME) du modèle logistique ordinal M4
+# Méthode : dérivée numérique de la probabilité prédite par rapport à chaque variable
+# P(Y = j | X) pour chaque niveau j de la variable réponse ordinale
+
+# Fonction AME pour le modèle polr
+compute_ame_polr <- function(model, data, var, delta = 0.001) {
+  # Probabilités de chaque catégorie au point courant
+  p0 <- predict(model, newdata = data, type = "probs")
+  
+  # Perturbation +delta
+  data_d <- data
+  if (is.numeric(data[[var]])) {
+    data_d[[var]] <- data[[var]] + delta * sd(data[[var]], na.rm = TRUE)
+    # Probabilités perturbées
+    p1 <- predict(model, newdata = data_d, type = "probs")
+    # AME = moyenne des dérivées numériques sur tous les individus
+    ame <- colMeans(p1 - p0) / (delta * sd(data[[var]], na.rm = TRUE))
+  } else {
+    return(NULL)
+  }
+  ame
+}
+
+# Variables quantitatives du modèle M4
+vars_quant_ord <- c("age", "nombre_consultations_annuelles", "nombre_medicaments_reguliers")
+labels_ord <- c("Âge (par année)", "Consultations/an", "Médicaments réguliers")
+
+# Calculer les AME pour chaque variable quantitative
+# Catégories de Y ordinal
+cats_Y <- levels(esps$etat_sante_percu)
+
+ame_list <- lapply(seq_along(vars_quant_ord), function(i) {
+  ame_j <- compute_ame_polr(mod_ord, esps, vars_quant_ord[i])
+  if (is.null(ame_j)) return(NULL)
+  data.frame(
+    Variable = labels_ord[i],
+    t(round(ame_j, 4)),
+    stringsAsFactors = FALSE
+  )
+})
+
+ame_df <- do.call(rbind, Filter(Negate(is.null), ame_list))
+if (!is.null(ame_df) && ncol(ame_df) > 1) {
+  colnames(ame_df) <- c("Variable", cats_Y)
+  
+  kable(ame_df, booktabs = TRUE, escape = FALSE,
+        align = "lrrrrr",
+        caption = "Effets marginaux moyens (AME) du modèle logistique ordinal M4 --- Variation de probabilité associée à une augmentation unitaire de chaque variable quantitative.") %>%
+    kable_styling(latex_options = c("hold_position"), font_size = 9) %>%
+    column_spec(1, width = "5.5cm") %>%
+    footnote(general = "AME = variation moyenne de la probabilité d'appartenir à chaque catégorie pour une augmentation d'une unité de la variable explicative, tous les autres paramètres constants. Un AME négatif pour la catégorie \\\\textit{Très bon} indique que la variable diminue la probabilité de la meilleure santé.",
+             general_title = "", escape = FALSE)
+} else {
+  cat("Calcul des AME non disponible sur cette configuration.\n\n")
+}
+```
+
+**Interprétation des AME.** Le tableau~\@ref(tab:tab-ame) présente, pour chaque variable quantitative, la variation moyenne de probabilité associée à une augmentation unitaire de la variable. Contrairement aux OR, les AME s'expriment directement en **points de probabilité** : un AME de $-0.02$ pour l'âge sur la catégorie « Très bon » signifie que chaque année supplémentaire réduit en moyenne de 2 points de pourcentage la probabilité de se déclarer en très bonne santé, toutes choses égales par ailleurs. Les effets sont de signe opposé entre les catégories extrêmes (Très mauvais vs Très bon), conformément au modèle de proportionnalité des cotes.
+
+**Hiérarchisation par les AME.** La variable dont les AME absolus sont les plus élevés est le déterminant le plus influent au sens probabiliste --- répondant directement à l'objectif de hiérarchisation de H1. *Implication pour les politiques publiques* : les AME fournissent une quantification directement interprétable pour les décideurs, sans nécessiter de formation en statistique : « une consultation médicale supplémentaire est associée à une augmentation de X points de probabilité de mauvaise santé ».
+
 *Implication pour les politiques sanitaires* : les OR fournissent des mesures directement utilisables pour la communication en santé publique. Par exemple, un OR de 1.5 pour l'activité physique signifie que les individus actifs ont 50\ % de cotes en plus de se déclarer en bonne santé.
 
 *Implication économique* : les OR associés aux consultations et médicaments quantifient l'association entre l'intensité du recours aux soins et la dégradation de la santé perçue --- un indicateur utile pour le pilotage de la demande de soins.
@@ -1689,6 +1757,61 @@ L'ANCOVA montre que l'activité physique et le handicap déclaré ont un effet s
 
 La comparaison entre le modèle linéaire et le modèle logistique ordinal (section~\@ref(sec-h3)) montre que les deux approches identifient les mêmes déterminants significatifs, dans le même sens. **H3 est validée** : les conclusions substantielles sur les déterminants de la santé perçue sont robustes à la spécification du modèle (linéaire vs ordinal). Il est important de rappeler que H3 ne porte pas sur une « supériorité d'ajustement » du modèle ordinal (ce qui supposerait une comparaison AIC inter-familles, mathématiquement invalide), mais sur la **concordance des résultats inférentiels**. Ce résultat de robustesse constitue une contribution méthodologique importante : il confirme que l'hypothèse d'équidistance du modèle linéaire ne conduit pas à des erreurs d'inférence sur une échelle à 5 niveaux, conformément aux travaux de @wooldridge2015.
 
+## Analyse de sensibilité aux spécifications {#sec-sensibilite-spec}
+
+**Objectif.** Tester si les coefficients et la significativité des variables clés restent stables à travers différentes spécifications du modèle. Cette analyse est au cœur de H3 : si les mêmes déterminants sont significatifs dans des modèles de familles différentes (linéaire, ordinal, binaire), cela confirme que les conclusions ne dépendent pas des hypothèses spécifiques de chaque modèle.
+
+```{r tab-sensibilite-spec, results='asis'}
+# Comparaison des coefficients pour les 3 variables quantitatives principales
+# entre modèle linéaire M2, logistique ordinal M4 et logistique binaire M5
+vars_comp <- c("age", "nombre_consultations_annuelles", "nombre_medicaments_reguliers")
+labels_comp <- c("Âge", "Consultations/an", "Médicaments rég.")
+
+# Extraire les coefficients et p-values de chaque modèle
+coef_M2_comp <- coef(summary(mod_M2))
+p_M2 <- coef_M2_comp[vars_comp, "Pr(>|t|)"]
+b_M2  <- round(coef_M2_comp[vars_comp, "Estimate"], 4)
+
+coef_ord_comp <- as.data.frame(summary(mod_ord)$coefficients)
+coef_ord_comp$z_val <- coef_ord_comp$Value / coef_ord_comp$`Std. Error`
+coef_ord_comp$pval  <- 2 * pnorm(abs(coef_ord_comp$z_val), lower.tail = FALSE)
+b_ord  <- round(coef_ord_comp[vars_comp, "Value"], 4)
+p_ord  <- coef_ord_comp[vars_comp, "pval"]
+
+coef_bin_comp <- coef(summary(mod_bin))
+b_bin  <- round(coef_bin_comp[vars_comp, "Estimate"], 4)
+p_bin  <- coef_bin_comp[vars_comp, "Pr(>|z|)"]
+
+signif_fmt <- function(p) ifelse(p < 0.001, "< 0.001***",
+                          ifelse(p < 0.01,  paste0(format(round(p,4),nsmall=4),"**"),
+                          ifelse(p < 0.05,  paste0(format(round(p,4),nsmall=4),"*"),
+                                            format(round(p,4),nsmall=4))))
+
+sens_spec_df <- data.frame(
+  Variable      = labels_comp,
+  B_M2          = paste0(b_M2,  " (", signif_fmt(p_M2),  ")"),
+  B_ord         = paste0(b_ord, " (", signif_fmt(p_ord), ")"),
+  B_bin         = paste0(b_bin, " (", signif_fmt(p_bin), ")"),
+  Concordance   = ifelse((p_M2 < 0.05) == (p_ord < 0.05) & (p_M2 < 0.05) == (p_bin < 0.05),
+                         "\\checkmark", "$\\times$"),
+  stringsAsFactors = FALSE
+)
+
+kable(sens_spec_df, booktabs = TRUE, escape = FALSE, align = "lrrrr",
+      col.names = c("Variable", "M2 Linéaire ($\\hat{\\beta}$, p)", 
+                    "M4 Ordinal ($\\hat{\\beta}$, p)", 
+                    "M5 Binaire ($\\hat{\\beta}$, p)", 
+                    "Concordance"),
+      caption = "Sensibilité aux spécifications --- Stabilité des coefficients et de la significativité des trois déterminants principaux à travers les familles de modèles.") %>%
+  kable_styling(latex_options = c("hold_position"), font_size = 8) %>%
+  column_spec(1, width = "3.5cm") %>%
+  column_spec(c(2,3,4), width = "3cm") %>%
+  footnote(general = "\\\\checkmark = même significativité (p < 0.05 ou non) dans les trois modèles. $\\\\times$ = résultat discordant entre modèles. Signe du coefficient attendu cohérent entre modèles (note : le signe peut s'inverser entre modèle linéaire sur score ordinal croissant et modèle logistique binaire sur la mauvaise santé).",
+           general_title = "", escape = FALSE)
+```
+
+**Interprétation.** Le tableau~\@ref(tab:tab-sensibilite-spec) constitue le test formel de l'hypothèse H3. La colonne **Concordance** indique si la significativité est identique dans les trois familles de modèles. Une concordance totale ($\checkmark$ pour toutes les variables) confirme la robustesse des conclusions : les déterminants identifiés ne dépendent pas du choix de la famille de modèles. *Note sur le signe* : dans le modèle linéaire, un coefficient négatif signifie que la variable *réduit le score de santé* (dégradation) ; dans le modèle binaire sur `sante_mauvaise`, un coefficient positif signifie que la variable *augmente la probabilité de mauvaise santé*. La cohérence des signes entre modèles (après recodage de la direction) est un indicateur supplémentaire de robustesse.
+
 ## Analyse de sensibilité : traitement de l'endogénéité {#sec-endogeneite}
 
 **Problème.** Les variables `nombre_consultations_annuelles` et `nombre_medicaments_reguliers` sont potentiellement **endogènes** : un individu en mauvaise santé consulte davantage *et* prend plus de médicaments, ce qui crée une causalité inverse. Les coefficients estimés par MCO sont donc susceptibles d'être biaisés. Bien que le traitement formel de l'endogénéité (variables instrumentales, modèles à équations simultanées) dépasse le cadre de ce projet de M1, une **analyse de sensibilité** permet d'évaluer la robustesse des autres coefficients.
@@ -1736,15 +1859,16 @@ kable(sens_df, booktabs = TRUE, escape = FALSE,
 - **Absence de pondération de sondage** : l'ESPS est une enquête par sondage complexe. L'absence de poids de sondage dans cette analyse constitue une limite reconnue : les estimateurs peuvent être biaisés si la probabilité de sélection est corrélée aux variables explicatives. Une analyse pondérée (via `PROC SURVEYREG` / `PROC SURVEYLOGISTIC` sous SAS, ou `survey::svyglm` sous R) serait nécessaire pour des conclusions représentatives de la population française.
 - **Nature simulée de la base** : la complétude intégrale ($n_{\text{complets}} = 500 / 500$) et l'absence de valeurs manquantes suggèrent une base reconstituée à des fins pédagogiques. Les résultats ne peuvent donc pas être directement généralisés à la population française réelle sans validation sur les données ESPS d'origine.
 
-## Ouvertures
+## Ouvertures {#sec-ouvertures-robustesse}
 
 1. **Extension à d'autres vagues ESPS** : application de la même méthodologie aux données de vagues antérieures pour une analyse longitudinale.
 2. **Modèles multiniveaux** : prise en compte de la structure régionale via `PROC MIXED` ou `PROC GLIMMIX`.
-3. **Variables instrumentales** : identification d'instruments pour traiter l'endogénéité.
-4. **Analyses longitudinales** : exploitation de la dimension panel de l'ESPS pour des modèles à effets fixes.
+3. **Variables instrumentales** : identification d'instruments pour traiter l'endogénéité des consultations et médicaments (ex. densité médicale régionale, nombre de médecins par habitant).
+4. **Analyses longitudinales** : exploitation de la dimension panel de l'ESPS pour des modèles à effets fixes — la seule approche permettant de contrôler l'hétérogénéité individuelle non observée.
+5. **Modèles causaux** : intégration dans un cadre d'inférence causale (graphes acycliques dirigés, analyse de médiation) pour séparer les effets directs et indirects de l'âge sur la santé perçue.
 
 \bigskip
-**Conclusion du chapitre.** Les résultats sont robustes à la spécification et cohérents avec la littérature. Les limites identifiées appellent à la prudence mais n'invalident pas l'exercice méthodologique.
+**Conclusion du chapitre.** Les résultats sont robustes à la spécification (H3 validée par la table de concordance) et cohérents avec la littérature. Les limites identifiées appellent à la prudence mais n'invalident pas l'exercice méthodologique.
 
 \newpage
 
@@ -1754,9 +1878,9 @@ kable(sens_df, booktabs = TRUE, escape = FALSE,
 
 Ce projet a mis en œuvre une analyse statistique complète et systématique des déterminants de l'état de santé perçu, à partir des données de l'Enquête Santé et Protection Sociale (ESPS). L'ensemble des traitements statistiques a été réalisé à l'aide du logiciel SAS.
 
-**Contribution méthodologique.** La valeur ajoutée de ce travail réside dans : (1) la confrontation systématique des approches linéaire et ordinale avec un appareil diagnostique complet (VIF, Shapiro-Wilk, Durbin-Watson, test de White avec correction HC3, Cook, LOESS, test du Score, ROC/AUC, bêtas standardisés) rarement déployé conjointement ; (2) une stratégie de modélisation formalisée avec règle de décision AIC/BIC explicite ; (3) la reformulation rigoureuse de H3 comme test de *robustesse à la spécification* plutôt que de *supériorité d'ajustement*, évitant une comparaison inter-familles mathématiquement invalide.
+**Contribution méthodologique.** La valeur ajoutée de ce travail réside dans : (1) la confrontation systématique des approches linéaire et ordinale avec un appareil diagnostique complet (VIF, Shapiro-Wilk, Durbin-Watson, test de White avec correction HC3, Cook, LOESS, test du Score, ROC/AUC, effets marginaux moyens, bêtas standardisés) rarement déployé conjointement ; (2) une stratégie de modélisation formalisée avec modèle principal ordinal et règle de décision AIC/BIC explicite ; (3) la reformulation rigoureuse de H3 comme test de *robustesse à la spécification*, validé par une table de concordance inter-familles, évitant une comparaison AIC mathématiquement invalide.
 
-**Résultats substantiels.** L'âge, le nombre de consultations médicales, le nombre de médicaments réguliers, l'activité physique et le handicap déclaré émergent comme déterminants robustes de l'état de santé perçu, significatifs à travers les différentes spécifications. Les bêtas standardisés hiérarchisent ces déterminants en termes d'importance relative. L'ANCOVA confirme l'existence d'effets propres des facteurs comportementaux au-delà des caractéristiques sociodémographiques. Ces résultats sont conformes à la littérature épidémiologique [@mackenbach1999 ; @marmot2005 ; @singh2006] et aux prédictions du modèle de capital santé de @grossman1972.
+**Résultats substantiels.** L'âge, le nombre de consultations médicales, le nombre de médicaments réguliers, l'activité physique et le handicap déclaré émergent comme déterminants robustes de l'état de santé perçu, significatifs à travers les différentes spécifications. Les **effets marginaux moyens** (AME) et les **bêtas standardisés** hiérarchisent ces déterminants en termes d'importance probabiliste et relative. L'ANCOVA confirme l'existence d'effets propres des facteurs comportementaux au-delà des caractéristiques sociodémographiques. Ces résultats sont conformes à la littérature épidémiologique [@mackenbach1999 ; @marmot2005 ; @singh2006] et aux prédictions du modèle de capital santé de @grossman1972.
 
 **Implications pour les politiques publiques.** Les résultats de ce travail soutiennent trois axes d'action :
 
@@ -1764,16 +1888,17 @@ Ce projet a mis en œuvre une analyse statistique complète et systématique des
 2. **Promotion de l'activité physique** : l'effet propre de l'activité physique, démontré par l'ANCOVA, légitime les politiques sport-santé et les prescriptions d'activité physique adaptée.
 3. **Accompagnement du handicap** : la « double peine » des personnes handicapées appelle des dispositifs renforcés d'accessibilité aux soins et d'accompagnement social.
 
-## Perspectives {-}
+## Ouvertures {-}
 
 Le design en coupe transversale et la taille de l'échantillon ($n = 500$) appellent à la prudence. Plusieurs pistes d'approfondissement se dessinent :
 
-1. **Extension à d'autres vagues ESPS** : l'application de la même méthodologie aux données de vagues antérieures permettrait une analyse longitudinale des tendances.
-2. **Modèles multiniveaux** : la prise en compte de la structure régionale via `PROC MIXED` ou `PROC GLIMMIX` enrichirait l'analyse.
-3. **Variables instrumentales** : l'identification d'instruments pour traiter l'endogénéité des variables de recours aux soins renforcerait la portée causale des résultats.
-4. **Analyses longitudinales** : l'exploitation de la dimension panel de l'ESPS autoriserait des modèles à effets fixes.
+1. **Modèles causaux** : intégration dans un cadre d'inférence causale (graphes acycliques dirigés, DAG) pour séparer les effets directs et médiés de l'âge sur la santé perçue — une étape indispensable avant toute recommandation d'intervention.
+2. **Données longitudinales** : l'exploitation de la dimension panel de l'ESPS autoriserait des modèles à effets fixes, contrôlant l'hétérogénéité individuelle non observée et approchant l'identification causale.
+3. **Modèles multiniveaux** : la prise en compte de la structure régionale via `PROC MIXED` ou `PROC GLIMMIX` permettrait de décomposer la variance entre niveaux individuel et contextuel.
+4. **Variables instrumentales** : l'identification d'instruments pour traiter l'endogénéité des variables de recours aux soins renforcerait la portée causale des résultats.
+5. **Pondération de sondage** : l'application des poids ESPS via `PROC SURVEYLOGISTIC` / `survey::svyglm` rendrait les estimations représentatives de la population française.
 
-En définitive, ce travail démontre que la régression linéaire, convenablement diagnostiquée et confrontée au modèle ordinal, constitue un outil pertinent et interprétable pour la modélisation de la santé perçue --- un résultat méthodologique transposable à d'autres enquêtes de population et à d'autres contextes institutionnels.
+En définitive, ce travail démontre qu'une démarche économétriquement rigoureuse --- alliant modèle ordinal principal, modèles de robustesse, effets marginaux moyens et validation croisée --- constitue le cadre méthodologique approprié pour l'analyse de la santé perçue en population générale.
 
 
 \newpage
