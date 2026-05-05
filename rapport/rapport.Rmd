@@ -445,7 +445,7 @@ Les données proviennent de l'Enquête Santé et Protection Sociale (ESPS) de l'
 
 ## Analyse de la complétude des données (valeurs manquantes) {#sec-manquantes}
 
-**Pourquoi cette étape est-elle indispensable ?** Toute analyse statistique repose implicitement sur l'hypothèse que les observations disponibles sont représentatives de la population cible. La présence de valeurs manquantes (*missing data*) peut biaiser les estimations si elle n'est pas aléatoire (mécanismes MAR, MCAR, MNAR selon @little2002). Cette vérification constitue l'étape préliminaire obligatoire de tout traitement statistique sérieux, souvent réalisée sous SAS via `PROC MEANS` avec l'option `NMISS`.
+**Pourquoi cette étape est-elle indispensable ?** Toute analyse statistique repose implicitement sur l'hypothèse que les observations disponibles sont représentatives de la population cible. La présence de valeurs manquantes (*missing data*) peut biaiser les estimations si elle n'est pas aléatoire : la taxonomie des mécanismes de non-réponse --- MCAR (*Missing Completely At Random*), MAR (*Missing At Random*), MNAR (*Missing Not At Random*) --- formalisée par @rubin1976 et développée par @little2002 constitue le cadre de référence pour en évaluer l'impact. Cette vérification constitue l'étape préliminaire obligatoire de tout traitement statistique sérieux, souvent réalisée sous SAS via `PROC MEANS` avec l'option `NMISS`.
 
 ```{r tab-missing, results='asis'}
 na_df <- data.frame(
@@ -472,7 +472,7 @@ if (nrow(na_df) == 0) {
 
 **Implication méthodologique.** L'absence de valeurs manquantes garantit que l'échantillon effectif pour chaque analyse est identique ($n = `r n_obs`$), ce qui simplifie la comparaison entre modèles (même base, AIC/BIC comparables) et élimine tout biais de sélection lié à la non-réponse différentielle. Dans le cas contraire, une stratégie d'imputation (imputation multiple, *hot-deck*) ou une pondération par l'inverse de la probabilité de réponse aurait été nécessaire.
 
-**Note sur la nature de la base.** La complétude intégrale de la base ($n_{\text{complets}}$ = `r n_complete` sur `r n_obs`) est atypique pour une enquête de population réelle (l'ESPS réelle présente typiquement 5--15\ % de valeurs manquantes selon les variables). Cette caractéristique indique que la base mobilisée est une base reconstituée ou simulée à des fins pédagogiques, conformément aux objectifs du projet. Cette précision est importante pour ne pas surestimer la généralisabilité des résultats.
+**Note sur la nature de la base.** La complétude intégrale de la base ($n_{\text{complets}}$ = `r n_complete` sur `r n_obs`) est atypique pour une enquête de population réelle (l'ESPS réelle présente typiquement 5--15\ % de valeurs manquantes selon les variables). Cette caractéristique indique que la base mobilisée est une base reconstituée ou simulée à des fins pédagogiques. Elle constitue également une **limite de l'étude** : l'absence de documentation sur le mécanisme de non-réponse (MCAR, MAR ou MNAR au sens de @rubin1976) ne permet pas d'exclure un biais de sélection dans la construction initiale de la base.
 
 **Limite sur la pondération.** L'Enquête Santé et Protection Sociale (ESPS) est une enquête par sondage complexe (stratification, grappes, probabilités de tirage inégales). En toute rigueur, les estimations statistiques devraient être pondérées par les poids de sondage associés à chaque individu pour être représentatives de la population française. L'absence de pondération dans notre analyse constitue **une limite méthodologique explicitement reconnue** : les estimateurs OLS et logistiques sont potentiellement biaisés si la probabilité de sélection est corrélée aux variables du modèle. Dans le cadre pédagogique de ce projet, cette correction n'est pas disponible, mais elle serait indispensable pour une publication scientifique.
 
@@ -727,7 +727,7 @@ esps %>%
 
 **Pourquoi l'ANOVA ?** Dans notre démarche exploratoire, nous souhaitons évaluer si la distribution d'une variable quantitative (par exemple l'âge) **diffère selon le groupe de santé perçue**. L'ANOVA à un facteur teste si les moyennes de la variable quantitative X diffèrent significativement entre les modalités de Y. Il est important de noter que ce test est utilisé ici dans un **sens exploratoire** (association brute, sans contrôle) et **non pour inférer une causalité de Y vers X** : la direction causale de notre modèle est bien $X \rightarrow Y$ (les variables sociodémographiques et comportementales *expliquent* la santé perçue, et non l'inverse). L'ANOVA est réalisée via `PROC GLM` avec comparaisons multiples de Tukey (cf. Annexe~B).
 
-**Important** : les variables significatives à ce stade exploratoire ne sont *pas* automatiquement retenues dans les modèles. La sélection finale des variables repose **exclusivement sur le cadre théorique** (modèle de capital santé de Grossman, gradient social de santé) et sur les considérations de la littérature. Les procédures automatiques (Forward, Backward, Stepwise, AIC/BIC) sont utilisées ultérieurement à titre de vérification de cohérence, et non comme critère primaire de sélection.
+**Important** : les variables significatives à ce stade exploratoire ne sont *pas* automatiquement retenues dans les modèles. La sélection finale des variables repose **exclusivement sur le cadre théorique** (modèle de capital santé de Grossman, gradient social de santé) et sur les considérations de la littérature. Les résultats issus de cette étape exploratoire **ne conditionnent pas directement la spécification des modèles multivariés** : ils sont interprétés à titre indicatif et permettent de contextualiser les associations brutes avant le contrôle des effets confondants. Les procédures automatiques (Forward, Backward, Stepwise, AIC/BIC) sont utilisées ultérieurement à titre de vérification de cohérence, et non comme critère primaire de sélection.
 
 ```{r tab-anova-synthese, results='asis'}
 vars_q <- c("age", "revenus_mensuels_euros", "imc",
@@ -1481,9 +1481,9 @@ kable(score_df, booktabs = TRUE, escape = FALSE,
 
 **Interprétation.** Si la p-value du test du Score est **supérieure à 0.05**, l'hypothèse de proportionnalité des cotes n'est pas rejetée : le modèle logistique ordinal est valide dans sa spécification standard. Dans le cas contraire, un modèle plus flexible --- logistique ordinal non contraint (*partial proportional odds*) ou régression multinomiale --- serait plus adapté [@brant1990]. *Implication méthodologique* : la validation de cette hypothèse conditionne la légitimité de l'interprétation des OR comme effets constants sur l'ensemble de l'échelle de santé.
 
-### Vérification de l'hypothèse H3 : régression logistique ordinale vs modèle linéaire {#sec-h3}
+### Vérification de l'hypothèse H3 : robustesse à la spécification du modèle {#sec-h3}
 
-**Rappel de H3** : *Le modèle logistique ordinal offre un ajustement supérieur au modèle linéaire sur le score ordinal* [@mccullagh1980 ; @agresti2010].
+**Rappel de H3** : *Les résultats obtenus sont robustes aux spécifications alternatives du modèle* --- les variables significatives identifiées par le modèle logistique ordinal (modèle principal) sont confirmées par le modèle linéaire sur le score ordinal et le modèle logistique binaire [@mccullagh1980 ; @agresti2010].
 
 **Stratégie de comparaison.** Les modèles M2 (linéaire) et M4 (logistique ordinal) ne sont pas comparables directement par AIC car leurs variables réponses diffèrent (`score_sante` numérique vs `etat_sante_percu` ordinal). La comparaison se fait donc sur deux plans : (1) concordance des variables significatives (robustesse des conclusions) et (2) statistiques d'ajustement propres à chaque famille.
 
