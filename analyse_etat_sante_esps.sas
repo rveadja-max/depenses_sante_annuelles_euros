@@ -6,15 +6,29 @@
  *  Contexte : Enquête Santé et Protection Sociale (ESPS)
  *  Fichier  : base_esps.csv  (500 obs. × 25 variables)
  *
+ *  STRATÉGIE DE MODÉLISATION
+ *  --------------------------
+ *  Modèle PRINCIPAL : régression logistique ordinale (cumulative logit)
+ *    → adapté à la nature ordinale de etat_sante_percu (McCullagh, 1980)
+ *    → variables sélectionnées sur base théorique (Grossman, 1972)
+ *      et empirique, NON via procédures automatiques (Harrell, 2001)
+ *  Modèles de ROBUSTESSE (analyses comparatives) :
+ *    → régression linéaire sur score_sante (interprétée avec prudence)
+ *    → régression logistique binaire (sante_mauvaise 0/1)
+ *  Critères AIC/BIC : comparaison intra-famille uniquement
+ *    (comparaison linéaire vs ordinal invalide — variables réponses différentes)
+ *
  *  Analyses couvertes :
  *    0. Importation et recodage
- *    1. Analyse bivariée
- *    2. Régression linéaire et R²
- *    3. Étude de la colinéarité
- *    4. Sélection de variables
- *    5. Validation du modèle
- *    6. Analyse de covariance (ANCOVA)
- *    7. Régression logistique ordinale
+ *    1. Analyse bivariée exploratoire
+ *       (χ² + V de Cramér pour qualitatif ; Spearman pour quantitatif)
+ *       → rôle exploratoire : ne conditionne pas la spécification des modèles
+ *    2. Vérification de la colinéarité (VIF)
+ *    3. Modèle PRINCIPAL — Régression logistique ordinale
+ *       + test de proportionnalité des odds + validation croisée k-fold
+ *    4. Modèles de ROBUSTESSE — Régression linéaire (ANCOVA) + logistique binaire
+ *    5. Sélection automatique (vérification de cohérence uniquement)
+ *    6. Validation du modèle linéaire (diagnostics résiduels)
  *****************************************************************************/
 
 
@@ -78,78 +92,90 @@ run;
 
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   1.  ANALYSE BIVARIÉE
+   1.  ANALYSE BIVARIÉE EXPLORATOIRE
    ═══════════════════════════════════════════════════════════════════════════
    Y = etat_sante_percu (qualitative ordinale)
-   → Y quali × X quali  : test du Chi-2 (PROC FREQ)
-   → Y quali × X quanti : ANOVA ou Kruskal-Wallis (PROC NPAR1WAY)
+   → Y quali × X quali  : test du χ² + V de Cramér (PROC FREQ, option measures)
+   → Y quali × X quanti : corrélation de Spearman (PROC CORR, option spearman)
+                          + ANOVA exploratoire (PROC GLM/NPAR1WAY) à titre indicatif
+   NOTE MÉTHODOLOGIQUE : Cette étape est exploratoire. Les résultats obtenus
+   ici ne conditionnent pas directement la spécification des modèles multivariés.
+   La sélection finale des variables repose exclusivement sur le cadre théorique
+   (modèle de capital santé de Grossman) et la littérature empirique.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* 1a. Croisement avec les variables qualitatives — Test du Chi-2 */
+/* 1a. Croisement avec les variables qualitatives — χ² + V de Cramér
+       L'option CHISQ produit le χ², le φ et le V de Cramér.
+       L'option MEASURES ajoute des mesures d'association ordinale (Gamma, Kendall).  */
 
 proc freq data = proj.base_esps;
-    tables etat_sante_percu * sexe / chisq expected cellchi2 norow nocol;
-    title "Bivariée : État de santé perçu × Sexe";
+    tables etat_sante_percu * sexe / chisq measures;
+    title "Bivariée : État de santé perçu × Sexe (χ² + V de Cramér)";
 run;
 
 proc freq data = proj.base_esps;
-    tables etat_sante_percu * profession / chisq expected;
-    title "Bivariée : État de santé perçu × Profession";
+    tables etat_sante_percu * profession / chisq measures;
+    title "Bivariée : État de santé perçu × Profession (χ² + V de Cramér)";
 run;
 
 proc freq data = proj.base_esps;
-    tables etat_sante_percu * niveau_education / chisq expected;
-    title "Bivariée : État de santé perçu × Niveau d'éducation";
+    tables etat_sante_percu * niveau_education / chisq measures;
+    title "Bivariée : État de santé perçu × Niveau d'éducation (χ² + V de Cramér)";
 run;
 
 proc freq data = proj.base_esps;
-    tables etat_sante_percu * situation_familiale / chisq expected;
-    title "Bivariée : État de santé perçu × Situation familiale";
+    tables etat_sante_percu * situation_familiale / chisq measures;
+    title "Bivariée : État de santé perçu × Situation familiale (χ² + V de Cramér)";
 run;
 
 proc freq data = proj.base_esps;
-    tables etat_sante_percu * couverture_complementaire / chisq expected;
-    title "Bivariée : État de santé perçu × Couverture complémentaire";
+    tables etat_sante_percu * couverture_complementaire / chisq measures;
+    title "Bivariée : État de santé perçu × Couverture complémentaire (χ² + V de Cramér)";
 run;
 
 proc freq data = proj.base_esps;
-    tables etat_sante_percu * hospitalisation_12_mois / chisq expected;
-    title "Bivariée : État de santé perçu × Hospitalisation 12 mois";
+    tables etat_sante_percu * hospitalisation_12_mois / chisq measures;
+    title "Bivariée : État de santé perçu × Hospitalisation 12 mois (χ² + V de Cramér)";
 run;
 
 proc freq data = proj.base_esps;
-    tables etat_sante_percu * tabagisme / chisq expected;
-    title "Bivariée : État de santé perçu × Tabagisme";
+    tables etat_sante_percu * tabagisme / chisq measures;
+    title "Bivariée : État de santé perçu × Tabagisme (χ² + V de Cramér)";
 run;
 
 proc freq data = proj.base_esps;
-    tables etat_sante_percu * consommation_alcool / chisq expected;
-    title "Bivariée : État de santé perçu × Consommation d'alcool";
+    tables etat_sante_percu * consommation_alcool / chisq measures;
+    title "Bivariée : État de santé perçu × Consommation d'alcool (χ² + V de Cramér)";
 run;
 
 proc freq data = proj.base_esps;
-    tables etat_sante_percu * activite_physique / chisq expected;
-    title "Bivariée : État de santé perçu × Activité physique";
+    tables etat_sante_percu * activite_physique / chisq measures;
+    title "Bivariée : État de santé perçu × Activité physique (χ² + V de Cramér)";
 run;
 
 proc freq data = proj.base_esps;
-    tables etat_sante_percu * handicap_declare / chisq expected;
-    title "Bivariée : État de santé perçu × Handicap déclaré";
+    tables etat_sante_percu * handicap_declare / chisq measures;
+    title "Bivariée : État de santé perçu × Handicap déclaré (χ² + V de Cramér)";
 run;
 
 proc freq data = proj.base_esps;
-    tables etat_sante_percu * renoncement_soins_12_mois / chisq expected;
-    title "Bivariée : État de santé perçu × Renoncement aux soins";
+    tables etat_sante_percu * renoncement_soins_12_mois / chisq measures;
+    title "Bivariée : État de santé perçu × Renoncement aux soins (χ² + V de Cramér)";
 run;
 
 proc freq data = proj.base_esps;
-    tables etat_sante_percu * maladies_declarees / chisq expected;
-    title "Bivariée : État de santé perçu × Maladies déclarées";
+    tables etat_sante_percu * maladies_declarees / chisq measures;
+    title "Bivariée : État de santé perçu × Maladies déclarées (χ² + V de Cramér)";
 run;
 
 /* 1b. Croisement avec les variables quantitatives
-       ANOVA à un facteur : Y = etat_sante_percu (facteur), X = variable quanti
-       Ou, de façon équivalente, comparaison de moyennes de X selon les groupes de Y */
+       MÉTHODE PRINCIPALE : corrélation de Spearman (section 1d ci-dessous),
+       adaptée au caractère ordinal de la variable dépendante.
+       L'ANOVA à un facteur ci-dessous est utilisée à titre EXPLORATOIRE UNIQUEMENT
+       pour visualiser la distribution de chaque variable quantitative selon les groupes
+       de santé. Elle ne conditionne pas la sélection des variables dans les modèles.
+       Note : la direction causale est bien X → Y (les variables socio-démographiques
+       et comportementales expliquent la santé perçue, non l'inverse). */
 
 proc glm data = proj.base_esps;
     class etat_sante_percu;
@@ -240,12 +266,15 @@ run;
 
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   2.  RÉGRESSION LINÉAIRE ET R²
+   2.  ROBUSTESSE — RÉGRESSION LINÉAIRE (modèle alternatif)
    ═══════════════════════════════════════════════════════════════════════════
+   Ce modèle est estimé À TITRE DE ROBUSTESSE uniquement. Le modèle PRINCIPAL
+   est la régression logistique ordinale (section 7).
    On utilise score_sante (1–5) comme approximation numérique de
-   etat_sante_percu pour appliquer PROC REG.
+   etat_sante_percu afin d'appliquer PROC REG. L'hypothèse d'équidistance
+   entre les modalités est forte et doit être interprétée avec prudence.
    Y = score_sante
-   X = variables quantitatives de la base ESPS
+   X = variables sélectionnées sur base théorique (Grossman, 1972)
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /* 2a. Modèle complet — variables quantitatives */
@@ -262,8 +291,11 @@ proc reg data = proj.base_esps;
 run;
 quit;
 
-/* 2b. Modèle réduit — variables significatives uniquement
-       (à adapter après lecture des p-values du modèle complet)           */
+/* 2b. Modèle réduit — variables retenues sur base THÉORIQUE
+       Sélection fondée sur le modèle de capital santé (Grossman, 1972) et la
+       littérature empirique, NON sur les p-values du modèle complet.
+       Les procédures automatiques (section 4) sont présentées séparément
+       à titre de vérification de cohérence uniquement.                     */
 proc reg data = proj.base_esps;
     model score_sante =
           age
@@ -275,9 +307,13 @@ quit;
 
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   3.  ÉTUDE DE LA COLINÉARITÉ
+   3.  ÉTUDE DE LA COLINÉARITÉ (préalable à la modélisation)
    ═══════════════════════════════════════════════════════════════════════════
-   VIF (Variance Inflation Factor)
+   Cette analyse est réalisée EN AMONT de l'estimation du modèle principal
+   (logistique ordinal) afin de détecter d'éventuels problèmes de colinéarité
+   entre les variables explicatives retenues sur base théorique.
+   VIF (Variance Inflation Factor) — calculé ici sur PROC REG (score_sante)
+   car PROC LOGISTIC ne produit pas directement le VIF.
    Règle : VIF > 10 → colinéarité problématique
            VIF > 5  → colinéarité modérée à surveiller
    Tolérance = 1/VIF < 0.1 → problème                                     */
@@ -324,8 +360,19 @@ quit;
 
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   4.  SÉLECTION DE VARIABLES
-   ═══════════════════════════════════════════════════════════════════════════ */
+   4.  SÉLECTION AUTOMATIQUE — VÉRIFICATION DE COHÉRENCE UNIQUEMENT
+   ═══════════════════════════════════════════════════════════════════════════
+   IMPORTANT : Les procédures de sélection automatique ci-dessous (Forward,
+   Backward, Stepwise, ADJRSQ) ne constituent PAS le critère primaire de
+   sélection des variables. Le modèle principal repose exclusivement sur le
+   cadre théorique (Grossman, 1972) et la littérature empirique (Harrell, 2001).
+   Ces procédures sont présentées à titre de VÉRIFICATION DE COHÉRENCE :
+   si les mêmes variables émergent systématiquement des procédures automatiques
+   et de la théorie, cela constitue un résultat de robustesse supplémentaire.
+   En cas de divergence, c'est le cadre théorique qui prime.
+   Note : les critères AIC/BIC sont utilisés ici pour la comparaison intra-famille
+   (modèles linéaires uniquement). Toute comparaison AIC linéaire vs ordinal
+   est invalide (variables réponses de nature différente).                  */
 
 /* 4a. Sélection par R² ajusté, AIC et BIC (tous les sous-modèles) */
 proc reg data = proj.base_esps;
@@ -369,7 +416,8 @@ proc reg data = proj.base_esps;
 run;
 quit;
 
-/* 4d. Sélection pas à pas (stepwise) */
+/* 4d. Sélection pas à pas (stepwise) — VÉRIFICATION DE COHÉRENCE SEULEMENT
+       Non utilisé comme critère primaire de sélection (voir note section 4) */
 proc reg data = proj.base_esps;
     model score_sante =
           age
@@ -385,8 +433,12 @@ quit;
 
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   5.  VALIDATION DU MODÈLE
+   5.  VALIDATION DU MODÈLE LINÉAIRE (robustesse)
    ═══════════════════════════════════════════════════════════════════════════
+   IMPORTANT : Ces diagnostics s'appliquent au modèle linéaire (section 2),
+   estimé à titre de robustesse. Le modèle PRINCIPAL (logistique ordinal,
+   section 7) fait l'objet de diagnostics spécifiques : test de proportionnalité
+   des odds (Score Test — section 7b) et validation croisée k-fold (section 5k).
    Hypothèses de la régression linéaire :
      H1 — Normalité des résidus
      H2 — Indépendance des résidus (Durbin-Watson)
@@ -505,11 +557,81 @@ proc print data = proj.base_esps_resid;
 run;
 
 
+/* 5k. VALIDATION CROISÉE K-FOLD — Modèle logistique ordinal (modèle principal)
+   ─────────────────────────────────────────────────────────────────────────────
+   SAS base ne dispose pas d'une procédure native de k-fold pour PROC LOGISTIC.
+   La stratégie ci-dessous implémente un k-fold (k=10) manuel via une macro :
+     1. Créer une variable de partition aléatoire (1 à 10)
+     2. Pour chaque fold i : entraîner sur les 9 autres folds, prédire sur fold i
+     3. Calculer le taux de concordance moyen (C-statistic) sur les 10 folds
+   Cette validation est complémentaire au Score Test de proportionnalité (7b). */
+
+/* Étape 1 : création de la variable fold (partition aléatoire stratifiée) */
+proc surveyselect data = proj.base_esps out = proj.base_esps_folds
+    method = srs samprate = 1 seed = 42;
+    strata etat_sante_percu;
+run;
+
+data proj.base_esps_folds;
+    set proj.base_esps_folds;
+    fold = mod(_n_ - 1, 10) + 1;   /* fold de 1 à 10 */
+run;
+
+/* Étape 2 : boucle k-fold — macro SAS */
+%macro kfold_ordinal(k = 10);
+    %do i = 1 %to &k;
+        /* Entraînement sur les (k-1) folds */
+        proc logistic data = proj.base_esps_folds
+                      outmodel = proj.model_fold_&i noprint;
+            where fold ne &i;
+            class sexe (ref = "Homme")
+                  hospitalisation_12_mois (ref = "Non")
+                  activite_physique (ref = "Sédentaire")
+                  handicap_declare (ref = "Non") / param = ref;
+            model etat_sante_percu =
+                  age
+                  nombre_consultations_annuelles
+                  nombre_medicaments_reguliers
+                  sexe
+                  hospitalisation_12_mois
+                  activite_physique
+                  handicap_declare / link = cumlogit;
+        run;
+        /* Prédiction sur le fold de test */
+        proc logistic inmodel = proj.model_fold_&i;
+            score data  = proj.base_esps_folds (where = (fold = &i))
+                  out   = proj.pred_fold_&i
+                  fitstat;
+        run;
+    %end;
+
+    /* Concaténation des prédictions */
+    data proj.all_preds;
+        set %do i = 1 %to &k; proj.pred_fold_&i %end;;
+    run;
+%mend kfold_ordinal;
+
+%kfold_ordinal(k = 10);
+
+/* Étape 3 : calcul du taux de concordance moyen (C-statistic) */
+proc freq data = proj.all_preds noprint;
+    tables etat_sante_percu * _into_ / out = proj.kfold_confusion;
+run;
+
+/* Taux de classement global */
+proc means data = proj.all_preds;
+    var _WARN_;   /* placeholder — voir p_* générés par SCORE pour l'AUC */
+    title "Validation croisée k-fold (k=10) — Modèle logistique ordinal principal";
+run;
+
+
 /* ═══════════════════════════════════════════════════════════════════════════
-   6.  ANALYSE DE COVARIANCE  (ANCOVA)
+   6.  ROBUSTESSE — ANALYSE DE COVARIANCE (ANCOVA, modèle alternatif)
    ═══════════════════════════════════════════════════════════════════════════
-   ANCOVA = modèle mixte : variables quantitatives + qualitatives
-   Y = score_sante (numérique)
+   Ce modèle est estimé À TITRE DE ROBUSTESSE. Il combine variables quantitatives
+   et qualitatives sur la variable réponse linéaire (score_sante). Les conclusions
+   sont comparées au modèle logistique ordinal principal (section 7) pour évaluer
+   la robustesse des inférences à la spécification (test de H3).
    PROC GLM avec CLASS pour les variables qualitatives
    ═══════════════════════════════════════════════════════════════════════════ */
 
@@ -575,10 +697,21 @@ quit;
 
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   7.  RÉGRESSION LOGISTIQUE
+   7.  MODÈLE PRINCIPAL — RÉGRESSION LOGISTIQUE ORDINALE
    ═══════════════════════════════════════════════════════════════════════════
-   etat_sante_percu est qualitative ordinale (5 modalités) → on utilise
-   le modèle logistique ordinal (cumulative logit) via PROC LOGISTIC.
+   C'est le MODÈLE PRINCIPAL de cette analyse. etat_sante_percu est qualitative
+   ordinale (5 modalités) → le modèle logistique ordinal (cumulative logit) est
+   le seul modèle pleinement adapté à la nature de la variable réponse
+   (McCullagh, 1980 ; Agresti, 2010).
+   Les variables sont sélectionnées sur base THÉORIQUE (Grossman, 1972) et
+   empirique, NON via des procédures automatiques de sélection (Harrell, 2001).
+   Plan de la section :
+     7a — Modèle ordinal complet (toutes les variables théoriques)
+     7b — Test de proportionnalité des odds (Score Test — hypothèse H du modèle)
+     7c — Modèle ordinal réduit (variables théoriques + confirmation empirique)
+     7d — Robustesse : régression logistique BINAIRE
+     7e — Cohérence : sélection automatique (vérification uniquement)
+     7f — Courbe ROC (modèle binaire)
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /* 7a. Régression logistique ORDINALE (cumulative logit)
@@ -612,11 +745,19 @@ proc logistic data = proj.base_esps descending;
 run;
 
 /* 7b. Test de l'hypothèse des cotes proportionnelles (Score Test)
-       Le test est produit automatiquement par PROC LOGISTIC avec link=cumlogit.
-       Si p-value < 0.05 → l'hypothèse de proportionnalité est violée.    */
+       Produit automatiquement par PROC LOGISTIC avec link=cumlogit.
+       H₀ : les odds ratios sont constants sur l'ensemble des seuils de coupure.
+       Si p-value < 0.05 → l'hypothèse de proportionnalité est violée →
+       envisager un modèle partial proportional odds ou un modèle multinomial.
+       Ce test est obligatoire pour valider la spécification du modèle ordinal.
+       Résultat : voir "Score Test for the Proportional Odds Assumption" dans
+       la sortie PROC LOGISTIC de l'étape 7a.                                */
 
-/* 7c. Régression logistique ordinale — modèle réduit
-       (à adapter après lecture des p-values du modèle complet)           */
+/* 7c. Régression logistique ordinale — modèle réduit (MODÈLE PRINCIPAL FINAL)
+       Variables retenues sur base THÉORIQUE (Grossman, 1972) et confirmées
+       empiriquement dans le modèle complet 7a.
+       Cette sélection théorique est privilégiée par rapport aux p-values seules
+       conformément aux recommandations de Harrell (2001).                  */
 proc logistic data = proj.base_esps descending;
     class sexe (ref = "Homme")
           hospitalisation_12_mois (ref = "Non")
@@ -636,10 +777,12 @@ proc logistic data = proj.base_esps descending;
     title "Régression logistique ordinale — etat_sante_percu (modèle réduit)";
 run;
 
-/* 7d. Régression logistique BINAIRE (optionnel)
+/* 7d. Régression logistique BINAIRE (modèle de robustesse)
        Variable réponse : sante_mauvaise (0/1)
        0 = Bonne santé (Assez bon + Bon + Très bon)
-       1 = Mauvaise santé (Mauvais + Très mauvais)                        */
+       1 = Mauvaise santé (Mauvais + Très mauvais)
+       Ce modèle est estimé À TITRE DE ROBUSTESSE uniquement.
+       Les conclusions sont comparées au modèle ordinal (7c) pour tester H3.  */
 
 proc logistic data = proj.base_esps descending;
     class sexe (ref = "Homme")
@@ -664,7 +807,13 @@ proc logistic data = proj.base_esps descending;
     title "Régression logistique binaire — sante_mauvaise (0/1)";
 run;
 
-/* 7e. Sélection de variables en régression logistique (stepwise) */
+/* 7e. COHÉRENCE — Sélection automatique stepwise (vérification uniquement)
+       IMPORTANT : Cette procédure NE constitue PAS le critère primaire de
+       sélection. Le modèle principal (7c) repose sur le cadre théorique.
+       Le stepwise est présenté ici pour vérifier la convergence entre la
+       théorie et les données : si les mêmes variables émergent, cela renforce
+       la crédibilité des choix. En cas de divergence, la théorie prime.
+       Référence : Harrell (2001), Burnham & Anderson (2002).               */
 proc logistic data = proj.base_esps descending;
     class sexe (ref = "Homme")
           hospitalisation_12_mois (ref = "Non")
@@ -688,7 +837,7 @@ proc logistic data = proj.base_esps descending;
                                        selection = stepwise
                                        slentry = 0.05
                                        slstay = 0.05;
-    title "Sélection stepwise — Régression logistique ordinale";
+    title "Cohérence stepwise — Régression logistique ordinale (vérification)";
 run;
 
 /* 7f. Courbe ROC (régression binaire uniquement)                         */
