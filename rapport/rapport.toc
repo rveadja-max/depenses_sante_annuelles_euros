@@ -1,0 +1,87 @@
+\babel@toc {french}{}\relax 
+\contentsline {section}{Remerciements}{5}{Doc-Start}%
+\contentsline {section}{Avant-propos}{6}{Doc-Start}%
+\contentsline {subsection}{Contexte et objectifs}{6}{section*.1}%
+\contentsline {subsection}{Plan du rapport}{6}{section*.1}%
+\contentsline {section}{Sigles et acronymes}{7}{section*.1}%
+\contentsline {section}{\numberline {1}Introduction générale}{8}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Accroche et contexte général}{8}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Intérêt scientifique et empirique : pourquoi étudier la santé perçue par la régression linéaire ?}{8}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Problématique générale}{8}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}Question centrale de recherche}{8}{subsection.1.4}%
+\contentsline {subsection}{\numberline {1.5}Objectif général et objectifs spécifiques}{9}{subsection.1.5}%
+\contentsline {subsection}{\numberline {1.6}Hypothèses de recherche}{9}{subsection.1.6}%
+\contentsline {subsection}{\numberline {1.7}Positionnement scientifique}{9}{subsection.1.7}%
+\contentsline {subsection}{\numberline {1.8}Stratégie de recherche et démarche méthodologique}{9}{subsection.1.8}%
+\contentsline {subsection}{\numberline {1.9}Annonce du plan}{9}{subsection.1.9}%
+\contentsline {section}{\numberline {2}Cadre conceptuel, théorique et analytique}{9}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Cadre conceptuel : santé perçue et déterminants sociaux}{10}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Cadre théorique : modèles explicatifs de la santé perçue}{10}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Cadre analytique : justification des méthodes statistiques retenues}{10}{subsection.2.3}%
+\contentsline {subsubsection}{\numberline {2.3.1}Traitement de la variable réponse ordinale}{10}{subsubsection.2.3.1}%
+\contentsline {subsubsection}{\numberline {2.3.2}Limites structurelles du design choisi}{10}{subsubsection.2.3.2}%
+\contentsline {section}{\numberline {3}Revue de littérature}{11}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Mesures subjectives de la santé : fondements et validité}{12}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Déterminants socio-économiques de la santé perçue}{12}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}Effets de l'âge et du sexe}{12}{subsubsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.2}Gradient social de santé}{12}{subsubsection.3.2.2}%
+\contentsline {subsubsection}{\numberline {3.2.3}Rôle de la couverture assurantielle et du renoncement aux soins}{12}{subsubsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.3}La régression linéaire pour expliquer la santé perçue}{12}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Positionnement de la contribution}{12}{subsection.3.4}%
+\contentsline {section}{\numberline {4}Méthodologie}{12}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Design de recherche : terrain et pertinence}{13}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Spécification des modèles}{13}{subsection.4.2}%
+\contentsline {subsubsection}{\numberline {4.2.1}Modèle de régression linéaire multiple}{13}{subsubsection.4.2.1}%
+\contentsline {subsubsection}{\numberline {4.2.2}Modèle ANCOVA}{13}{subsubsection.4.2.2}%
+\contentsline {subsubsection}{\numberline {4.2.3}Modèle logistique ordinal (cotes proportionnelles)}{13}{subsubsection.4.2.3}%
+\contentsline {subsubsection}{\numberline {4.2.4}Modèle logistique binaire}{13}{subsubsection.4.2.4}%
+\contentsline {subsection}{\numberline {4.3}Stratégie de validation et diagnostics}{13}{subsection.4.3}%
+\contentsline {section}{\numberline {5}Données et construction de la base empirique}{13}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Sources des données et construction de la base d'analyse}{14}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Distribution de la variable réponse : état de santé perçu}{14}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Statistiques descriptives des variables quantitatives}{15}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Profil sociodémographique de l'échantillon}{15}{subsection.5.4}%
+\contentsline {section}{\numberline {6}Résultats}{16}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Analyse bivariée}{17}{subsection.6.1}%
+\contentsline {subsubsection}{\numberline {6.1.1}Test du \(\chi ^2\) d'indépendance : croisements Y qualitative \(\times \) X qualitatives}{17}{subsubsection.6.1.1}%
+\contentsline {subsubsection}{\numberline {6.1.2}ANOVA à un facteur : croisements Y qualitative \(\times \) X quantitatives}{18}{subsubsection.6.1.2}%
+\contentsline {subsubsection}{\numberline {6.1.3}Corrélation de Spearman}{19}{subsubsection.6.1.3}%
+\contentsline {subsection}{\numberline {6.2}Régression linéaire multiple}{19}{subsection.6.2}%
+\contentsline {subsubsection}{\numberline {6.2.1}Modèle complet}{20}{subsubsection.6.2.1}%
+\contentsline {subsubsection}{\numberline {6.2.2}Modèle réduit}{20}{subsubsection.6.2.2}%
+\contentsline {subsection}{\numberline {6.3}Étude de la colinéarité}{20}{subsection.6.3}%
+\contentsline {subsubsection}{\numberline {6.3.1}VIF et Tolérance}{20}{subsubsection.6.3.1}%
+\contentsline {subsubsection}{\numberline {6.3.2}Matrice de corrélation entre les prédicteurs}{21}{subsubsection.6.3.2}%
+\contentsline {subsection}{\numberline {6.4}Sélection de variables}{21}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5}Validation du modèle}{22}{subsection.6.5}%
+\contentsline {subsubsection}{\numberline {6.5.1}Normalité des résidus}{22}{subsubsection.6.5.1}%
+\contentsline {subsubsection}{\numberline {6.5.2}Test de Durbin-Watson (indépendance des résidus)}{22}{subsubsection.6.5.2}%
+\contentsline {subsubsection}{\numberline {6.5.3}Test de White (homoscédasticité)}{22}{subsubsection.6.5.3}%
+\contentsline {subsubsection}{\numberline {6.5.4}Distance de Cook et observations influentes}{23}{subsubsection.6.5.4}%
+\contentsline {subsubsection}{\numberline {6.5.5}Résidus versus valeurs ajustées}{23}{subsubsection.6.5.5}%
+\contentsline {subsection}{\numberline {6.6}Analyse de covariance (ANCOVA)}{24}{subsection.6.6}%
+\contentsline {subsubsection}{\numberline {6.6.1}Moyennes marginales (LSMEANS)}{24}{subsubsection.6.6.1}%
+\contentsline {subsection}{\numberline {6.7}Régression logistique}{25}{subsection.6.7}%
+\contentsline {subsubsection}{\numberline {6.7.1}Régression logistique ordinale}{25}{subsubsection.6.7.1}%
+\contentsline {subsubsection}{\numberline {6.7.2}Régression logistique binaire, courbe ROC et AUC}{26}{subsubsection.6.7.2}%
+\contentsline {subsubsection}{\numberline {6.7.3}Matrice de confusion}{26}{subsubsection.6.7.3}%
+\contentsline {section}{\numberline {7}Robustesse, limites et discussion}{27}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Synthèse des résultats et conformité à la réalité}{28}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Discussion des hypothèses}{28}{subsection.7.2}%
+\contentsline {subsubsection}{\numberline {7.2.1}Hypothèse H1 --- Déterminants quantitatifs dominants}{28}{subsubsection.7.2.1}%
+\contentsline {subsubsection}{\numberline {7.2.2}Hypothèse H2 --- Effet propre des facteurs comportementaux}{28}{subsubsection.7.2.2}%
+\contentsline {subsubsection}{\numberline {7.2.3}Hypothèse H3 --- Supériorité du modèle ordinal}{28}{subsubsection.7.2.3}%
+\contentsline {subsection}{\numberline {7.3}Limites de données}{28}{subsection.7.3}%
+\contentsline {subsection}{\numberline {7.4}Limites méthodologiques}{28}{subsection.7.4}%
+\contentsline {subsection}{\numberline {7.5}Ouvertures}{28}{subsection.7.5}%
+\contentsline {section}{Conclusion générale}{30}{Item.15}%
+\contentsline {subsection}{Bilan}{30}{section*.29}%
+\contentsline {subsection}{Perspectives}{30}{Item.18}%
+\contentsline {section}{Annexe A : Description détaillée de la base de données}{31}{Item.22}%
+\contentsline {subsection}{Référence méthodologique}{31}{section*.30}%
+\contentsline {subsection}{Dictionnaire des variables}{31}{section*.30}%
+\contentsline {subsection}{Répartition des types de variables}{32}{table.19}%
+\contentsline {subsection}{Corrélations intégrées}{32}{table.19}%
+\contentsline {section}{Annexe B : Code SAS complet}{32}{table.19}%
+\contentsline {section}{Annexe C : Code R complet}{44}{table.19}%
+\contentsline {section}{Bibliographie}{49}{table.19}%

@@ -2158,6 +2158,404 @@ run;
 \end{verbatim}
 \end{footnotesize}
 
+\newpage
+
+\hypertarget{annexe-c-code-r-complet}{%
+\section*{Annexe C : Code R complet}\label{annexe-c-code-r-complet}}
+\addcontentsline{toc}{section}{Annexe C : Code R complet}
+
+L'intégralité du code R reproduisant fidèlement les analyses du code SAS est présentée ci-dessous.
+Le script autonome est également disponible à la racine du projet sous le nom \texttt{annexe\_C\_code\_R.R}.
+
+\medskip
+
+\noindent\textbf{Correspondances SAS $\rightarrow$ R}
+
+\begin{tabular}{@{} l l l @{}}
+\toprule
+\textbf{Section} & \textbf{Procédure SAS} & \textbf{Équivalent R} \\
+\midrule
+\S{}0 Importation & \texttt{PROC IMPORT} & \texttt{read.csv2()} \\
+\S{}1a Bivariée quali & \texttt{PROC FREQ / chisq measures} & \texttt{chisq.test()} + \texttt{vcd::assocstats()} \\
+\S{}1b ANOVA & \texttt{PROC GLM / tukey} & \texttt{aov()} + \texttt{TukeyHSD()} \\
+\S{}1c Kruskal-Wallis & \texttt{PROC NPAR1WAY wilcoxon} & \texttt{kruskal.test()} \\
+\S{}1d Spearman & \texttt{PROC CORR spearman} & \texttt{cor.test(method=``spearman'')} \\
+\S{}2 Régr. linéaire & \texttt{PROC REG} & \texttt{lm()} \\
+\S{}3 VIF & \texttt{PROC REG / vif tol} & \texttt{car::vif()} \\
+\S{}3 Corrélation & \texttt{PROC CORR} & \texttt{cor()} + \texttt{corrplot::corrplot()} \\
+\S{}3 Cond. number & \texttt{PROC REG / collin} & \texttt{svd()}, rapport max/min \\
+\S{}4 Sous-modèles & \texttt{PROC REG / selection=ADJRSQ best=5} & \texttt{leaps::regsubsets()} \\
+\S{}4 Forward & \texttt{PROC REG / selection=forward} & \texttt{step(direction=``forward'')} \\
+\S{}4 Backward & \texttt{PROC REG / selection=backward} & \texttt{step(direction=``backward'')} \\
+\S{}4 Stepwise & \texttt{PROC REG / selection=stepwise} & \texttt{step(direction=``both'')} \\
+\S{}5 Résidus & \texttt{OUTPUT rstudent / cookd / h} & \texttt{rstudent()}, \texttt{cooks.distance()}, \texttt{hatvalues()} \\
+\S{}5 Normalité & \texttt{PROC UNIVARIATE normal qqplot} & \texttt{shapiro.test()} + \texttt{qqnorm()} \\
+\S{}5 Durbin-Watson & \texttt{PROC REG / dwprob} & \texttt{lmtest::dwtest()} \\
+\S{}5 White & \texttt{PROC REG / spec} & \texttt{lmtest::bptest()} \\
+\S{}5 Résidus partiels & \texttt{PROC REG plots(partialplot)} & \texttt{car::avPlots()} \\
+\S{}5 LOESS & \texttt{PROC SGPLOT loess} & \texttt{geom\_smooth(``loess'')} \\
+\S{}5k K-fold & Macro \texttt{\%kfold\_ordinal} & Boucle \texttt{MASS::polr()} + \texttt{set.seed(42)} \\
+\S{}6 ANCOVA & \texttt{PROC GLM / ss3} & \texttt{lm()} + \texttt{car::Anova(type=``III'')} \\
+\S{}6 LSMEANS & \texttt{LSMEANS / pdiff adjust=tukey} & \texttt{emmeans::emmeans()} + \texttt{pairs()} \\
+\S{}7 Ordinal & \texttt{PROC LOGISTIC / link=cumlogit} & \texttt{MASS::polr(method=``logistic'')} \\
+\S{}7 Score Test & Proportional Odds Assumption & \texttt{brant::brant()} \\
+\S{}7 Binaire & \texttt{PROC LOGISTIC / model Y(event=``1'')} & \texttt{glm(family=binomial)} \\
+\S{}7 Stepwise logit & \texttt{PROC LOGISTIC / selection=stepwise} & \texttt{MASS::stepAIC(direction=``both'')} \\
+\S{}7 ROC & \texttt{PROC LOGISTIC plots(roc)} & \texttt{pROC::roc()} + \texttt{plot()} \\
+\bottomrule
+\end{tabular}
+
+\medskip
+\noindent\textbf{Packages requis :}
+\begin{footnotesize}
+\begin{verbatim}
+install.packages(c("dplyr", "ggplot2", "car", "MASS", "lmtest", "sandwich",
+                   "corrplot", "pROC", "emmeans", "leaps", "vcd", "brant"))
+\end{verbatim}
+\end{footnotesize}
+
+\bigskip
+
+\begin{footnotesize}
+\begin{verbatim}
+###########################################################################
+#  ANNEXE C -- Code R complet
+#  Reproduction fidele des analyses SAS (analyse_etat_sante_esps.sas)
+###########################################################################
+
+library(dplyr);   library(ggplot2); library(car);     library(MASS)
+library(lmtest);  library(sandwich); library(corrplot)
+library(pROC);    library(emmeans); library(leaps);   library(vcd)
+
+# ==================================================================
+# 0.  IMPORTATION ET RECODAGE  (equiv. PROC IMPORT + DATA step)
+# ==================================================================
+esps <- read.csv2("data/base_esps.csv",
+                  fileEncoding = "UTF-8", stringsAsFactors = TRUE)
+str(esps);  print(table(esps$etat_sante_percu))
+
+esps$score_sante <- dplyr::case_when(
+  esps$etat_sante_percu == "Tres mauvais" ~ 1L,
+  esps$etat_sante_percu == "Mauvais"      ~ 2L,
+  esps$etat_sante_percu == "Assez bon"    ~ 3L,
+  esps$etat_sante_percu == "Bon"          ~ 4L,
+  esps$etat_sante_percu == "Tres bon"     ~ 5L,
+  TRUE ~ NA_integer_
+)
+esps$etat_sante_percu <- factor(
+  esps$etat_sante_percu,
+  levels  = c("Tres mauvais","Mauvais","Assez bon","Bon","Tres bon"),
+  ordered = TRUE)
+esps$sante_mauvaise  <- ifelse(esps$score_sante <= 2, 1L, 0L)
+esps$hospit_num      <- ifelse(esps$hospitalisation_12_mois   == "Oui", 1, 0)
+esps$handicap_num    <- ifelse(esps$handicap_declare          == "Oui", 1, 0)
+esps$renoncement_num <- ifelse(esps$renoncement_soins_12_mois == "Oui", 1, 0)
+print(table(as.character(esps$etat_sante_percu), esps$score_sante))
+
+# ==================================================================
+# 1.  ANALYSE BIVARIEE EXPLORATOIRE
+# ==================================================================
+# NOTE : exploratoire uniquement -- selection = cadre theorique.
+
+# 1a. Chi2 + V de Cramer  (equiv. PROC FREQ / chisq measures)
+vars_quali <- c("sexe","profession","niveau_education","situation_familiale",
+  "couverture_complementaire","hospitalisation_12_mois","tabagisme",
+  "consommation_alcool","activite_physique","handicap_declare",
+  "renoncement_soins_12_mois","maladies_declarees")
+for (v in vars_quali) {
+  tbl <- table(esps$etat_sante_percu, esps[[v]])
+  cat("\n---", v, "---\n"); print(chisq.test(tbl))
+  cat("V de Cramer :", round(vcd::assocstats(tbl)$cramer, 4), "\n")
+}
+
+# 1b. ANOVA exploratoire  (equiv. PROC GLM / tukey) -- role indicatif seul
+vars_quant <- c("age","revenus_mensuels_euros","imc",
+  "depenses_sante_annuelles_euros",
+  "nombre_consultations_annuelles","nombre_medicaments_reguliers")
+for (v in vars_quant) {
+  fit_av <- aov(as.formula(paste(v, "~ etat_sante_percu")), data = esps)
+  cat("\n--- ANOVA :", v, "---\n"); print(summary(fit_av))
+  print(TukeyHSD(fit_av))
+}
+
+# 1c. Kruskal-Wallis  (equiv. PROC NPAR1WAY wilcoxon)
+for (v in vars_quant) {
+  kt <- kruskal.test(as.formula(paste(v, "~ etat_sante_percu")), data = esps)
+  cat(sprintf("%-40s H=%.3f  p=%.4f\n", v, kt$statistic, kt$p.value))
+}
+
+# 1d. Spearman -- TEST PRINCIPAL quantitatif  (equiv. PROC CORR spearman)
+vars_with <- c("age","revenus_mensuels_euros","imc",
+  "depenses_sante_annuelles_euros","nombre_consultations_annuelles",
+  "nombre_medicaments_reguliers","nombre_enfants")
+for (v in vars_with) {
+  r <- cor.test(esps$score_sante, esps[[v]], method = "spearman")
+  cat(sprintf("%-40s rho=%.4f  p=%.4f\n", v, r$estimate, r$p.value))
+}
+
+# 1e. Boxplots  (equiv. PROC SGPLOT vbox)
+for (v in c("age","imc","depenses_sante_annuelles_euros",
+            "nombre_consultations_annuelles")) {
+  print(
+    ggplot(esps, aes(x = etat_sante_percu, y = .data[[v]],
+                     fill = etat_sante_percu)) +
+      geom_boxplot(alpha = 0.7) +
+      scale_fill_brewer(palette = "RdYlGn") +
+      labs(x = "Etat de sante percu", y = v,
+           title = paste("Distribution de", v)) +
+      theme_minimal() + theme(legend.position = "none")
+  )
+}
+
+# ==================================================================
+# 2.  ROBUSTESSE -- REGRESSION LINEAIRE  (equiv. PROC REG)
+# ==================================================================
+lm_complet <- lm(score_sante ~ age + revenus_mensuels_euros +
+  depenses_sante_annuelles_euros + nombre_consultations_annuelles +
+  nombre_medicaments_reguliers + imc + nombre_enfants, data = esps)
+print(summary(lm_complet))
+
+# Modele reduit -- base THEORIQUE (Grossman, 1972)
+lm_reduit <- lm(score_sante ~ age + nombre_consultations_annuelles +
+                  nombre_medicaments_reguliers, data = esps)
+print(summary(lm_reduit))
+
+# ==================================================================
+# 3.  COLINEARITE  (equiv. PROC REG / vif tol collin ; PROC CORR)
+# ==================================================================
+vif_vals <- car::vif(lm_complet)
+print(round(vif_vals, 4)); print(round(1/vif_vals, 4))  # Tolerance
+vars_pred <- c("age","revenus_mensuels_euros","depenses_sante_annuelles_euros",
+  "nombre_consultations_annuelles","nombre_medicaments_reguliers",
+  "imc","nombre_enfants")
+cor_mat <- cor(esps[, vars_pred], use = "complete.obs")
+print(round(cor_mat, 3))
+corrplot::corrplot(cor_mat, method = "color", type = "upper",
+  addCoef.col = "black", number.cex = 0.6, tl.cex = 0.75)
+sv <- svd(model.matrix(lm_complet))$d
+cat(sprintf("Condition number : %.2f  (seuil severe : 30)\n", max(sv)/min(sv)))
+
+# ==================================================================
+# 4.  SELECTION AUTO -- VERIFICATION DE COHERENCE SEULEMENT
+# ==================================================================
+lm_null_sel <- lm(score_sante ~ 1, data = esps)
+lm_full_sel <- lm(score_sante ~ age + revenus_mensuels_euros +
+  depenses_sante_annuelles_euros + nombre_consultations_annuelles +
+  nombre_medicaments_reguliers + imc + nombre_enfants, data = esps)
+
+# 4a. Tous sous-modeles  (equiv. PROC REG / selection=ADJRSQ best=5)
+reg_sub <- leaps::regsubsets(
+  score_sante ~ age + revenus_mensuels_euros + depenses_sante_annuelles_euros
+    + nombre_consultations_annuelles + nombre_medicaments_reguliers
+    + imc + nombre_enfants, data = esps, nvmax = 7)
+reg_sum <- summary(reg_sub)
+cat("R2 ajuste :\n"); print(round(reg_sum$adjr2, 4))
+print(reg_sum$which[order(reg_sum$adjr2, decreasing = TRUE)[1:5], ])
+
+# 4b. Forward  (equiv. PROC REG / selection=forward slentry=0.05)
+lm_forward <- step(lm_null_sel, direction = "forward",
+  scope = list(lower = lm_null_sel, upper = lm_full_sel), trace = 1)
+print(summary(lm_forward))
+
+# 4c. Backward  (equiv. PROC REG / selection=backward slstay=0.05)
+lm_backward <- step(lm_full_sel, direction = "backward", trace = 1)
+print(summary(lm_backward))
+
+# 4d. Stepwise -- VERIFICATION DE COHERENCE SEULEMENT
+lm_stepwise <- step(lm_null_sel, direction = "both",
+  scope = list(lower = lm_null_sel, upper = lm_full_sel), trace = 1)
+print(summary(lm_stepwise))
+
+# ==================================================================
+# 5.  VALIDATION DU MODELE LINEAIRE  (robustesse)
+# ==================================================================
+resid_df <- data.frame(
+  resid    = residuals(lm_reduit),  yhat     = fitted(lm_reduit),
+  rstud    = rstudent(lm_reduit),   cooksd   = cooks.distance(lm_reduit),
+  leverage = hatvalues(lm_reduit))
+
+# 5b. Normalite  (equiv. PROC UNIVARIATE normal qqplot)
+qqnorm(resid_df$resid); qqline(resid_df$resid, col = "red")
+print(shapiro.test(resid_df$resid))
+
+# 5c. Histogramme
+hist(resid_df$resid, breaks = 25, probability = TRUE, col = "steelblue")
+curve(dnorm(x, 0, sd(resid_df$resid)), add = TRUE, col = "red", lwd = 2)
+
+# 5d-5e. RStudent x Leverage + Cook
+plot(resid_df$leverage, resid_df$rstud,
+  xlab = "Leverage", ylab = "RStudent", pch = 19, cex = 0.7)
+abline(h = c(-2, 2), lty = 2, col = "red")
+threshold_cook <- 4 / nrow(esps)   # 4/500 = 0.008
+plot(resid_df$cooksd, type = "h", ylab = "Cook's D")
+abline(h = threshold_cook, col = "red", lty = 2)
+
+# 5f. Durbin-Watson  (equiv. PROC REG / dwprob)
+print(lmtest::dwtest(lm_reduit))
+
+# 5g. Test de White  (equiv. PROC REG / spec)
+print(lmtest::bptest(lm_reduit, studentize = FALSE))
+
+# 5h. Residus partiels  (equiv. PROC REG plots(partialplot))
+car::avPlots(lm_reduit)
+
+# 5i. LOESS  (equiv. PROC SGPLOT loess)
+for (v in c("age","nombre_consultations_annuelles",
+            "nombre_medicaments_reguliers")) {
+  print(
+    ggplot(esps, aes(x = .data[[v]], y = score_sante)) +
+      geom_point(alpha = 0.3, size = 1) +
+      geom_smooth(method = "loess", se = TRUE, color = "red") +
+      labs(x = v, y = "score_sante") + theme_minimal()
+  )
+}
+
+# 5j. Observations aberrantes
+idx_out <- which(abs(resid_df$rstud) > 2 | resid_df$cooksd > threshold_cook)
+print(cbind(esps[idx_out, c("id","age","score_sante")],
+            round(resid_df[idx_out, ], 4)))
+
+# ------------------------------------------------------------------
+# 5k. K-FOLD (k=10) -- modele ordinal  (equiv. macro %kfold_ordinal)
+# ------------------------------------------------------------------
+set.seed(42);  k <- 10L;  n <- nrow(esps)
+folds <- rep(NA_integer_, n)
+for (lev in levels(esps$etat_sante_percu)) {
+  idx   <- which(as.character(esps$etat_sante_percu) == lev)
+  idx_s <- sample(idx)
+  folds[idx_s] <- (seq_along(idx_s) - 1L) %% k + 1L
+}
+concordance_folds <- numeric(k)
+for (i in seq_len(k)) {
+  fit_fold <- MASS::polr(
+    etat_sante_percu ~ age + nombre_consultations_annuelles +
+      nombre_medicaments_reguliers + sexe + hospitalisation_12_mois +
+      activite_physique + handicap_declare,
+    data = esps[folds != i, ], Hess = TRUE, method = "logistic")
+  pred <- predict(fit_fold, newdata = esps[folds == i, ])
+  concordance_folds[i] <- mean(pred == esps$etat_sante_percu[folds == i])
+  cat(sprintf("  Fold %2d : %.4f\n", i, concordance_folds[i]))
+}
+cat(sprintf("Concordance moy : %.4f  sd : %.4f\n",
+            mean(concordance_folds), sd(concordance_folds)))
+
+# ==================================================================
+# 6.  ROBUSTESSE -- ANCOVA  (equiv. PROC GLM/ss3 + LSMEANS/tukey)
+# ==================================================================
+esps$sexe <- relevel(esps$sexe, ref = "Homme")
+esps$hospitalisation_12_mois <- relevel(esps$hospitalisation_12_mois, ref="Non")
+esps$tabagisme <- relevel(esps$tabagisme, ref = "Non-fumeur")
+esps$activite_physique <- relevel(esps$activite_physique, ref = "Sedentaire")
+esps$handicap_declare <- relevel(esps$handicap_declare, ref = "Non")
+esps$couverture_complementaire <- relevel(esps$couverture_complementaire,
+                                           ref = "Mutuelle privee")
+
+# 6a. ANCOVA complete
+lm_ancova_complet <- lm(score_sante ~ age + revenus_mensuels_euros + imc +
+  depenses_sante_annuelles_euros + nombre_consultations_annuelles +
+  nombre_medicaments_reguliers + sexe + profession + couverture_complementaire
+  + hospitalisation_12_mois + tabagisme + activite_physique +
+  handicap_declare + maladies_declarees, data = esps)
+print(car::Anova(lm_ancova_complet, type = "III"))
+
+# 6b. ANCOVA reduite
+lm_ancova_reduit <- lm(score_sante ~ age + nombre_consultations_annuelles +
+  nombre_medicaments_reguliers + sexe + hospitalisation_12_mois +
+  activite_physique + handicap_declare, data = esps)
+print(car::Anova(lm_ancova_reduit, type = "III"))
+print(summary(lm_ancova_reduit))
+for (fac in c("sexe","hospitalisation_12_mois","activite_physique",
+              "handicap_declare")) {
+  cat("\n---", fac, "---\n")
+  print(pairs(emmeans::emmeans(lm_ancova_reduit, fac), adjust = "tukey"))
+}
+
+# 6c. Interaction Age x Sexe
+lm_ia <- lm(score_sante ~ age + sexe + age:sexe, data = esps)
+print(car::Anova(lm_ia, type = "III"))
+
+# ==================================================================
+# 7.  MODELE PRINCIPAL -- REGRESSION LOGISTIQUE ORDINALE
+# ==================================================================
+# MASS::polr() = equiv. exact PROC LOGISTIC / link=cumlogit
+
+# 7a. Modele complet
+polr_complet <- MASS::polr(
+  etat_sante_percu ~ age + revenus_mensuels_euros + imc +
+    nombre_consultations_annuelles + nombre_medicaments_reguliers +
+    depenses_sante_annuelles_euros + sexe + hospitalisation_12_mois +
+    tabagisme + activite_physique + handicap_declare + couverture_complementaire,
+  data = esps, Hess = TRUE, method = "logistic")
+print(summary(polr_complet))
+cat("OR :\n"); print(round(exp(coef(polr_complet)), 4))
+print(round(exp(confint(polr_complet)), 4))
+
+# Pseudo-R2 de Nagelkerke  (equiv. option rsquare de SAS)
+ll_null_p  <- logLik(MASS::polr(etat_sante_percu ~ 1, data = esps,
+                                 method = "logistic", Hess = FALSE))
+ll_model_p <- logLik(polr_complet);  n_obs <- nrow(esps)
+r2_nag <- (1 - exp((2/n_obs)*(as.numeric(ll_null_p)-as.numeric(ll_model_p)))) /
+          (1 - exp((2/n_obs)*as.numeric(ll_null_p)))
+cat(sprintf("Pseudo-R2 Nagelkerke : %.4f  AIC : %.2f  BIC : %.2f\n",
+            r2_nag, AIC(polr_complet), BIC(polr_complet)))
+
+# 7b. Test de proportionnalite des odds (equiv. Score Test de SAS)
+if (requireNamespace("brant", quietly = TRUE)) {
+  print(brant::brant(polr_complet))
+} else cat("install.packages('brant') pour le test de proportionnalite\n")
+
+# 7c. Modele reduit -- MODELE PRINCIPAL FINAL  (base theorique)
+polr_reduit <- MASS::polr(
+  etat_sante_percu ~ age + nombre_consultations_annuelles +
+    nombre_medicaments_reguliers + sexe + hospitalisation_12_mois +
+    activite_physique + handicap_declare,
+  data = esps, Hess = TRUE, method = "logistic")
+print(summary(polr_reduit))
+cat("OR :\n"); print(round(exp(coef(polr_reduit)), 4))
+print(round(exp(confint(polr_reduit)), 4))
+cat(sprintf("AIC=%.2f  BIC=%.2f\n", AIC(polr_reduit), BIC(polr_reduit)))
+
+# 7d. Logistique binaire (robustesse)
+logit_bin <- glm(sante_mauvaise ~ age + revenus_mensuels_euros + imc +
+  nombre_consultations_annuelles + nombre_medicaments_reguliers +
+  sexe + hospitalisation_12_mois + tabagisme + activite_physique +
+  handicap_declare, data = esps, family = binomial)
+print(summary(logit_bin))
+cat("OR :\n"); print(round(exp(coef(logit_bin)), 4))
+pred_bin <- ifelse(predict(logit_bin, type = "response") >= 0.5, 1, 0)
+print(table(Observe = esps$sante_mauvaise, Predit = pred_bin))
+cat(sprintf("Taux : %.1f%%\n", mean(pred_bin == esps$sante_mauvaise)*100))
+
+# 7e. Coherence stepwise -- VERIFICATION SEULEMENT
+polr_step <- MASS::stepAIC(polr_complet, direction = "both", trace = 1)
+print(summary(polr_step))
+
+# 7f. Courbe ROC  (equiv. PROC LOGISTIC plots(roc))
+logit_bin_red <- glm(sante_mauvaise ~ age + nombre_consultations_annuelles +
+  nombre_medicaments_reguliers + sexe + hospitalisation_12_mois +
+  activite_physique + handicap_declare, data = esps, family = binomial)
+roc_obj <- pROC::roc(esps$sante_mauvaise,
+  predict(logit_bin_red, type = "response"), quiet = TRUE)
+cat(sprintf("AUC = %.4f\n", pROC::auc(roc_obj)))
+plot(roc_obj, main = paste("Courbe ROC -- AUC =", round(pROC::auc(roc_obj),4)),
+     col = "steelblue", lwd = 2)
+abline(a = 0, b = 1, lty = 2, col = "grey")
+
+# 7g. Matrice de confusion  (equiv. ctable de SAS)
+pred_r <- ifelse(predict(logit_bin_red, type = "response") >= 0.5, 1, 0)
+cf <- table(Observe = esps$sante_mauvaise, Predit = pred_r)
+print(cf)
+cat(sprintf("Sensibilite : %.1f%%  Specificite : %.1f%%  Global : %.1f%%\n",
+  cf[2,2]/(cf[2,2]+cf[2,1])*100,
+  cf[1,1]/(cf[1,1]+cf[1,2])*100,
+  (cf[2,2]+cf[1,1])/sum(cf)*100))
+
+###########################################################################
+# FIN DE L'ANNEXE C
+###########################################################################
+\end{verbatim}
+\end{footnotesize}
+
 % --- Bibliographie ------------------------------------------------------------
 \printbibliography[heading=bibintoc,title={Bibliographie}]
 

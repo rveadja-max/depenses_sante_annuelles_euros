@@ -1,0 +1,1018 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global}
+    \entry{agresti2010}{book}{}
+      \name{author}{1}{}{%
+        {{hash=15bf0ecf9d6116f7eafc37298364beca}{%
+           family={Agresti},
+           familyi={A\bibinitperiod},
+           given={Alan},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Wiley}%
+      }
+      \strng{namehash}{15bf0ecf9d6116f7eafc37298364beca}
+      \strng{fullhash}{15bf0ecf9d6116f7eafc37298364beca}
+      \strng{bibnamehash}{15bf0ecf9d6116f7eafc37298364beca}
+      \strng{authorbibnamehash}{15bf0ecf9d6116f7eafc37298364beca}
+      \strng{authornamehash}{15bf0ecf9d6116f7eafc37298364beca}
+      \strng{authorfullhash}{15bf0ecf9d6116f7eafc37298364beca}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{2nd}
+      \field{title}{Analysis of Ordinal Categorical Data}
+      \field{year}{2010}
+    \endentry
+    \entry{art2006}{article}{}
+      \name{author}{4}{}{%
+        {{hash=b384bd733dda298d8dd8fa4d9d82c256}{%
+           family={Art},
+           familyi={A\bibinitperiod},
+           given={Bruno},
+           giveni={B\bibinitperiod}}}%
+        {{hash=4ccc183007c51d949908077490583404}{%
+           family={Jusot},
+           familyi={J\bibinitperiod},
+           given={Florence},
+           giveni={F\bibinitperiod}}}%
+        {{hash=264d8e815878f350fad26677de027c60}{%
+           family={Cases},
+           familyi={C\bibinitperiod},
+           given={Chantal},
+           giveni={C\bibinitperiod}}}%
+        {{hash=14ab8a3b6435e10b8c9b0fcc15ba6557}{%
+           family={Baudier},
+           familyi={B\bibinitperiod},
+           given={François},
+           giveni={F\bibinitperiod}}}%
+      }
+      \strng{namehash}{18efc87be9ec589b292b8acb18543d6b}
+      \strng{fullhash}{a3ee105fb7823c8f1035aa23b11e6d75}
+      \strng{bibnamehash}{18efc87be9ec589b292b8acb18543d6b}
+      \strng{authorbibnamehash}{18efc87be9ec589b292b8acb18543d6b}
+      \strng{authornamehash}{18efc87be9ec589b292b8acb18543d6b}
+      \strng{authorfullhash}{a3ee105fb7823c8f1035aa23b11e6d75}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Bulletin Épidémiologique Hebdomadaire}
+      \field{number}{2--3}
+      \field{title}{Inégalités des chances en santé: influence de la profession et de l'assurance maladie complémentaire}
+      \field{year}{2006}
+      \field{pages}{19\bibrangedash 21}
+      \range{pages}{3}
+    \endentry
+    \entry{bambra2009}{article}{}
+      \name{author}{7}{}{%
+        {{hash=c7fd1756181efa384c904a0402c3b579}{%
+           family={Bambra},
+           familyi={B\bibinitperiod},
+           given={Clare},
+           giveni={C\bibinitperiod}}}%
+        {{hash=e0ebae9f95161ee0d9bcc3257c43263e}{%
+           family={Pope},
+           familyi={P\bibinitperiod},
+           given={Daniel},
+           giveni={D\bibinitperiod}}}%
+        {{hash=8de3d42bb5bb966d62274f91aadd6cc8}{%
+           family={Swami},
+           familyi={S\bibinitperiod},
+           given={Viren},
+           giveni={V\bibinitperiod}}}%
+        {{hash=ed180724e4e6b3eb178b5021f5792aca}{%
+           family={Stanistreet},
+           familyi={S\bibinitperiod},
+           given={Debbi},
+           giveni={D\bibinitperiod}}}%
+        {{hash=ad96393f2deec0bfec147118ad2f8e25}{%
+           family={Roskam},
+           familyi={R\bibinitperiod},
+           given={Albert-Jan},
+           giveni={A\bibinithyphendelim J\bibinitperiod}}}%
+        {{hash=e9e7bc09abaa25264394fd86d07b49b6}{%
+           family={Kunst},
+           familyi={K\bibinitperiod},
+           given={Anton\bibnamedelima E.},
+           giveni={A\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=df2e02c0fcbdce07f4939799ea92a5dc}{%
+           family={Scott-Samuel},
+           familyi={S\bibinithyphendelim S\bibinitperiod},
+           given={Alex},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{acaf6064f1cb4abe318dea00c55137a4}
+      \strng{fullhash}{4ea853d6738d681b0e0433ddcd63126d}
+      \strng{bibnamehash}{acaf6064f1cb4abe318dea00c55137a4}
+      \strng{authorbibnamehash}{acaf6064f1cb4abe318dea00c55137a4}
+      \strng{authornamehash}{acaf6064f1cb4abe318dea00c55137a4}
+      \strng{authorfullhash}{4ea853d6738d681b0e0433ddcd63126d}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Epidemiology and Community Health}
+      \field{number}{1}
+      \field{title}{Gender, Health Inequalities and Welfare State Regimes: A Cross-National Study of 13 {European} Countries}
+      \field{volume}{63}
+      \field{year}{2009}
+      \field{pages}{38\bibrangedash 44}
+      \range{pages}{7}
+      \verb{doi}
+      \verb 10.1136/jech.2007.070292
+      \endverb
+    \endentry
+    \entry{boes2006}{article}{}
+      \name{author}{2}{}{%
+        {{hash=db351b74c46953f26cdd0ae5c68b9a05}{%
+           family={Boes},
+           familyi={B\bibinitperiod},
+           given={Stefan},
+           giveni={S\bibinitperiod}}}%
+        {{hash=759f8ef7c5c53727a76ba085bfd4d688}{%
+           family={Winkelmann},
+           familyi={W\bibinitperiod},
+           given={Rainer},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{c641218784a7b7c14df94a45c7935c8e}
+      \strng{fullhash}{c641218784a7b7c14df94a45c7935c8e}
+      \strng{bibnamehash}{c641218784a7b7c14df94a45c7935c8e}
+      \strng{authorbibnamehash}{c641218784a7b7c14df94a45c7935c8e}
+      \strng{authornamehash}{c641218784a7b7c14df94a45c7935c8e}
+      \strng{authorfullhash}{c641218784a7b7c14df94a45c7935c8e}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Allgemeines Statistisches Archiv}
+      \field{number}{1}
+      \field{title}{Ordered Response Models}
+      \field{volume}{90}
+      \field{year}{2006}
+      \field{pages}{167\bibrangedash 181}
+      \range{pages}{15}
+      \verb{doi}
+      \verb 10.1007/s10182-006-0228-y
+      \endverb
+    \endentry
+    \entry{bricard2015}{article}{}
+      \name{author}{4}{}{%
+        {{hash=5a456b0a58f7487eb552ac7a4bc0d0fd}{%
+           family={Bricard},
+           familyi={B\bibinitperiod},
+           given={Damien},
+           giveni={D\bibinitperiod}}}%
+        {{hash=4ccc183007c51d949908077490583404}{%
+           family={Jusot},
+           familyi={J\bibinitperiod},
+           given={Florence},
+           giveni={F\bibinitperiod}}}%
+        {{hash=bb51d9a382ed9a238f3979d57ed71d70}{%
+           family={Tubeuf},
+           familyi={T\bibinitperiod},
+           given={Sandy},
+           giveni={S\bibinitperiod}}}%
+        {{hash=08ff38540d1622bcb7b352901376f864}{%
+           family={Trannoy},
+           familyi={T\bibinitperiod},
+           given={Alain},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{809a69ea2dac02e5044c3c8ef3045be4}
+      \strng{fullhash}{87728d220c9f0555c88e98cb39596028}
+      \strng{bibnamehash}{809a69ea2dac02e5044c3c8ef3045be4}
+      \strng{authorbibnamehash}{809a69ea2dac02e5044c3c8ef3045be4}
+      \strng{authornamehash}{809a69ea2dac02e5044c3c8ef3045be4}
+      \strng{authorfullhash}{87728d220c9f0555c88e98cb39596028}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Research on Economic Inequality}
+      \field{title}{Inequality of Opportunities in Health and the Principle of Natural Reward: Evidence from European Countries}
+      \field{volume}{23}
+      \field{year}{2015}
+      \field{pages}{335\bibrangedash 370}
+      \range{pages}{36}
+    \endentry
+    \entry{burnham2002}{book}{}
+      \name{author}{2}{}{%
+        {{hash=b0c95b47a095e05a82949d66da9b76ae}{%
+           family={Burnham},
+           familyi={B\bibinitperiod},
+           given={Kenneth\bibnamedelima P.},
+           giveni={K\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=9dcae0a4f92c194d22d9b6defb776251}{%
+           family={Anderson},
+           familyi={A\bibinitperiod},
+           given={David\bibnamedelima R.},
+           giveni={D\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{87a82364bd1af40aa1d93f6afb00b14e}
+      \strng{fullhash}{87a82364bd1af40aa1d93f6afb00b14e}
+      \strng{bibnamehash}{87a82364bd1af40aa1d93f6afb00b14e}
+      \strng{authorbibnamehash}{87a82364bd1af40aa1d93f6afb00b14e}
+      \strng{authornamehash}{87a82364bd1af40aa1d93f6afb00b14e}
+      \strng{authorfullhash}{87a82364bd1af40aa1d93f6afb00b14e}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{2nd}
+      \field{title}{Model Selection and Multimodel Inference: A Practical Information-Theoretic Approach}
+      \field{year}{2002}
+    \endentry
+    \entry{cambois2008}{article}{}
+      \name{author}{3}{}{%
+        {{hash=06d6c51594e37a8dfa9ad97255734ad6}{%
+           family={Cambois},
+           familyi={C\bibinitperiod},
+           given={Emmanuelle},
+           giveni={E\bibinitperiod}}}%
+        {{hash=d92daa44d472627e78263791e71cc5db}{%
+           family={Laborde},
+           familyi={L\bibinitperiod},
+           given={Caroline},
+           giveni={C\bibinitperiod}}}%
+        {{hash=3da5fe8e5cca97887c99ebbfe20466eb}{%
+           family={Robine},
+           familyi={R\bibinitperiod},
+           given={Jean-Marie},
+           giveni={J\bibinithyphendelim M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {INED}%
+      }
+      \strng{namehash}{993f22ece37a44ce419d87c036893b04}
+      \strng{fullhash}{993f22ece37a44ce419d87c036893b04}
+      \strng{bibnamehash}{993f22ece37a44ce419d87c036893b04}
+      \strng{authorbibnamehash}{993f22ece37a44ce419d87c036893b04}
+      \strng{authornamehash}{993f22ece37a44ce419d87c036893b04}
+      \strng{authorfullhash}{993f22ece37a44ce419d87c036893b04}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Population et Sociétés}
+      \field{number}{441}
+      \field{title}{La ``double peine'' des ouvriers: plus d'années d'incapacité au sein d'une vie plus courte}
+      \field{year}{2008}
+    \endentry
+    \entry{oms2008}{book}{}
+      \name{author}{1}{}{%
+        {{hash=59b90eff608249b711b38cb22126c9dc}{%
+           family={{Commission on Social Determinants of Health}},
+           familyi={C\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Geneva}%
+      }
+      \list{publisher}{1}{%
+        {World Health Organization}%
+      }
+      \strng{namehash}{59b90eff608249b711b38cb22126c9dc}
+      \strng{fullhash}{59b90eff608249b711b38cb22126c9dc}
+      \strng{bibnamehash}{59b90eff608249b711b38cb22126c9dc}
+      \strng{authorbibnamehash}{59b90eff608249b711b38cb22126c9dc}
+      \strng{authornamehash}{59b90eff608249b711b38cb22126c9dc}
+      \strng{authorfullhash}{59b90eff608249b711b38cb22126c9dc}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Closing the Gap in a Generation: Health Equity Through Action on the Social Determinants of Health}
+      \field{year}{2008}
+    \endentry
+    \entry{dahlgren1991}{article}{}
+      \name{author}{2}{}{%
+        {{hash=8777eeed292ab9cc9382c6c17fc03dad}{%
+           family={Dahlgren},
+           familyi={D\bibinitperiod},
+           given={Göran},
+           giveni={G\bibinitperiod}}}%
+        {{hash=8eaf19326bfe0bd70874f7a41b881c6d}{%
+           family={Whitehead},
+           familyi={W\bibinitperiod},
+           given={Margaret},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Stockholm}%
+      }
+      \strng{namehash}{e4dff6d32e38072491071736e22fdade}
+      \strng{fullhash}{e4dff6d32e38072491071736e22fdade}
+      \strng{bibnamehash}{e4dff6d32e38072491071736e22fdade}
+      \strng{authorbibnamehash}{e4dff6d32e38072491071736e22fdade}
+      \strng{authornamehash}{e4dff6d32e38072491071736e22fdade}
+      \strng{authorfullhash}{e4dff6d32e38072491071736e22fdade}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Institute for Futures Studies}
+      \field{title}{Policies and Strategies to Promote Social Equity in Health}
+      \field{year}{1991}
+    \endentry
+    \entry{desalvo2006}{article}{}
+      \name{author}{5}{}{%
+        {{hash=3ec172cfc5f84a522ec64442a5a968de}{%
+           family={DeSalvo},
+           familyi={D\bibinitperiod},
+           given={Karen\bibnamedelima B.},
+           giveni={K\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+        {{hash=0d5ce203b1a5f68f4a1c3d4bdd986700}{%
+           family={Bloser},
+           familyi={B\bibinitperiod},
+           given={Nicole},
+           giveni={N\bibinitperiod}}}%
+        {{hash=c6da3d3d5289ff23d94445b68b9aa2fb}{%
+           family={Reynolds},
+           familyi={R\bibinitperiod},
+           given={Kristi},
+           giveni={K\bibinitperiod}}}%
+        {{hash=edaae1e790a277919402b3133f272dcc}{%
+           family={He},
+           familyi={H\bibinitperiod},
+           given={Jiang},
+           giveni={J\bibinitperiod}}}%
+        {{hash=5c285a2ae7fb890451b9bccedef2ee86}{%
+           family={Muntner},
+           familyi={M\bibinitperiod},
+           given={Paul},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{f2242bd5c696980968a5287e01aec343}
+      \strng{fullhash}{c2ecf73d161d582f271db2974efe2a12}
+      \strng{bibnamehash}{f2242bd5c696980968a5287e01aec343}
+      \strng{authorbibnamehash}{f2242bd5c696980968a5287e01aec343}
+      \strng{authornamehash}{f2242bd5c696980968a5287e01aec343}
+      \strng{authorfullhash}{c2ecf73d161d582f271db2974efe2a12}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of General Internal Medicine}
+      \field{number}{3}
+      \field{title}{Mortality Prediction with a Single General Self-Rated Health Question: A Meta-Analysis}
+      \field{volume}{21}
+      \field{year}{2006}
+      \field{pages}{267\bibrangedash 275}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1111/j.1525-1497.2005.00291.x
+      \endverb
+    \endentry
+    \entry{despres2011}{article}{}
+      \name{author}{4}{}{%
+        {{hash=b46c4ec0ba8245a60ee94fd2b9947e1c}{%
+           family={Desprès},
+           familyi={D\bibinitperiod},
+           given={Caroline},
+           giveni={C\bibinitperiod}}}%
+        {{hash=257b05f97a8d7df9d08bf9ae327e5799}{%
+           family={Dourgnon},
+           familyi={D\bibinitperiod},
+           given={Paul},
+           giveni={P\bibinitperiod}}}%
+        {{hash=fe84cebf37cb1824fdf497cf230a8f93}{%
+           family={Fantin},
+           familyi={F\bibinitperiod},
+           given={Romain},
+           giveni={R\bibinitperiod}}}%
+        {{hash=4ccc183007c51d949908077490583404}{%
+           family={Jusot},
+           familyi={J\bibinitperiod},
+           given={Florence},
+           giveni={F\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {IRDES}%
+      }
+      \strng{namehash}{9505e06c84de5c3fb07eeb5fa9de4d21}
+      \strng{fullhash}{87a7b4fefbd239e2c0e82682d7d3f4f4}
+      \strng{bibnamehash}{9505e06c84de5c3fb07eeb5fa9de4d21}
+      \strng{authorbibnamehash}{9505e06c84de5c3fb07eeb5fa9de4d21}
+      \strng{authornamehash}{9505e06c84de5c3fb07eeb5fa9de4d21}
+      \strng{authorfullhash}{87a7b4fefbd239e2c0e82682d7d3f4f4}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Questions d'Économie de la Santé}
+      \field{number}{169}
+      \field{title}{Le renoncement aux soins: une approche socio-anthropologique}
+      \field{year}{2011}
+    \endentry
+    \entry{devaux2010}{article}{}
+      \name{author}{4}{}{%
+        {{hash=73707c46b3fe5d4969a62a9e18bdc0c6}{%
+           family={Devaux},
+           familyi={D\bibinitperiod},
+           given={Marion},
+           giveni={M\bibinitperiod}}}%
+        {{hash=4ccc183007c51d949908077490583404}{%
+           family={Jusot},
+           familyi={J\bibinitperiod},
+           given={Florence},
+           giveni={F\bibinitperiod}}}%
+        {{hash=08ff38540d1622bcb7b352901376f864}{%
+           family={Trannoy},
+           familyi={T\bibinitperiod},
+           given={Alain},
+           giveni={A\bibinitperiod}}}%
+        {{hash=bb51d9a382ed9a238f3979d57ed71d70}{%
+           family={Tubeuf},
+           familyi={T\bibinitperiod},
+           given={Sandy},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{61b862dce6cdefd34f1c8ec74b71802f}
+      \strng{fullhash}{565cf040ac44b26270b98eea73c3c2cb}
+      \strng{bibnamehash}{61b862dce6cdefd34f1c8ec74b71802f}
+      \strng{authorbibnamehash}{61b862dce6cdefd34f1c8ec74b71802f}
+      \strng{authornamehash}{61b862dce6cdefd34f1c8ec74b71802f}
+      \strng{authorfullhash}{565cf040ac44b26270b98eea73c3c2cb}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Économie et Statistique}
+      \field{title}{La santé des seniors selon leur origine sociale}
+      \field{volume}{411}
+      \field{year}{2010}
+      \field{pages}{25\bibrangedash 46}
+      \range{pages}{22}
+    \endentry
+    \entry{van_doorslaer2004}{article}{}
+      \name{author}{2}{}{%
+        {{hash=a4c6de96cb465ec64ac88b7b530c3256}{%
+           family={Doorslaer},
+           familyi={D\bibinitperiod},
+           given={Eddy},
+           giveni={E\bibinitperiod},
+           prefix={van},
+           prefixi={v\bibinitperiod}}}%
+        {{hash=2e2f481a9017d53921256660a1f91516}{%
+           family={Koolman},
+           familyi={K\bibinitperiod},
+           given={Xander},
+           giveni={X\bibinitperiod}}}%
+      }
+      \strng{namehash}{d756cb4bd850802075ef163dc6672f69}
+      \strng{fullhash}{d756cb4bd850802075ef163dc6672f69}
+      \strng{bibnamehash}{d756cb4bd850802075ef163dc6672f69}
+      \strng{authorbibnamehash}{d756cb4bd850802075ef163dc6672f69}
+      \strng{authornamehash}{d756cb4bd850802075ef163dc6672f69}
+      \strng{authorfullhash}{d756cb4bd850802075ef163dc6672f69}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Health Economics}
+      \field{number}{7}
+      \field{title}{Explaining the Differences in Income-Related Health Inequalities Across European Countries}
+      \field{volume}{13}
+      \field{year}{2004}
+      \field{pages}{609\bibrangedash 628}
+      \range{pages}{20}
+      \verb{doi}
+      \verb 10.1002/hec.918
+      \endverb
+    \endentry
+    \entry{dourgnon2012}{article}{}
+      \name{author}{3}{}{%
+        {{hash=257b05f97a8d7df9d08bf9ae327e5799}{%
+           family={Dourgnon},
+           familyi={D\bibinitperiod},
+           given={Paul},
+           giveni={P\bibinitperiod}}}%
+        {{hash=4ccc183007c51d949908077490583404}{%
+           family={Jusot},
+           familyi={J\bibinitperiod},
+           given={Florence},
+           giveni={F\bibinitperiod}}}%
+        {{hash=fe84cebf37cb1824fdf497cf230a8f93}{%
+           family={Fantin},
+           familyi={F\bibinitperiod},
+           given={Romain},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{ab1d265bd98e953a02293f27ab14fb4d}
+      \strng{fullhash}{ab1d265bd98e953a02293f27ab14fb4d}
+      \strng{bibnamehash}{ab1d265bd98e953a02293f27ab14fb4d}
+      \strng{authorbibnamehash}{ab1d265bd98e953a02293f27ab14fb4d}
+      \strng{authornamehash}{ab1d265bd98e953a02293f27ab14fb4d}
+      \strng{authorfullhash}{ab1d265bd98e953a02293f27ab14fb4d}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Économie Publique}
+      \field{title}{Payer nuit gravement à la santé: une étude de l'impact du renoncement financier aux soins sur l'état de santé}
+      \field{volume}{28--29}
+      \field{year}{2012}
+      \field{pages}{123\bibrangedash 147}
+      \range{pages}{25}
+    \endentry
+    \entry{etile2007}{article}{}
+      \name{author}{2}{}{%
+        {{hash=e166f8177b91e672cecfdbc5f6c41ae7}{%
+           family={Etilé},
+           familyi={E\bibinitperiod},
+           given={Fabrice},
+           giveni={F\bibinitperiod}}}%
+        {{hash=4f0b2fe080ba50129e075d36aa9cb86e}{%
+           family={Milcent},
+           familyi={M\bibinitperiod},
+           given={Carine},
+           giveni={C\bibinitperiod}}}%
+      }
+      \strng{namehash}{ba58d1189c0bcaf575cd317a93f0c36a}
+      \strng{fullhash}{ba58d1189c0bcaf575cd317a93f0c36a}
+      \strng{bibnamehash}{ba58d1189c0bcaf575cd317a93f0c36a}
+      \strng{authorbibnamehash}{ba58d1189c0bcaf575cd317a93f0c36a}
+      \strng{authornamehash}{ba58d1189c0bcaf575cd317a93f0c36a}
+      \strng{authorfullhash}{ba58d1189c0bcaf575cd317a93f0c36a}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Health Economics}
+      \field{number}{9}
+      \field{title}{Income-Related Reporting Heterogeneity in Self-Assessed Health: Evidence from France}
+      \field{volume}{15}
+      \field{year}{2007}
+      \field{pages}{965\bibrangedash 981}
+      \range{pages}{17}
+    \endentry
+    \entry{greene2018}{book}{}
+      \name{author}{1}{}{%
+        {{hash=6aeaa164d917d0657b4f141378594e78}{%
+           family={Greene},
+           familyi={G\bibinitperiod},
+           given={William\bibnamedelima H.},
+           giveni={W\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {New York}%
+      }
+      \list{publisher}{1}{%
+        {Pearson}%
+      }
+      \strng{namehash}{6aeaa164d917d0657b4f141378594e78}
+      \strng{fullhash}{6aeaa164d917d0657b4f141378594e78}
+      \strng{bibnamehash}{6aeaa164d917d0657b4f141378594e78}
+      \strng{authorbibnamehash}{6aeaa164d917d0657b4f141378594e78}
+      \strng{authornamehash}{6aeaa164d917d0657b4f141378594e78}
+      \strng{authorfullhash}{6aeaa164d917d0657b4f141378594e78}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{8th}
+      \field{title}{Econometric Analysis}
+      \field{year}{2018}
+    \endentry
+    \entry{grossman1972}{article}{}
+      \name{author}{1}{}{%
+        {{hash=f1cccf0029ee7eef75d919e21509ac63}{%
+           family={Grossman},
+           familyi={G\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{f1cccf0029ee7eef75d919e21509ac63}
+      \strng{fullhash}{f1cccf0029ee7eef75d919e21509ac63}
+      \strng{bibnamehash}{f1cccf0029ee7eef75d919e21509ac63}
+      \strng{authorbibnamehash}{f1cccf0029ee7eef75d919e21509ac63}
+      \strng{authornamehash}{f1cccf0029ee7eef75d919e21509ac63}
+      \strng{authorfullhash}{f1cccf0029ee7eef75d919e21509ac63}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Political Economy}
+      \field{number}{2}
+      \field{title}{On the Concept of Health Capital and the Demand for Health}
+      \field{volume}{80}
+      \field{year}{1972}
+      \field{pages}{223\bibrangedash 255}
+      \range{pages}{33}
+      \verb{doi}
+      \verb 10.1086/259880
+      \endverb
+    \endentry
+    \entry{hosmer2013}{book}{}
+      \name{author}{3}{}{%
+        {{hash=c5d69e28c3787fb088bba39b98f2e16e}{%
+           family={Hosmer},
+           familyi={H\bibinitperiod},
+           given={David\bibnamedelima W.},
+           giveni={D\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+        {{hash=8cc8d044dfc89abe88de140d014c99fd}{%
+           family={Lemeshow},
+           familyi={L\bibinitperiod},
+           given={Stanley},
+           giveni={S\bibinitperiod}}}%
+        {{hash=0feba8187e3000f7fb1b5c0e58c8a42a}{%
+           family={Sturdivant},
+           familyi={S\bibinitperiod},
+           given={Rodney\bibnamedelima X.},
+           giveni={R\bibinitperiod\bibinitdelim X\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Wiley}%
+      }
+      \strng{namehash}{15c2f61df8eec462a7b1bd81b66dd944}
+      \strng{fullhash}{15c2f61df8eec462a7b1bd81b66dd944}
+      \strng{bibnamehash}{15c2f61df8eec462a7b1bd81b66dd944}
+      \strng{authorbibnamehash}{15c2f61df8eec462a7b1bd81b66dd944}
+      \strng{authornamehash}{15c2f61df8eec462a7b1bd81b66dd944}
+      \strng{authorfullhash}{15c2f61df8eec462a7b1bd81b66dd944}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{3rd}
+      \field{title}{Applied Logistic Regression}
+      \field{year}{2013}
+    \endentry
+    \entry{idler1997}{article}{}
+      \name{author}{2}{}{%
+        {{hash=ff04f02fcfce86501cb9740226af515f}{%
+           family={Idler},
+           familyi={I\bibinitperiod},
+           given={Ellen\bibnamedelima L.},
+           giveni={E\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=3571840a4ec3d5f400e5557a204b82fc}{%
+           family={Benyamini},
+           familyi={B\bibinitperiod},
+           given={Yael},
+           giveni={Y\bibinitperiod}}}%
+      }
+      \strng{namehash}{b1790d5e7be45699e6487d82bc99850b}
+      \strng{fullhash}{b1790d5e7be45699e6487d82bc99850b}
+      \strng{bibnamehash}{b1790d5e7be45699e6487d82bc99850b}
+      \strng{authorbibnamehash}{b1790d5e7be45699e6487d82bc99850b}
+      \strng{authornamehash}{b1790d5e7be45699e6487d82bc99850b}
+      \strng{authorfullhash}{b1790d5e7be45699e6487d82bc99850b}
+      \field{sortinit}{I}
+      \field{sortinithash}{8d291c51ee89b6cd86bf5379f0b151d8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Health and Social Behavior}
+      \field{number}{1}
+      \field{title}{Self-Rated Health and Mortality: A Review of Twenty-Seven Community Studies}
+      \field{volume}{38}
+      \field{year}{1997}
+      \field{pages}{21\bibrangedash 37}
+      \range{pages}{17}
+      \verb{doi}
+      \verb 10.2307/2955359
+      \endverb
+    \endentry
+    \entry{irdes_esps}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=3fe57d925153d905d0e8a7aa19688320}{%
+           family={{IRDES}},
+           familyi={I\bibinitperiod}}}%
+      }
+      \strng{namehash}{3fe57d925153d905d0e8a7aa19688320}
+      \strng{fullhash}{3fe57d925153d905d0e8a7aa19688320}
+      \strng{bibnamehash}{3fe57d925153d905d0e8a7aa19688320}
+      \strng{authorbibnamehash}{3fe57d925153d905d0e8a7aa19688320}
+      \strng{authornamehash}{3fe57d925153d905d0e8a7aa19688320}
+      \strng{authorfullhash}{3fe57d925153d905d0e8a7aa19688320}
+      \field{sortinit}{I}
+      \field{sortinithash}{8d291c51ee89b6cd86bf5379f0b151d8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Dernière édition : 2014}
+      \field{title}{Enquête sur la Santé et la Protection Sociale (ESPS)}
+      \field{year}{2014}
+      \verb{urlraw}
+      \verb https://www.irdes.fr/recherche/enquetes/esps-enquete-sur-la-sante-et-la-protection-sociale/
+      \endverb
+      \verb{url}
+      \verb https://www.irdes.fr/recherche/enquetes/esps-enquete-sur-la-sante-et-la-protection-sociale/
+      \endverb
+    \endentry
+    \entry{jylha2009}{article}{}
+      \name{author}{1}{}{%
+        {{hash=e0b7b9b69798536324f028a8d0622470}{%
+           family={Jylhä},
+           familyi={J\bibinitperiod},
+           given={Marja},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{e0b7b9b69798536324f028a8d0622470}
+      \strng{fullhash}{e0b7b9b69798536324f028a8d0622470}
+      \strng{bibnamehash}{e0b7b9b69798536324f028a8d0622470}
+      \strng{authorbibnamehash}{e0b7b9b69798536324f028a8d0622470}
+      \strng{authornamehash}{e0b7b9b69798536324f028a8d0622470}
+      \strng{authorfullhash}{e0b7b9b69798536324f028a8d0622470}
+      \field{sortinit}{J}
+      \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Social Science \& Medicine}
+      \field{number}{3}
+      \field{title}{What is Self-Rated Health and Why Does it Predict Mortality? Towards a Unified Conceptual Model}
+      \field{volume}{69}
+      \field{year}{2009}
+      \field{pages}{307\bibrangedash 316}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1016/j.socscimed.2009.05.013
+      \endverb
+    \endentry
+    \entry{kennedy1998}{article}{}
+      \name{author}{4}{}{%
+        {{hash=468c9f3a329c7232cff9fc0db9bd68aa}{%
+           family={Kennedy},
+           familyi={K\bibinitperiod},
+           given={Bruce\bibnamedelima P.},
+           giveni={B\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=7eda5d918234a6da7b01b8688fe8705b}{%
+           family={Kawachi},
+           familyi={K\bibinitperiod},
+           given={Ichiro},
+           giveni={I\bibinitperiod}}}%
+        {{hash=1614871043a37c36eac4d56bac8e94f2}{%
+           family={Glass},
+           familyi={G\bibinitperiod},
+           given={Roberta},
+           giveni={R\bibinitperiod}}}%
+        {{hash=c72afd89c3626710b0d687a363491315}{%
+           family={Prothrow-Stith},
+           familyi={P\bibinithyphendelim S\bibinitperiod},
+           given={Deborah},
+           giveni={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{b6070ac0ae04f31dcd083e6c7563c712}
+      \strng{fullhash}{74049c0465013ad5141ffa3927ef1cc0}
+      \strng{bibnamehash}{b6070ac0ae04f31dcd083e6c7563c712}
+      \strng{authorbibnamehash}{b6070ac0ae04f31dcd083e6c7563c712}
+      \strng{authornamehash}{b6070ac0ae04f31dcd083e6c7563c712}
+      \strng{authorfullhash}{74049c0465013ad5141ffa3927ef1cc0}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{BMJ}
+      \field{number}{7163}
+      \field{title}{Income Distribution, Socioeconomic Status, and Self Rated Health in the United States: Multilevel Analysis}
+      \field{volume}{317}
+      \field{year}{1998}
+      \field{pages}{917\bibrangedash 921}
+      \range{pages}{5}
+      \verb{doi}
+      \verb 10.1136/bmj.317.7163.917
+      \endverb
+    \endentry
+    \entry{mackenbach1999}{article}{}
+      \name{author}{5}{}{%
+        {{hash=64ec22024f95f5a7be2291fbe03c946d}{%
+           family={Mackenbach},
+           familyi={M\bibinitperiod},
+           given={Johan\bibnamedelima P.},
+           giveni={J\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=e9e7bc09abaa25264394fd86d07b49b6}{%
+           family={Kunst},
+           familyi={K\bibinitperiod},
+           given={Anton\bibnamedelima E.},
+           giveni={A\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=11cd8e9a03c71f006ed33628b4d99ed3}{%
+           family={Cavelaars},
+           familyi={C\bibinitperiod},
+           given={Adrienne\bibnamedelimb E.\bibnamedelimi J.\bibnamedelimi M.},
+           giveni={A\bibinitperiod\bibinitdelim E\bibinitperiod\bibinitdelim J\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=e71385693b92f0274b1dbde4f6307f40}{%
+           family={Groenhof},
+           familyi={G\bibinitperiod},
+           given={Feikje},
+           giveni={F\bibinitperiod}}}%
+        {{hash=691c1efb4e8189cb2d061fe6d0c17ade}{%
+           family={Geurts},
+           familyi={G\bibinitperiod},
+           given={José\bibnamedelimb J.\bibnamedelimi M.},
+           giveni={J\bibinitperiod\bibinitdelim J\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \strng{namehash}{9d3bec12f85e9a2a78706bd9f6288c5d}
+      \strng{fullhash}{9d58f798a5a04d335b81c3fdd6250861}
+      \strng{bibnamehash}{9d3bec12f85e9a2a78706bd9f6288c5d}
+      \strng{authorbibnamehash}{9d3bec12f85e9a2a78706bd9f6288c5d}
+      \strng{authornamehash}{9d3bec12f85e9a2a78706bd9f6288c5d}
+      \strng{authorfullhash}{9d58f798a5a04d335b81c3fdd6250861}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The Lancet}
+      \field{number}{9066}
+      \field{title}{Socioeconomic Inequalities in Morbidity and Mortality in Western Europe}
+      \field{volume}{349}
+      \field{year}{1999}
+      \field{pages}{1655\bibrangedash 1659}
+      \range{pages}{5}
+    \endentry
+    \entry{marmot2005}{book}{}
+      \name{author}{1}{}{%
+        {{hash=ba10c6966afb4f21762aaabf2a999e8b}{%
+           family={Marmot},
+           familyi={M\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {London}%
+      }
+      \list{publisher}{1}{%
+        {Bloomsbury Publishing}%
+      }
+      \strng{namehash}{ba10c6966afb4f21762aaabf2a999e8b}
+      \strng{fullhash}{ba10c6966afb4f21762aaabf2a999e8b}
+      \strng{bibnamehash}{ba10c6966afb4f21762aaabf2a999e8b}
+      \strng{authorbibnamehash}{ba10c6966afb4f21762aaabf2a999e8b}
+      \strng{authornamehash}{ba10c6966afb4f21762aaabf2a999e8b}
+      \strng{authorfullhash}{ba10c6966afb4f21762aaabf2a999e8b}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{The Status Syndrome: How Social Standing Affects Our Health and Longevity}
+      \field{year}{2005}
+    \endentry
+    \entry{mccullagh1980}{article}{}
+      \name{author}{1}{}{%
+        {{hash=e74359f41b036a8423f056912717ddaf}{%
+           family={McCullagh},
+           familyi={M\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{e74359f41b036a8423f056912717ddaf}
+      \strng{fullhash}{e74359f41b036a8423f056912717ddaf}
+      \strng{bibnamehash}{e74359f41b036a8423f056912717ddaf}
+      \strng{authorbibnamehash}{e74359f41b036a8423f056912717ddaf}
+      \strng{authornamehash}{e74359f41b036a8423f056912717ddaf}
+      \strng{authorfullhash}{e74359f41b036a8423f056912717ddaf}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of the Royal Statistical Society. Series B (Methodological)}
+      \field{number}{2}
+      \field{title}{Regression Models for Ordinal Data}
+      \field{volume}{42}
+      \field{year}{1980}
+      \field{pages}{109\bibrangedash 142}
+      \range{pages}{34}
+    \endentry
+    \entry{singh2006}{article}{}
+      \name{author}{6}{}{%
+        {{hash=439e8af56d8dacfd73dd186790c4a2c6}{%
+           family={Singh-Manoux},
+           familyi={S\bibinithyphendelim M\bibinitperiod},
+           given={Archana},
+           giveni={A\bibinitperiod}}}%
+        {{hash=6f33ad441ea453636d1b5bc405a6c021}{%
+           family={Martikainen},
+           familyi={M\bibinitperiod},
+           given={Pekka},
+           giveni={P\bibinitperiod}}}%
+        {{hash=db2ae8099dacc673d50bdd2faf80d979}{%
+           family={Ferrie},
+           familyi={F\bibinitperiod},
+           given={Jane},
+           giveni={J\bibinitperiod}}}%
+        {{hash=fe07acd4e99f69ace4b832f58fa7dfa0}{%
+           family={Zins},
+           familyi={Z\bibinitperiod},
+           given={Marie},
+           giveni={M\bibinitperiod}}}%
+        {{hash=ba10c6966afb4f21762aaabf2a999e8b}{%
+           family={Marmot},
+           familyi={M\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+        {{hash=814696b2ecc25b11b8f5b90c8d4ed6f6}{%
+           family={Goldberg},
+           familyi={G\bibinitperiod},
+           given={Marcel},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{9cda86e97a59b696c9aa7d7125691cc9}
+      \strng{fullhash}{da93ff5d57a634d9345da6372592e4b0}
+      \strng{bibnamehash}{9cda86e97a59b696c9aa7d7125691cc9}
+      \strng{authorbibnamehash}{9cda86e97a59b696c9aa7d7125691cc9}
+      \strng{authornamehash}{9cda86e97a59b696c9aa7d7125691cc9}
+      \strng{authorfullhash}{da93ff5d57a634d9345da6372592e4b0}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Epidemiology and Community Health}
+      \field{number}{4}
+      \field{title}{What Does Self Rated Health Measure? Results from the British Whitehall II and French Gazel Cohort Studies}
+      \field{volume}{60}
+      \field{year}{2006}
+      \field{pages}{364\bibrangedash 372}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1136/jech.2005.039883
+      \endverb
+    \endentry
+    \entry{subramanian2002}{article}{}
+      \name{author}{3}{}{%
+        {{hash=e0d99f4c8c270e82f12b2806fb56647a}{%
+           family={Subramanian},
+           familyi={S\bibinitperiod},
+           given={S.\bibnamedelimi V.},
+           giveni={S\bibinitperiod\bibinitdelim V\bibinitperiod}}}%
+        {{hash=58751dec3b9f531673fff472279d9412}{%
+           family={Kim},
+           familyi={K\bibinitperiod},
+           given={Daniel\bibnamedelima J.},
+           giveni={D\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=7eda5d918234a6da7b01b8688fe8705b}{%
+           family={Kawachi},
+           familyi={K\bibinitperiod},
+           given={Ichiro},
+           giveni={I\bibinitperiod}}}%
+      }
+      \strng{namehash}{0e2063e7f5ce0fbea116bf6a093f5629}
+      \strng{fullhash}{0e2063e7f5ce0fbea116bf6a093f5629}
+      \strng{bibnamehash}{0e2063e7f5ce0fbea116bf6a093f5629}
+      \strng{authorbibnamehash}{0e2063e7f5ce0fbea116bf6a093f5629}
+      \strng{authornamehash}{0e2063e7f5ce0fbea116bf6a093f5629}
+      \strng{authorfullhash}{0e2063e7f5ce0fbea116bf6a093f5629}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Urban Health}
+      \field{number}{Suppl 1}
+      \field{title}{Social Trust and Self-Rated Health in US Communities: A Multilevel Analysis}
+      \field{volume}{79}
+      \field{year}{2002}
+      \field{pages}{S21\bibrangedash S34}
+      \range{pages}{-1}
+      \verb{doi}
+      \verb 10.1093/jurban/79.suppl_1.S21
+      \endverb
+    \endentry
+    \entry{wooldridge2015}{book}{}
+      \name{author}{1}{}{%
+        {{hash=c93aeef4998e670d5343b7e632c431dc}{%
+           family={Wooldridge},
+           familyi={W\bibinitperiod},
+           given={Jeffrey\bibnamedelima M.},
+           giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Cengage Learning}%
+      }
+      \strng{namehash}{c93aeef4998e670d5343b7e632c431dc}
+      \strng{fullhash}{c93aeef4998e670d5343b7e632c431dc}
+      \strng{bibnamehash}{c93aeef4998e670d5343b7e632c431dc}
+      \strng{authorbibnamehash}{c93aeef4998e670d5343b7e632c431dc}
+      \strng{authornamehash}{c93aeef4998e670d5343b7e632c431dc}
+      \strng{authorfullhash}{c93aeef4998e670d5343b7e632c431dc}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{6th}
+      \field{title}{Introductory Econometrics: A Modern Approach}
+      \field{year}{2015}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

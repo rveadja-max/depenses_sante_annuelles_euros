@@ -1,0 +1,15 @@
+[0] Config.pm:307> INFO - This is Biber 2.19
+[0] Config.pm:310> INFO - Logfile is 'rapport.blg'
+[68] biber:340> INFO - === Wed May  6, 2026, 07:35:41
+[91] Biber.pm:419> INFO - Reading 'rapport.bcf'
+[143] Biber.pm:979> INFO - Found 28 citekeys in bib section 0
+[153] Biber.pm:4419> INFO - Processing section 0
+[181] Biber.pm:4610> INFO - Looking for bibtex file 'biblio-sante.bib' for section 0
+[183] bibtex.pm:1713> INFO - LaTeX decoding ...
+[206] bibtex.pm:1519> INFO - Found BibTeX data source 'biblio-sante.bib'
+[483] UCollate.pm:68> INFO - Overriding locale 'fr-FR' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[483] UCollate.pm:68> INFO - Overriding locale 'fr-FR' defaults 'variable = shifted' with 'variable = non-ignorable'
+[483] Biber.pm:4239> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'fr-FR'
+[483] Biber.pm:4245> INFO - No sort tailoring available for locale 'fr-FR'
+[529] bbl.pm:660> INFO - Writing 'rapport.bbl' with encoding 'UTF-8'
+[537] bbl.pm:763> INFO - Output to rapport.bbl
